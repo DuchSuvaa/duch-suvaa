@@ -1,30 +1,65 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <Header />
   <router-view/>
 </template>
 
+<script>
+import M from 'materialize-css'
+import Header from '@/components/Header.vue'
+
+export default ({
+  components: { Header },
+  mounted () {
+    M.AutoInit()
+  }
+})
+</script>
+
+
 <style lang="scss">
+@import './scss/_variables.scss';
+
+@font-face {
+  font-family: 'monsters';
+  src: url('./assets/monsters-attack.ttf');
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  font-size: 10px;
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, header, main, footer, input {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+nav {
+  .nav-wrapper {
+    .brand-logo {
+      img {
+        max-height: 64px !important;
+        padding: 15px 0 !important;
+        transform: scale(1.2);
+      }
     }
   }
+  ul {
+    li {
+      a {
+        font-family: monsters;
+        color: map-get($grey, 'darken-4');
+        &.router-link-exact-active {
+          color: #42b983;
+        }
+      }
+    }
+  }
+
 }
+
 </style>

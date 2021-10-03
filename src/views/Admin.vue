@@ -1,11 +1,13 @@
 <template>
-  <h2>Zaloguj się</h2>
-  <form @submit.prevent="handleSubmit">
-    <input type="text" autocomplete required placeholder="email" v-model="email">
-    <input type="password" autocomplete required placeholder="hasword" v-model="password">
-    <div class="error">{{ error }}</div>
-    <button>Zaloguj</button>
-  </form>
+  <div class="container">
+    <h2>Zaloguj się</h2>
+    <form @submit.prevent="handleSubmit">
+      <input type="text" autocomplete required placeholder="email" v-model="email">
+      <input type="password" autocomplete required placeholder="hasword" v-model="password">
+      <div class="error">{{ error }}</div>
+      <button>Zaloguj</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -19,10 +21,15 @@ export default {
     const router = useRouter()
     const email = ref('')
     const password = ref('')
+    const { login, error } = useLogin()
 
-    const handleSubmit = () => {
-      useLogin(email, password)
-      router.push('/add')
+    const handleSubmit = async () => {
+      await login(email.value, password.value)
+      if (!error.value) {
+        router.push('/add')
+      } else {
+        console.log(error.value)
+      }
     }
 
     return { email, password, handleSubmit }

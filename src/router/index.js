@@ -4,6 +4,25 @@ import Sound from '../views/Sound.vue'
 import Contact from '../views/Contact.vue'
 import Admin from '../views/Admin.vue'
 import Add from '../views/Add.vue'
+import { projectAuth } from '@/firebase/config.js'
+
+const requireAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  if (!user) {
+    next( '/admin' )
+  } else {
+    next()
+  }
+}
+
+const requireNoAuth = (to, from, next) => {
+  let user = projectAuth.currentUser
+  if (user) {
+    next( '/add' )
+  } else {
+    next()
+  }
+}
 
 const routes = [
   {
@@ -24,11 +43,13 @@ const routes = [
   {
     path: '/admin',
     name: 'Admin',
-    component: Admin
+    component: Admin,
+    beforeEnter: requireNoAuth
   },  {
     path: '/add',
     name: 'add',
-    component: Add
+    component: Add,
+    beforeEnter: requireAuth
   }  
 ]
 

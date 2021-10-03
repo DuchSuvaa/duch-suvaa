@@ -1,7 +1,7 @@
 <template>
   <nav class="grey darken-4">
     <div class="nav-wrapper container">
-      <a href="#!" class="brand-logo">
+      <a href="/" class="brand-logo">
         <img src="../assets/logo.png" alt="">
       </a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>

@@ -4,5 +4,17 @@ import router from './router'
 import store from './store'
 import 'materialize-css/dist/css/materialize.min.css'
 import 'material-design-icons/iconfont/material-icons.css'
+import { projectAuth } from '@/firebase/config.js'
 
-createApp(App).use(store).use(router).mount('#app')
+// createApp(App).use(store).use(router).mount('#app')
+
+let app
+
+projectAuth.onAuthStateChanged(() => {
+  if (!app) {
+    app = createApp(App)
+      .use(router)
+      .use(store)
+      .mount('#app')
+  }
+})

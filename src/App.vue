@@ -48,28 +48,4 @@ body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, head
   display: block;
 }
 
-nav {
-  .nav-wrapper {
-    .brand-logo {
-      img {
-        max-height: 64px !important;
-        padding: 15px 0 !important;
-        transform: scale(1.2);
-      }
-    }
-  }
-  ul {
-    li {
-      a {
-        font-family: monsters;
-        color: map-get($grey, 'darken-4');
-        &.router-link-exact-active {
-          color: #42b983;
-        }
-      }
-    }
-  }
-
-}
-
 </style>

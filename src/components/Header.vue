@@ -9,6 +9,8 @@
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/sound">Sound</router-link></li>
         <li><router-link to="/contact">Contact</router-link></li>
+        <li v-if="!user"><router-link to="/auth">Login</router-link></li>
+        <li v-else><router-link to="/account">Account</router-link></li>
       </ul>
     </div>
   </nav>
@@ -17,14 +19,20 @@
     <li><router-link to="/">Home</router-link></li>
     <li><router-link to="/sound">Sound</router-link></li>
     <li><router-link to="/contact">Contact</router-link></li>
+    <li v-if="!user"><router-link to="/auth">Login</router-link></li>
+    <li v-else><router-link to="/account">Account</router-link></li>
   </ul>
 </template>
 
 <script>
-
+import getUser from '@/composables/getUser.js'
 
 export default {
+  setup() {
+    const { user } = getUser()
 
+  return { user }
+  }
 }
 </script>
 
@@ -34,13 +42,16 @@ export default {
   .nav-wrapper {
     ul {
       li {
-        a {
+        a, span {
+          font-family: monsters;
           text-shadow: $nav-text-shadow;
           color: map-get($shades, 'black');
           font-size: 1.2rem;
           letter-spacing: 0.1rem;
+          padding: 0 15px;
           &:hover {
             color: map-get($grey, 'darken-4');
+            cursor: pointer;
           }
           &.router-link-active {
             color: map-get($red, 'darken-4');
@@ -49,4 +60,16 @@ export default {
       }
     }
   }
+
+  nav {
+  .nav-wrapper {
+    .brand-logo {
+      img {
+        max-height: 64px !important;
+        padding: 15px 0 !important;
+        transform: scale(1.2);
+      }
+    }
+  }
+}
 </style>

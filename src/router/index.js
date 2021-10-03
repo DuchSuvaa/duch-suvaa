@@ -2,14 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Sound from '../views/Sound.vue'
 import Contact from '../views/Contact.vue'
-import Admin from '../views/Admin.vue'
-import Add from '../views/Add.vue'
+import Auth from '../views/Auth.vue'
+import Account from '../views/Account.vue'
 import { projectAuth } from '@/firebase/config.js'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
   if (!user) {
-    next( '/admin' )
+    next( '/auth' )
   } else {
     next()
   }
@@ -18,7 +18,7 @@ const requireAuth = (to, from, next) => {
 const requireNoAuth = (to, from, next) => {
   let user = projectAuth.currentUser
   if (user) {
-    next( '/add' )
+    next( '/account' )
   } else {
     next()
   }
@@ -41,14 +41,15 @@ const routes = [
     component: Contact
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/auth',
+    name: 'Auth',
+    component: Auth,
     beforeEnter: requireNoAuth
-  },  {
-    path: '/add',
-    name: 'add',
-    component: Add,
+  },  
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account,
     beforeEnter: requireAuth
   }  
 ]

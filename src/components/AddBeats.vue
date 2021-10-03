@@ -9,7 +9,6 @@
       <input type="file" accept="audio/mp3, audio/wav" @change="handleChange" id="file-upload">
       <button>Add</button>
     </form>
-    <button @click="handleClick">Logout</button>
   </div>
 </template>
 
@@ -17,8 +16,6 @@
 import addBeat from '@/composables/addBeat.js'
 import { ref } from '@vue/reactivity'
 import useStorage from '@/composables/useStorage.js'
-import useLogout from '@/composables/useLogout.js'
-import { useRouter } from 'vue-router'
 
 export default {
   setup() {
@@ -31,8 +28,6 @@ export default {
     const fileError = ref(null)
     const temporaryURL = ref('')
     const { url, filePath, uploadAudio } = useStorage()
-    const { logout, logoutError } = useLogout()
-    const router = useRouter()
 
     const handleChange = (e) => {
       const selected = e.target.files[0]
@@ -60,18 +55,7 @@ export default {
       await add(beat)
     }
 
-    const handleClick = async () => {
-      await logout()
-      if (!logoutError.value) {
-        console.log('user logged out')
-        router.push( '/' )
-      } else {
-        console.log(logoutError.value)
-      }
-    }
-
-    return { name, bpm, time, price, error, add, handleChange, handleSubmit, url, filePath, uploadAudio, 
-    handleClick }
+    return { name, bpm, time, price, error, add, handleChange, handleSubmit, url, filePath, uploadAudio }
   }
 }
 </script>

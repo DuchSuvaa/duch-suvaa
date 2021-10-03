@@ -1,13 +1,11 @@
 <template>
-  <div class="container">
-    <h2>Zaloguj się</h2>
-    <form @submit.prevent="handleSubmit">
-      <input type="text" autocomplete required placeholder="email" v-model="email">
-      <input type="password" autocomplete required placeholder="hasword" v-model="password">
-      <div class="error">{{ error }}</div>
-      <button>Zaloguj</button>
-    </form>
-  </div>
+  <h2>Zaloguj się</h2>
+  <form @submit.prevent="handleSubmit">
+    <input type="text" autocomplete required placeholder="email" v-model="email">
+    <input type="password" autocomplete required placeholder="hasword" v-model="password">
+    <div class="error">{{ error }}</div>
+    <button>Zaloguj</button>
+  </form>
 </template>
 
 <script>
@@ -16,7 +14,6 @@ import useLogin from '@/composables/useLogin.js'
 import { useRouter } from 'vue-router'
 
 export default {
-  components: {  },
   setup() {
     const router = useRouter()
     const email = ref('')
@@ -26,7 +23,7 @@ export default {
     const handleSubmit = async () => {
       await login(email.value, password.value)
       if (!error.value) {
-        router.push('/add')
+        router.push('/account')
       } else {
         console.log(error.value)
       }

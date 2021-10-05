@@ -9,7 +9,9 @@
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/sound">Sound</router-link></li>
         <li><router-link to="/contact">Contact</router-link></li>
-        <li><router-link to="/cart">Cart</router-link></li>
+        <li class="cart-link">
+          <router-link to="/cart">Cart<span v-if="cartQuantity">{{ cartQuantity }}</span></router-link>
+        </li>
         <li v-if="!user"><router-link to="/auth">Login</router-link></li>
         <li v-else><router-link to="/account">Account</router-link></li>
       </ul>
@@ -28,12 +30,14 @@
 
 <script>
 import getUser from '@/composables/getUser.js'
+import getCartItems from '@/composables/getCartItems.js'
 
 export default {
   setup() {
     const { user } = getUser()
+    const { cartQuantity } = getCartItems()
 
-  return { user }
+    return { user, cartQuantity }
   }
 }
 </script>
@@ -57,6 +61,26 @@ export default {
           }
           &.router-link-active {
             color: map-get($red, 'darken-4');
+          }
+        }
+      }
+      .cart-link {
+        a {
+          position: relative;
+          span {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 16px;
+            right: 4px;
+            background-color:  map-get($red, 'darken-4');
+            border: 1px solid map-get($grey, 'darken-4');
+            border-radius: 50%;
+            font-size: 0.6rem;
+            width: 16px;
+            height: 16px;
+            padding: 0;
           }
         }
       }

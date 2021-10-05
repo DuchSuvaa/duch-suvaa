@@ -6,16 +6,18 @@ const { user } = getUser()
 
 const getCartItems = () => {
   const cartItems = ref(null)
+  const cartQuantity = ref(null)
   const error = ref(null)
 
   let docRef = firestore.collection('users').doc(user.value.uid)
 
   const unsub = docRef.onSnapshot( (snap) => {
     cartItems.value = snap.data().cart
-    console.log(snap.data().cart.length)
+    cartQuantity.value = snap.data().cart.length
   }, (err) => {
     console.log(err.message)
     cartItems.value = null
+    cartQuantity.value = null
     error.value = 'Could not fetch data'     
   })
 
@@ -25,7 +27,7 @@ const getCartItems = () => {
     })
   })
 
-  return { cartItems, error }
+  return { cartItems, cartQuantity, error }
 }
 
 export default getCartItems

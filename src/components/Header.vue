@@ -1,9 +1,9 @@
 <template>
   <nav class="grey darken-4">
     <div class="nav-wrapper container">
-      <a href="/" class="brand-logo">
+      <router-link to="/" class="brand-logo">
         <img src="../assets/logo.png" alt="">
-      </a>
+      </router-link>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><router-link to="/">Home</router-link></li>

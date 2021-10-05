@@ -1,29 +1,39 @@
 import { storage } from '@/firebase/config.js'
 import { ref } from '@vue/runtime-dom'
-import getUser from '@/composables/getUser.js'
-
-const { user } = getUser()
-
-console.log(user)
 
 const useStorage = () => {
-  const error = ref(null)
-  const url = ref(null)
-  const filePath = ref(null)
+  const audioError = ref(null)
+  const imageError = ref(null)
+  const audioUrl = ref(null)
+  const imageUrl = ref(null)
+  const audioFilePath = ref(null)
+  const imageFilePath = ref(null)
 
-  const uploadAudio = async (file) => {
-    filePath.value = `preview/${user.value.uid}/${file.name}`
-    const storageRef = storage.ref(filePath.value)
+  const uploadAudio = async (audioFile) => {
+    audioFilePath.value = `preview/${audioFile.name}`
+    const storageRef = storage.ref(audioFilePath.value)
     try {
-      const res = await storageRef.put(file)
-      url.value = await res.ref.getDownloadURL()
+      const res = await storageRef.put(audioFile)
+      audioUrl.value = await res.ref.getDownloadURL()
     } catch(err) {
       console.log(err.message)
-      error.value = err.message
+      audioError.value = err.message
     }
   }
 
-  return { url, filePath, error, uploadAudio }
+  const uploadImage = async (imageFile) => {
+    imageFilePath.value = `image/${imageFile.name}`
+    const storageRef = storage.ref(imageFilePath.value)
+    try {
+      const res = await storageRef.put(imageFile)
+      imageUrl.value = await res.ref.getDownloadURL()
+    } catch(err) {
+      console.log(err.message)
+      imageError.value = err.message
+    }
+  }
+
+  return { audioError, imageError, audioUrl, imageUrl, audioFilePath, imageFilePath, uploadAudio, uploadImage }
 }
 
 export default useStorage

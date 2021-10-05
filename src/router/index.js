@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Sound from '../views/Sound.vue'
 import Contact from '../views/Contact.vue'
 import Auth from '../views/Auth.vue'
+import Cart from '../views/Cart.vue'
 import Account from '../views/Account.vue'
 import { projectAuth } from '@/firebase/config.js'
 
@@ -45,7 +46,13 @@ const routes = [
     name: 'Auth',
     component: Auth,
     beforeEnter: requireNoAuth
-  },  
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+    beforeEnter: requireAuth
+  },
   {
     path: '/account',
     name: 'Account',

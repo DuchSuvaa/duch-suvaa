@@ -17,7 +17,7 @@
           <i class="material-icons">file_download</i>
         </a>
         <div>
-          <i class="material-icons">add_shopping_cart</i>
+          <i class="material-icons" @click="handleClick(beat)">add_shopping_cart</i>
         </div>
       </div>
     </div>
@@ -27,6 +27,7 @@
 <script>
 import BeatPreview from '@/components/BeatPreview.vue'
 import getBeats from '@/composables/getBeats.js'
+import useCart from '@/composables/addToCart.js'
 import { ref } from '@vue/reactivity'
 
 export default ({
@@ -34,8 +35,13 @@ export default ({
   setup() {
     const { beats, error } = getBeats()
     const currentBeat = ref(null)
+    const { addToCart } = useCart() 
 
-    return { beats, error, currentBeat }
+    const handleClick = (beat) => {
+      addToCart(beat)
+    }
+
+    return { beats, error, currentBeat, handleClick }
   }
 })
 </script>

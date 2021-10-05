@@ -1,21 +1,19 @@
 <template>
-  <div class="container">
-    <h2>Add them</h2>
-    <form @submit.prevent="handleSubmit">
-      <input type="text" autocomplete required placeholder="name" v-model="name">
-      <input type="text" autocomplete required placeholder="bpm" v-model="bpm">
-      <input type="text" autocomplete required placeholder="time" v-model="time">
-      <input type="text" autocomplete required placeholder="price" v-model="price">
-      <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload">
-      <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload">
-      <button>Add</button>
-    </form>
-    <div v-if="audioError">
-      {{ audioError }}
-    </div>
-    <div v-if="imageError">
-      {{ imageError }}
-    </div>
+  <h2>Add them</h2>
+  <form @submit.prevent="handleSubmit">
+    <input type="text" autocomplete required placeholder="name" v-model="name">
+    <input type="text" autocomplete required placeholder="bpm" v-model="bpm">
+    <input type="text" autocomplete required placeholder="time" v-model="time">
+    <input type="text" autocomplete required placeholder="price" v-model="price">
+    <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload">
+    <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload">
+    <button>Add</button>
+  </form>
+  <div v-if="audioError">
+    {{ audioError }}
+  </div>
+  <div v-if="imageError">
+    {{ imageError }}
   </div>
 </template>
 

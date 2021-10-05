@@ -26,7 +26,7 @@ export default {
 
     const handleSubmit = async () => {
       await(signup(email.value, password.value, displayName.value))
-      router.push({ name: "Welcome" } )
+      router.push( '/' )
     }
 
     return { handleSubmit, email, password, error, displayName }

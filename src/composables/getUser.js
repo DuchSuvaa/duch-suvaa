@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { projectAuth } from '@/firebase/config.js'
+import { projectAuth } from '../firebase/config.js'
 
 // refs
 const user = ref(projectAuth.currentUser)

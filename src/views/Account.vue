@@ -1,7 +1,9 @@
 <template>
-  <AddBeats v-if="user.uid == '4ELEkqsFDkYFmwAfJpQeIny3zj12'" />
-  <AccountDetails v-else />
-  <h2 @click="handleClick">Logout</h2>
+  <div class="container">
+    <AddBeats v-if="user.uid == '4ELEkqsFDkYFmwAfJpQeIny3zj12'" />
+    <AccountDetails v-else />
+    <h2 @click="handleClick" class="btn">Logout</h2>
+  </div>
 </template>
 
 <script>
@@ -19,10 +21,10 @@ export default {
     const router = useRouter()
 
     const handleClick = async () => {
+      router.push( '/' )
       await logout()
-      if (!logoutError.value) {
-        console.log('user logged out')
-        router.push( '/' )
+      if (!logoutError) {
+        console.log("user logged out")
       } else {
         console.log(logoutError.value)
       }

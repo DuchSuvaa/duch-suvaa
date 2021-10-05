@@ -16,7 +16,8 @@ const signup = async (email, password, displayName ) => {
     await firestore.collection("users").doc(res.user.uid).set({
       id: res.user.uid,
       name: displayName,
-      email: email
+      email: email,
+      cart: []
     })
 
     error.value = null

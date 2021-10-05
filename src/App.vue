@@ -33,8 +33,15 @@ export default ({
   font-family: open-sans, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 10px;
   color: map-get($blue-grey, 'lighten-5');
+}
+
+div, p {
+  font-size: 16px;
+}
+
+span {
+  font-size: inherit;
 }
 
 html {

@@ -18,6 +18,8 @@ export default {
   },
   setup() {
 
+    console.log(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+
   }
 }
 </script>

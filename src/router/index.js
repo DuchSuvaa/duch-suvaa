@@ -5,6 +5,8 @@ import Contact from '../views/Contact.vue'
 import Auth from '../views/Auth.vue'
 import Cart from '../views/Cart.vue'
 import Account from '../views/Account.vue'
+import Success from '../views/Success.vue'
+import Cancelled from '../views/Cancelled.vue'
 import { projectAuth } from '@/firebase/config.js'
 
 const requireAuth = (to, from, next) => {
@@ -58,7 +60,19 @@ const routes = [
     name: 'Account',
     component: Account,
     beforeEnter: requireAuth
-  }  
+  },
+  {
+    path: '/success',
+    name: 'Success',
+    component: Success,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/cancelled',
+    name: 'Cancelled',
+    component: Cancelled,
+    beforeEnter: requireAuth
+  } 
 ]
 
 const router = createRouter({

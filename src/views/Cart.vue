@@ -2,49 +2,40 @@
   <div class="container">
     <h1>Cart</h1>
     <CartItems />
-    <stripe-checkout
-      ref="checkoutRef"
-      mode="payment"
-      :pk="publishableKey"
-      :line-items="lineItems"
-      :success-url="successURL"
-      :cancel-url="cancelURL"
-      @loading="v => loading = v"
-    />
-    <button @click="submit">Pay now!</button>
+    <button @click="redirect">Checkout</button>
   </div>
 </template>
 
 <script>
 import CartItems from '@/components/CartItems.vue'
-import { StripeCheckout } from '@vue-stripe/vue-stripe';
-import { ref } from '@vue/reactivity';
+import { onMounted } from '@vue/runtime-core'
+import { loadStripe } from '@stripe/stripe-js'
 
 export default {
-  components: { CartItems, StripeCheckout },
+  components: { CartItems },
   setup() {
-    console.log(StripeCheckout);
-    const publishableKey = process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY
-    console.log(publishableKey)
+    let stripe = null;
 
-    const lineItems = ref([
-      {
-        price: 'price_1JjoXiCfJNjG9p8XlX89NNrG', // The id of the one-time price you created in your Stripe dashboard
-        quantity: 1,      
-      }
-    ])
+    onMounted(async () => {
+      stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+    })
 
-    const successURL = ref('https://bartosz-sowa.pl/duch-test/success')
-    const cancelURL = ref('https://bartosz-sowa.pl/duch-test/cancelled')
+    function redirect() {
+      stripe.redirectToCheckout({
+        successUrl: 'http://localhost:8080/success',
+        cancelUrl: 'http://localhost:8080/cancelled',
+        lineItems: [
+          {
+            price: 'price_1JjoXiCfJNjG9p8XlX89NNrG',
+            quantity: 1
+          }
+        ],
+        mode: 'payment'
+      })
+    }
 
-    return { publishableKey, lineItems, successURL, cancelURL }
-  },  
-  methods: {
-    submit () {
-      // You will be redirected to Stripe's secure checkout page
-      this.$refs.checkoutRef.redirectToCheckout();
-    },
-  },
+    return { redirect, stripe }
+  }
 }
 </script>
 

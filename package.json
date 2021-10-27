@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@vue-stripe/vue-stripe": "^4.2.5",
+    "@stripe/stripe-js": "^1.19.1",
     "core-js": "^3.6.5",
     "firebase": "^8.6.8",
     "material-design-icons": "^3.0.1",

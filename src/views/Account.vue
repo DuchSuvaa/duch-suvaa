@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <AddBeats v-if="user.uid == '4ELEkqsFDkYFmwAfJpQeIny3zj12'" />
+    <AddBeats v-if="user.uid == '9hxhvo0stHhGm8rgDCLiQKZ5TJH3'" />
     <AccountDetails v-else />
     <h2 @click="handleClick" class="btn">Logout</h2>
   </div>

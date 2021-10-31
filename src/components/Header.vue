@@ -1,5 +1,5 @@
 <template>
-  <nav class="grey darken-4">
+  <nav class="grey darken-4" :v-if="store.state.showQuantity">
     <div class="nav-wrapper container">
       <router-link to="/" class="brand-logo">
         <img src="../assets/logo.png" alt="">
@@ -10,7 +10,12 @@
         <li><router-link to="/sound">Sound</router-link></li>
         <li><router-link to="/contact">Contact</router-link></li>
         <li class="cart-link">
-          <router-link to="/cart">Cart<span v-if="cartQuantity">{{ cartQuantity }}</span></router-link>
+          <router-link to="/cart">
+          Cart
+          <div v-if="user">
+            <CartQuantity />
+          </div>
+          </router-link>
         </li>
         <li v-if="!user"><router-link to="/auth">Login</router-link></li>
         <li v-else><router-link to="/account">Account</router-link></li>
@@ -29,15 +34,19 @@
 </template>
 
 <script>
+import CartQuantity from '@/components/CartQuantity.vue'
 import getUser from '@/composables/getUser.js'
-import getCartItems from '@/composables/getCartItems.js'
+import { useStore } from 'vuex'
 
 export default {
+  components: { CartQuantity },
   setup() {
+    const store = useStore()
     const { user } = getUser()
-    const { cartQuantity } = getCartItems()
 
-    return { user, cartQuantity }
+
+
+    return { user, store }
   }
 }
 </script>

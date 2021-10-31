@@ -1,44 +1,42 @@
 <template>
-  <div class="container">
-    <h1>Cart</h1>
-    <CartItems />
-    <button @click="redirect">Checkout</button>
+  <div class="container cart">
+    <CartItems :totalPrice='totalPrice' :cartItems='cartItems' v-if="!store.state.showCheckout" />
+    <Checkout :totalPrice='totalPrice' :cartItems='cartItems' v-else />
   </div>
 </template>
 
 <script>
+import getCartItems from '@/composables/getCartItems.js'
 import CartItems from '@/components/CartItems.vue'
-import { onMounted } from '@vue/runtime-core'
-import { loadStripe } from '@stripe/stripe-js'
-
+import Checkout from '@/components/Checkout.vue'
+import { useStore } from 'vuex'
+import { computed, ref } from '@vue/reactivity'
+    
 export default {
-  components: { CartItems },
+  components: { CartItems, Checkout },
   setup() {
-    let stripe = null;
+    const store = useStore()
+    const { cartItems, error } = getCartItems()
 
-    onMounted(async () => {
-      stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+    const totalPrice = computed( () => {
+      const prices = ref(0)
+      if (cartItems.value) {
+        cartItems.value.forEach((item) => {
+          prices.value += parseFloat(item.price)
+        })
+      }
+      return prices.value
     })
 
-    function redirect() {
-      stripe.redirectToCheckout({
-        successUrl: 'http://localhost:8080/success',
-        cancelUrl: 'http://localhost:8080/cancelled',
-        lineItems: [
-          {
-            price: 'price_1JjoXiCfJNjG9p8XlX89NNrG',
-            quantity: 1
-          }
-        ],
-        mode: 'payment'
-      })
-    }
+    store.state.showCheckout = false
 
-    return { redirect, stripe }
+    return { store, cartItems, error, totalPrice }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .image-small {
+    max-height: 3rem;
+  }
 </style>

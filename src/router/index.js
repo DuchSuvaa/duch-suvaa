@@ -5,6 +5,8 @@ import Contact from '../views/Contact.vue'
 import Auth from '../views/Auth.vue'
 import Cart from '../views/Cart.vue'
 import Account from '../views/Account.vue'
+import PrivacyPolicy from '../views/PrivacyPolicy.vue'
+import Cookies from '../views/Cookies.vue'
 import Success from '../views/Success.vue'
 import Cancelled from '../views/Cancelled.vue'
 import { projectAuth } from '@/firebase/config.js'
@@ -59,6 +61,18 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/privacy',
+    name: 'PrivacyPolicy',
+    component: PrivacyPolicy,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/cookies',
+    name: 'Cookies',
+    component: Cookies,
     beforeEnter: requireAuth
   },
   {

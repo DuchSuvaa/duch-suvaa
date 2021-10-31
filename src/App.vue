@@ -1,14 +1,16 @@
 <template>
   <Header />
   <router-view/>
+  <Footer />
 </template>
 
 <script>
 import M from 'materialize-css'
 import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 
 export default ({
-  components: { Header },
+  components: { Header, Footer },
   mounted () {
     M.AutoInit()
   }
@@ -34,6 +36,9 @@ export default ({
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: map-get($blue-grey, 'lighten-5');
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 div, p {

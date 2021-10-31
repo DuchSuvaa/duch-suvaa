@@ -8,8 +8,7 @@ const getCartItems = () => {
   const cartItems = ref(null)
   const cartQuantity = ref(null)
   const error = ref(null)
-
-  let docRef = firestore.collection('users').doc(user.value.uid)
+  const docRef = firestore.collection('users').doc(user.value.uid)
 
   const unsub = docRef.onSnapshot( (snap) => {
     cartItems.value = snap.data().cart

@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <AddBeats v-if="user.uid == '9hxhvo0stHhGm8rgDCLiQKZ5TJH3'" />
-    <AccountDetails v-else />
+  <div class="container account">
+    <AccountDetails />
+    <AddBeats v-if="user.uid == '94aNkklJ0VdycdGYOEc15ytwrUH3'" />
     <h2 @click="handleClick" class="btn">Logout</h2>
   </div>
 </template>
@@ -35,6 +35,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .account {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+  }
 </style>

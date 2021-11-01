@@ -23,8 +23,7 @@ export default {
   setup() {
     const showCookies = ref(true)
 
-    if (!localStorage.getItem("cookieSeen")) {
-      console.log("cookies seen")
+    if (localStorage.getItem("cookieSeen")) {
       showCookies.value = false
     }
 

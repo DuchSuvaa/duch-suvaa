@@ -1,19 +1,36 @@
 <template>
-  <h2>Add them</h2>
-  <form @submit.prevent="handleSubmit">
-    <input type="text" autocomplete required placeholder="name" v-model="name">
-    <input type="text" autocomplete required placeholder="bpm" v-model="bpm">
-    <input type="text" autocomplete required placeholder="time" v-model="time">
-    <input type="text" autocomplete required placeholder="price" v-model="price">
-    <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload">
-    <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload">
-    <button>Add</button>
-  </form>
-  <div v-if="audioError">
-    {{ audioError }}
-  </div>
-  <div v-if="imageError">
-    {{ imageError }}
+  <div class="add-beats">
+    <h4>Add beats</h4>
+    <form @submit.prevent="handleSubmit">
+      <div class="input-field">
+        <label for="name">Name</label>
+        <input type="text" autocomplete required id="name" v-model="name">
+      </div>
+      <div class="input-field">
+        <label for="bpm">BPM</label>
+        <input type="text" autocomplete required id="bpm" v-model="bpm">
+      </div>
+      <div class="input-field">
+        <label for="time">Time</label>
+        <input type="text" autocomplete required id="time" v-model="time">
+      </div>
+      <div class="input-field">
+        <label for="price">Price</label>
+        <input type="text" autocomplete required id="price" v-model="price">
+      </div>
+      <div class="add-beat-form-buttons">
+        <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload">
+        <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload">
+        <button class="btn">Add</button>
+      </div>
+
+    </form>
+    <div v-if="audioError">
+      {{ audioError }}
+    </div>
+    <div v-if="imageError">
+      {{ imageError }}
+    </div>
   </div>
 </template>
 
@@ -96,5 +113,7 @@ export default {
 </script>
 
 <style>
-
+  .add-beats {
+    width: 50%;
+  }
 </style>

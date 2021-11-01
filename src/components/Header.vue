@@ -44,8 +44,6 @@ export default {
     const store = useStore()
     const { user } = getUser()
 
-
-
     return { user, store }
   }
 }

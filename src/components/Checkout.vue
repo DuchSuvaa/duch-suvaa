@@ -47,6 +47,7 @@
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
   props: [ 'totalPrice', 'cartItems' ],
@@ -55,6 +56,7 @@ export default {
     let stripe = null
     let loading = ref(true)
     let elements = null
+    const router = useRouter()
     
     onMounted(async () => {
       stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
@@ -65,7 +67,7 @@ export default {
             iconColor: '#c4f0ff',
             color: '#fff',
             fontWeight: '500',
-            fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+            fontFamily: 'Open Sans, Roboto, Segoe UI, sans-serif',
             fontSize: '16px',
             fontSmoothing: 'antialiased',
             ':-webkit-autofill': {
@@ -103,10 +105,9 @@ export default {
         }
       }
 
-      // const cardElement = elements.getElement('card')
+      const cardElement = elements.getElement('card')
 
       try {
-        console.log(props.totalPrice)
         const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
           method: "POST",
           headers: {
@@ -115,14 +116,21 @@ export default {
           body: JSON.stringify({ amount: props.totalPrice })
         })
         const { secret } = await response.json()
-        console.log('secret', secret)
+        const paymentMethodReq = await stripe.createPaymentMethod({
+          type: "card",
+          card: cardElement,
+          billing_details: billingDetails
+        })
+        const { error } = await stripe.confirmCardPayment(secret, {
+          payment_method: paymentMethodReq.paymentMethod.id
+        })
+        if (error) return
+        loading.value = false
+        router.push('success')
       } catch (error) {
         console.log(error)
       }
-
-      console.log("handle click " + billingDetails)
     }
-  
     return { store, loading, handleSubmit }
   }
 

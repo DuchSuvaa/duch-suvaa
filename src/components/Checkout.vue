@@ -5,41 +5,48 @@
       {{ item.name }}
     </div>
     <form @submit.prevent="handleSubmit" id="checkout-form">
-      <div class="checkout-name">
+      <div class="checkout-name input-field">
         <label for="name">name</label>
-        <input type="text" id="name">
+        <input type="text" id="name" v-model="name">
       </div>
-      <div class="checkout-email">
+      <div class="checkout-email input-field">
         <label for="email">e-mail</label>
-        <input type="text" id="email">
+        <input type="text" id="email" v-model="email">
       </div>
-      <div class="checkout-address">
+      <div class="checkout-address input-field">
         <label for="address">address</label>
-        <input type="text" id="address">
+        <input type="text" id="address" v-model="address">
       </div>
-      <div class="checkout-city">
+      <div class="checkout-city input-field">
         <label for="city">city</label>
-        <input type="text" id="city">        
+        <input type="text" id="city" v-model="city">        
       </div>
-      <div class="checkout-state">
+      <div class="checkout-state input-field">
         <label for="state">state</label>
-        <input type="text" id="state">
+        <input type="text" id="state" v-model="state">
       </div>
-      <div class="checkout-zip">
+      <div class="checkout-zip input-field">
         <label for="zip">zip code</label>
-        <input type="text" id="zip">
+        <input type="text" id="zip" v-model="zip">
       </div>
       <div class="checkout-payment-methods">
         <div id="card-mount"></div>
       </div>
       <div class="checkout-buttons">
-        <button class="waves-effect waves-light btn" @click="store.state.showCheckout = false">Return to Cart</button>
+        <div class="waves-effect waves-light btn" @click="store.state.showCheckout = false">Return to Cart</div>
+        <div class="waves-effect waves-light btn" @click="saveAddress">Save</div>
         <input class="waves-effect waves-light btn" type="reset" value="reset">
         <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }">
           {{ loading ? "Loading..." : "Pay $" + totalPrice }}
         </button>
       </div>
     </form>
+    <div class="message" v-if="message">
+      {{ message }}
+    </div>
+    <div class="error" v-if="error">
+      {{ error }}
+    </div>
   </div>
 </template>
 
@@ -48,6 +55,7 @@ import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { firestore } from '@/firebase/config.js'
 
 export default {
   props: [ 'totalPrice', 'cartItems' ],
@@ -57,6 +65,14 @@ export default {
     let loading = ref(true)
     let elements = null
     const router = useRouter()
+    const name = ref('')
+    const email = ref('')
+    const address = ref('')
+    const city = ref('')
+    const state = ref('')
+    const zip = ref('')
+    const message = ref('')
+    const error = ref('')
     
     onMounted(async () => {
       stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
@@ -87,21 +103,42 @@ export default {
       loading.value = false
     })
 
-    async function handleSubmit(event){
+    const saveAddress = () => {
+      const addressFields = {
+        name: name.value,
+        email: email.value,
+        address: address.value,
+        city: city.value,
+        state: state.value,
+        zip: zip.value
+      }
+      firestore.collection('users').doc(store.state.user.uid).update({
+        address: addressFields
+      }).then( () => {
+        message.value = 'Address saved.'
+        setTimeout( () => {
+          message.value = ''
+        }, 10000)
+      }).catch( (err) => {
+        error.value = err
+        setTimeout( () => {
+          error.value = ''
+        }, 10000)        
+      })
+    }
+
+    async function handleSubmit() {
       if (loading.value) return
       loading.value = true
-      const { name, email, address, city, state, zip } = Object.fromEntries(
-        new FormData(event.target)
-      )
 
       const billingDetails = { 
-        name, 
-        email, 
+        name: name.value, 
+        email: email.value, 
         address: {
-          city,
-          line1: address,
-          state,
-          postal_code: zip
+          city: city.value,
+          line1: address.value,
+          state: state.value,
+          postal_code: zip.value
         }
       }
 
@@ -131,7 +168,7 @@ export default {
         console.log(error)
       }
     }
-    return { store, loading, handleSubmit }
+    return { store, loading, name, email, address, city, state, zip, message, error, saveAddress, handleSubmit }
   }
 
 
@@ -165,7 +202,7 @@ export default {
         align-items: center;
         justify-content: flex-end;
         margin-top: 2rem;
-        button:not(:last-child), input {
+        button:not(:last-child), input, div {
           margin-right: 1rem;
         }
         .btn-send {

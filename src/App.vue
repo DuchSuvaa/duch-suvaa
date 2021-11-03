@@ -5,14 +5,24 @@
 </template>
 
 <script>
-import M from 'materialize-css'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import M from 'materialize-css'
+import { useStore } from 'vuex'
+import { onMounted } from '@vue/runtime-core'
+import { projectAuth } from '@/firebase/config.js'
 
 export default ({
   components: { Header, Footer },
-  mounted () {
-    M.AutoInit()
+  setup() {
+    onMounted( async () => {
+      const store = useStore()
+      await store.commit('getUser')
+      projectAuth.onAuthStateChanged(_user => {
+        store.state.user = _user
+      })
+      M.AutoInit()
+    })
   }
 })
 </script>
@@ -58,6 +68,11 @@ body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, head
   padding: 0;
   box-sizing: border-box;
   display: block;
+}
+
+.message {
+  margin-top: 1rem;
+  color: map-get($green, 'lighten-2')
 }
 
 </style>

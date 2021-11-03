@@ -12,12 +12,12 @@
         <li class="cart-link">
           <router-link to="/cart">
           Cart
-          <div v-if="user">
+          <div v-if="store.state.user">
             <CartQuantity />
           </div>
           </router-link>
         </li>
-        <li v-if="!user"><router-link to="/auth">Login</router-link></li>
+        <li v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
         <li v-else><router-link to="/account">Account</router-link></li>
       </ul>
     </div>
@@ -28,23 +28,21 @@
     <li><router-link to="/sound">Sound</router-link></li>
     <li><router-link to="/contact">Contact</router-link></li>
     <li><router-link to="/cart">Cart</router-link></li>
-    <li v-if="!user"><router-link to="/auth">Login</router-link></li>
+    <li v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
     <li v-else><router-link to="/account">Account</router-link></li>
   </ul>
 </template>
 
 <script>
 import CartQuantity from '@/components/CartQuantity.vue'
-import getUser from '@/composables/getUser.js'
 import { useStore } from 'vuex'
 
 export default {
   components: { CartQuantity },
   setup() {
     const store = useStore()
-    const { user } = getUser()
 
-    return { user, store }
+    return { store }
   }
 }
 </script>

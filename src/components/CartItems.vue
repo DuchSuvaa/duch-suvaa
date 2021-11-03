@@ -24,13 +24,11 @@
 import { useStore } from 'vuex'
 import firebase from 'firebase/app'
 import { firestore } from '@/firebase/config.js'
-import getUser from '@/composables/getUser.js'
 
 export default {
   props: [ 'cartItems', 'totalPrice' ],
   setup() {
     const store = useStore()
-    const { user } = getUser()
 
     const handleClick = () => {
       store.state.showCheckout = true;
@@ -38,7 +36,7 @@ export default {
 
     const removeFromCart = (item) => {
       try {
-        firestore.collection("users").doc(user.value.uid).update({
+        firestore.collection("users").doc(store.state.user.uid).update({
           cart: firebase.firestore.FieldValue.arrayRemove( item )
         })
       } catch(error) {

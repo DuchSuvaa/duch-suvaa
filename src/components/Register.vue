@@ -16,9 +16,7 @@ import { useRouter } from 'vue-router'
 
 export default {
   setup() {
-
     const { error, signup } = useSignup()
-
     const displayName = ref('')
     const email = ref('')
     const password = ref('')

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container privacy">
     <h2>Privacy Policy</h2>
     <p>Privacy Policy describes the rules by which we process information about you, including personal data and cookies.</p>
     <h5>1. General information</h5>

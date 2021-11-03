@@ -70,6 +70,10 @@ body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, head
   display: block;
 }
 
+.account, .auth, .cart, .contact, .cookies, .home, .privacy, .sound, .success {
+  padding-bottom: 4rem;
+}
+
 .message {
   margin-top: 1rem;
   color: map-get($green, 'lighten-2')

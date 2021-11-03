@@ -6,27 +6,27 @@
     </div>
     <form @submit.prevent="handleSubmit" id="checkout-form">
       <div class="checkout-name input-field">
-        <label for="name">name</label>
+        <label for="name" :class="{ active: name }">name</label>
         <input type="text" id="name" v-model="name">
       </div>
       <div class="checkout-email input-field">
-        <label for="email">e-mail</label>
+        <label for="email" :class="{ active: email }">e-mail</label>
         <input type="text" id="email" v-model="email">
       </div>
       <div class="checkout-address input-field">
-        <label for="address">address</label>
+        <label for="address" :class="{ active: address }">address</label>
         <input type="text" id="address" v-model="address">
       </div>
       <div class="checkout-city input-field">
-        <label for="city">city</label>
-        <input type="text" id="city" v-model="city">        
+        <label for="city" :class="{ active: city }">city</label>
+        <input type="text" id="city" v-model="city">
       </div>
       <div class="checkout-state input-field">
-        <label for="state">state</label>
+        <label for="state" :class="{ active: state }">state</label>
         <input type="text" id="state" v-model="state">
       </div>
       <div class="checkout-zip input-field">
-        <label for="zip">zip code</label>
+        <label for="zip" :class="{ active: zip }">zip code</label>
         <input type="text" id="zip" v-model="zip">
       </div>
       <div class="checkout-payment-methods">
@@ -37,7 +37,7 @@
         <div class="waves-effect waves-light btn" @click="saveAddress">Save</div>
         <input class="waves-effect waves-light btn" type="reset" value="reset">
         <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }">
-          {{ loading ? "Loading..." : "Pay $" + totalPrice }}
+          {{ loading ? "Loading..." : "Pay $" + (totalPrice * 0.01).toFixed(2) }}
         </button>
       </div>
     </form>
@@ -101,6 +101,19 @@ export default {
       })
       element.mount('#card-mount')
       loading.value = false
+      const docRef = firestore.collection('users').doc(store.state.user.uid)
+      console.log(store.state.user.uid)
+
+      docRef.onSnapshot( (snap) => {
+        if (snap.data().address) {
+          name.value = snap.data().address.name
+          email.value = snap.data().address.email
+          address.value = snap.data().address.address
+          city.value = snap.data().address.city
+          state.value = snap.data().address.state
+          zip.value = snap.data().address.zip
+        }
+      })
     })
 
     const saveAddress = () => {

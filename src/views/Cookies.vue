@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container cookies">
     <h2>Cookies Policy</h2>
     <p>The Cookies Policy sets out the rules for saving and accessing data for the purpose of providing services electronically sby the Website Administrator on Devices belonging to User of the Website.</p>
     <h5>1. Definitions</h5>

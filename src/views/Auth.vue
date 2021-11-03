@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container auth">
     <div v-if="showLogin">
       <Login />
       <p>No account? <span @click="showLogin = false">Register</span></p>

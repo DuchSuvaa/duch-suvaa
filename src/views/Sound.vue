@@ -1,5 +1,5 @@
 <template>
-  <div class="sound container">
+  <div class="container sound">
     <BeatPreview :beat="currentBeat" />
     <div class="table-header">
       <div class="beat-name">Name</div>

@@ -1,5 +1,7 @@
 <template>
-  <h1>Success</h1>
+  <div class="container success">
+    <h1>Success</h1>
+  </div>
 </template>
 
 <script>

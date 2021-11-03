@@ -1,5 +1,7 @@
 <template>
-  <h1>Cancelled</h1>
+  <div class="container cancelled">
+    <h1>Cancelled</h1>
+  </div>
 </template>
 
 <script>

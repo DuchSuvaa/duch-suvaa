@@ -1,46 +1,21 @@
 <template>
   <div class="container checkout">
-    <h1>Checkout</h1>
+    <div class="return" @click="store.state.showCheckout = false">
+      <i class="material-icons">arrow_back</i>
+      &nbsp;Return to Cart
+    </div>
     <div v-for="item in cartItems" :key="item.id">
       {{ item.name }}
     </div>
-    <form @submit.prevent="handleSubmit" id="checkout-form">
-      <div class="checkout-name input-field">
-        <label for="name" :class="{ active: name }">name</label>
-        <input type="text" id="name" v-model="name">
-      </div>
-      <div class="checkout-email input-field">
-        <label for="email" :class="{ active: email }">e-mail</label>
-        <input type="text" id="email" v-model="email">
-      </div>
-      <div class="checkout-address input-field">
-        <label for="address" :class="{ active: address }">address</label>
-        <input type="text" id="address" v-model="address">
-      </div>
-      <div class="checkout-city input-field">
-        <label for="city" :class="{ active: city }">city</label>
-        <input type="text" id="city" v-model="city">
-      </div>
-      <div class="checkout-state input-field">
-        <label for="state" :class="{ active: state }">state</label>
-        <input type="text" id="state" v-model="state">
-      </div>
-      <div class="checkout-zip input-field">
-        <label for="zip" :class="{ active: zip }">zip code</label>
-        <input type="text" id="zip" v-model="zip">
-      </div>
-      <div class="checkout-payment-methods">
-        <div id="card-mount"></div>
-      </div>
-      <div class="checkout-buttons">
-        <div class="waves-effect waves-light btn" @click="store.state.showCheckout = false">Return to Cart</div>
-        <div class="waves-effect waves-light btn" @click="saveAddress">Save</div>
-        <input class="waves-effect waves-light btn" type="reset" value="reset">
-        <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }">
-          {{ loading ? "Loading..." : "Pay $" + (totalPrice * 0.01).toFixed(2) }}
-        </button>
-      </div>
-    </form>
+    <BillingDetails />
+    <div class="checkout-payment-methods">
+      <div id="card-mount"></div>
+    </div>
+    <div class="checkout-buttons">
+      <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }" @click="handleSubmit">
+        {{ loading ? "Loading..." : "Pay $" + (totalPrice * 0.01).toFixed(2) }}
+      </button>
+    </div>
     <div class="message" v-if="message">
       {{ message }}
     </div>
@@ -51,26 +26,21 @@
 </template>
 
 <script>
+import BillingDetails from '@/components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { firestore } from '@/firebase/config.js'
 
 export default {
   props: [ 'totalPrice', 'cartItems' ],
+  components: { BillingDetails },
   setup(props) {
     const store = useStore()
     let stripe = null
     let loading = ref(true)
     let elements = null
     const router = useRouter()
-    const name = ref('')
-    const email = ref('')
-    const address = ref('')
-    const city = ref('')
-    const state = ref('')
-    const zip = ref('')
     const message = ref('')
     const error = ref('')
     
@@ -101,57 +71,21 @@ export default {
       })
       element.mount('#card-mount')
       loading.value = false
-      const docRef = firestore.collection('users').doc(store.state.user.uid)
-      console.log(store.state.user.uid)
 
-      docRef.onSnapshot( (snap) => {
-        if (snap.data().address) {
-          name.value = snap.data().address.name
-          email.value = snap.data().address.email
-          address.value = snap.data().address.address
-          city.value = snap.data().address.city
-          state.value = snap.data().address.state
-          zip.value = snap.data().address.zip
-        }
-      })
     })
-
-    const saveAddress = () => {
-      const addressFields = {
-        name: name.value,
-        email: email.value,
-        address: address.value,
-        city: city.value,
-        state: state.value,
-        zip: zip.value
-      }
-      firestore.collection('users').doc(store.state.user.uid).update({
-        address: addressFields
-      }).then( () => {
-        message.value = 'Address saved.'
-        setTimeout( () => {
-          message.value = ''
-        }, 10000)
-      }).catch( (err) => {
-        error.value = err
-        setTimeout( () => {
-          error.value = ''
-        }, 10000)        
-      })
-    }
 
     async function handleSubmit() {
       if (loading.value) return
       loading.value = true
 
       const billingDetails = { 
-        name: name.value, 
-        email: email.value, 
+        name: store.state.billingDetails.name, 
+        email: store.state.billingDetails.email, 
         address: {
-          city: city.value,
-          line1: address.value,
-          state: state.value,
-          postal_code: zip.value
+          city: store.state.billingDetails.city,
+          line1: store.state.billingDetails.address,
+          state: store.state.billingDetails.state,
+          postal_code: store.state.billingDetails.zip
         }
       }
 
@@ -181,10 +115,8 @@ export default {
         console.log(error)
       }
     }
-    return { store, loading, name, email, address, city, state, zip, message, error, saveAddress, handleSubmit }
+    return { store, loading, message, error, handleSubmit }
   }
-
-
 }
 </script>
 
@@ -192,10 +124,21 @@ export default {
   @import '@/scss/_variables.scss';
 
   .checkout {
+    padding-top: 2rem;
+    .return {
+      margin-bottom: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      i {
+        font-size: 1.2rem;
+      }
+    }
     #checkout-form {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
       grid-gap: 2rem;
+      margin-top: 1rem;
       > div:nth-of-type(odd) {
         grid-column: 1/7;
       }
@@ -205,26 +148,28 @@ export default {
       .checkout-payment-methods, .checkout-buttons {
         grid-column: 1/13 !important;
       }
-      .checkout-payment-methods {
-        #card-mount {
-          width: 30rem;
-        }
-      }
-      .checkout-buttons {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-top: 2rem;
-        button:not(:last-child), input, div {
-          margin-right: 1rem;
-        }
-        .btn-send {
-          background-color: map-get($red, 'darken-4');
-        }
-      }
       input {
         color: white;
       }
+    }
+    .checkout-payment-methods {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      #card-mount {
+        width: 30rem;
+      }
+    }
+  }
+
+  .checkout-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    button:not(:last-child), input:not(:last-child), div:not(:last-child) {
+      margin-right: 1rem;
+    }
+    .btn-send {
+      background-color: map-get($red, 'darken-4');
     }
   }
 

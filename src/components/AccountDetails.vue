@@ -29,17 +29,28 @@
         </form>
       </div>
     </transition>
+    <div @click="addressFormVisible = !addressFormVisible" class="enter-password">
+      Update Billing Details
+    </div>
+    <transition name="open">
+      <div v-if="addressFormVisible" class="transition-element">
+        <BillingDetails />
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import BillingDetails from '@/components/BillingDetails.vue'
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import firebase from 'firebase/app'
 
 export default {
+  components: { BillingDetails },
   setup() {
     const passwordFormVisible = ref(false)
+    const addressFormVisible = ref(false)
     const oldPassword = ref('')
     const newPassword = ref('')
     const confirmPassword = ref('')
@@ -73,7 +84,8 @@ export default {
       })
     }
 
-    return { passwordFormVisible, oldPassword, newPassword, confirmPassword, updatePassword, error, updateSuccessful }
+    return { passwordFormVisible, addressFormVisible, oldPassword, newPassword, confirmPassword, 
+    updatePassword, error, updateSuccessful }
   }
 }
 </script>
@@ -97,6 +109,7 @@ export default {
 
   .transition-element {
     overflow: hidden;
+    margin-bottom: 2rem;
   }
 
   .open-enter-from {

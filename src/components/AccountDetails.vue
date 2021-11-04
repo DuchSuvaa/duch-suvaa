@@ -1,32 +1,34 @@
 <template>
   <div class="account-details">
-    <h4>Account Details</h4>
+    <h5>Account Details</h5>
     <div @click="passwordFormVisible = !passwordFormVisible" class="enter-password">
       Change Password
     </div>
-    <div v-if="passwordFormVisible">
-      <form @submit.prevent="updatePassword" class="updatePassword">
-        <div class="input-field">
-          <label for="old-password">Old Password</label>
-          <input type="password" v-model="oldPassword" id="old-password">
-        </div>
-        <div class="input-field">
-          <label for="new-password">New Password</label>
-          <input type="password" v-model="newPassword" id="new-password">
-        </div>
-        <div class="input-field">
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" v-model="confirmPassword" id="confirm-password">
-        </div>
-        <button class="btn" :disabled="newPassword.length <= 0 || confirmPassword.length <= 0">Change Password</button>
-        <div class="message" v-if="updateSuccessful">
-          Password updated successfully.
-        </div>
-        <div class="password-error" v-if="error">
-          {{ error }}
-        </div>
-      </form>
-    </div>
+    <transition name="open">
+      <div v-if="passwordFormVisible" class="transition-element">
+        <form @submit.prevent="updatePassword" class="updatePassword">
+          <div class="input-field">
+            <label for="old-password">Old Password</label>
+            <input type="password" v-model="oldPassword" id="old-password">
+          </div>
+          <div class="input-field">
+            <label for="new-password">New Password</label>
+            <input type="password" v-model="newPassword" id="new-password">
+          </div>
+          <div class="input-field">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" v-model="confirmPassword" id="confirm-password">
+          </div>
+          <button class="btn" :disabled="newPassword.length <= 0 || confirmPassword.length <= 0">Change Password</button>
+          <div class="message" v-if="updateSuccessful">
+            Password updated successfully.
+          </div>
+          <div class="password-error" v-if="error">
+            {{ error }}
+          </div>
+        </form>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -83,7 +85,7 @@ export default {
     width: 50%;
     .enter-password {
       cursor: pointer;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
     .updatePassword {
       .password-error {
@@ -91,5 +93,32 @@ export default {
         color: map-get($red, 'darken-2')
       }
     }
+  }
+
+  .transition-element {
+    overflow: hidden;
+  }
+
+  .open-enter-from {
+    opacity: 0;
+    max-height: 0;
+  }
+  .open-enter-active {
+    transition: opacity 0.5s ease-in, max-height 0.5s ease-in;
+  }
+  .open-enter-to {
+    opacity: 1;
+    max-height: 25rem;
+  }
+  .open-leave-from {
+    opacity: 1;
+    max-height: 25rem;
+  }
+  .open-leave-active {
+    transition: opacity 0.5s ease-in, max-height 0.5s ease-in;
+  }
+  .open-leave-to {
+    opacity: 0;
+    max-height: 0;
   }
 </style>

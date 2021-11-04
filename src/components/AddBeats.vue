@@ -1,6 +1,6 @@
 <template>
   <div class="add-beats">
-    <h4>Add beats</h4>
+    <h5>Add beats</h5>
     <form @submit.prevent="handleSubmit">
       <div class="input-field">
         <label for="name">Name</label>

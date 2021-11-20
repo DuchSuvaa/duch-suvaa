@@ -97,17 +97,28 @@ export default {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ amount: props.totalPrice })
+          body: JSON.stringify({
+
+            userId: store.state.user.uid,
+            data: {
+              object: {
+                amount: props.totalPrice
+              }
+            }
+          })
         })
         const { secret } = await response.json()
+
         const paymentMethodReq = await stripe.createPaymentMethod({
           type: "card",
           card: cardElement,
           billing_details: billingDetails
         })
+
         const { error } = await stripe.confirmCardPayment(secret, {
           payment_method: paymentMethodReq.paymentMethod.id
         })
+        
         if (error) return
         loading.value = false
         router.push('success')

@@ -4,11 +4,10 @@ import Sound from '../views/Sound.vue'
 import Contact from '../views/Contact.vue'
 import Auth from '../views/Auth.vue'
 import Cart from '../views/Cart.vue'
+import Completed from '../views/Completed.vue'
 import Account from '../views/Account.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Cookies from '../views/Cookies.vue'
-import Success from '../views/Success.vue'
-import Cancelled from '../views/Cancelled.vue'
 import { projectAuth } from '@/firebase/config.js'
 
 const requireAuth = (to, from, next) => {
@@ -58,6 +57,12 @@ const routes = [
     beforeEnter: requireAuth
   },
   {
+    path: '/cart/completed',
+    name: 'Completed',
+    component: Completed,
+    beforeEnter: requireAuth
+  },
+  {
     path: '/account',
     name: 'Account',
     component: Account,
@@ -74,19 +79,7 @@ const routes = [
     name: 'Cookies',
     component: Cookies,
     beforeEnter: requireAuth
-  },
-  {
-    path: '/success',
-    name: 'Success',
-    component: Success,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/cancelled',
-    name: 'Cancelled',
-    component: Cancelled,
-    beforeEnter: requireAuth
-  } 
+  }
 ]
 
 const router = createRouter({

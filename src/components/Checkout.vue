@@ -9,7 +9,7 @@
     </div>
     <BillingDetails />
     <div class="checkout-payment-methods">
-      <div id="card-mount"></div>
+      <div id="payment-element"></div>
     </div>
     <div class="checkout-buttons">
       <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }" @click="handleSubmit">
@@ -30,7 +30,6 @@ import BillingDetails from '@/components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 export default {
   props: [ 'totalPrice', 'cartItems' ],
@@ -38,58 +37,13 @@ export default {
   setup(props) {
     const store = useStore()
     let stripe = null
-    let loading = ref(true)
     let elements = null
-    const router = useRouter()
+    let loading = ref(true)
     const message = ref('')
     const error = ref('')
-    
+
     onMounted(async () => {
       stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
-      elements = stripe.elements()
-      const element = elements.create('card', {
-        style: {
-          base: {
-            iconColor: '#c4f0ff',
-            color: '#fff',
-            fontWeight: '500',
-            fontFamily: 'Open Sans, Roboto, Segoe UI, sans-serif',
-            fontSize: '16px',
-            fontSmoothing: 'antialiased',
-            ':-webkit-autofill': {
-              color: '#fce883',
-            },
-            '::placeholder': {
-              color: '#87BBFD',
-            },
-          },
-          invalid: {
-            iconColor: '#FFC7EE',
-            color: '#FFC7EE',
-          },
-        },
-      })
-      element.mount('#card-mount')
-      loading.value = false
-
-    })
-
-    async function handleSubmit() {
-      if (loading.value) return
-      loading.value = true
-
-      const billingDetails = { 
-        name: store.state.billingDetails.name, 
-        email: store.state.billingDetails.email, 
-        address: {
-          city: store.state.billingDetails.city,
-          line1: store.state.billingDetails.address,
-          state: store.state.billingDetails.state,
-          postal_code: store.state.billingDetails.zip
-        }
-      }
-
-      const cardElement = elements.getElement('card')
 
       try {
         const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
@@ -98,7 +52,6 @@ export default {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-
             userId: store.state.user.uid,
             data: {
               object: {
@@ -108,24 +61,41 @@ export default {
           })
         })
         const { secret } = await response.json()
-
-        const paymentMethodReq = await stripe.createPaymentMethod({
-          type: "card",
-          card: cardElement,
-          billing_details: billingDetails
-        })
-
-        const { error } = await stripe.confirmCardPayment(secret, {
-          payment_method: paymentMethodReq.paymentMethod.id
-        })
-        
-        if (error) return
+        console.log(secret)
+ 
+        const options = {
+          clientSecret: secret,
+        }
+        elements = stripe.elements(options);
+        const paymentElement = elements.create("payment")
+        paymentElement.mount("#payment-element")
         loading.value = false
-        router.push('success')
       } catch (error) {
         console.log(error)
       }
+
+    })
+
+    async function handleSubmit() {
+      loading.value = true
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location}/completed`,
+        }
+        // Uncomment below if you only want redirect for redirect-based payments
+        // redirect: 'if_required',
+      });
+
+      if (error) return
+      loading.value = false
+
+      // if (loading.value) return
+      // loading.value = true
+
     }
+
+
     return { store, loading, message, error, handleSubmit }
   }
 }

@@ -63,7 +63,7 @@ export default {
 
     onMounted( async () => {
       const docRef = firestore.collection('users').doc(store.state.user.uid)
-      console.log(store.state.user.uid)
+      // console.log(store.state.user.uid)
 
       docRef.onSnapshot( (snap) => {
         if (snap.data().address) {

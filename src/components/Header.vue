@@ -1,5 +1,5 @@
 <template>
-  <nav class="grey darken-4" :v-if="store.state.showQuantity">
+  <nav class="grey darken-4 navi" :v-if="store.state.showQuantity">
     <div class="nav-wrapper container">
       <router-link to="/" class="brand-logo">
         <img src="../assets/logo.png" alt="">
@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss">
   @import '@/scss/_variables.scss';
-
+  
   .nav-wrapper {
     ul {
       li {
@@ -57,7 +57,7 @@ export default {
           font-family: monsters;
           text-shadow: $nav-text-shadow;
           color: map-get($shades, 'black');
-          font-size: 1.2rem;
+          font-size: 1.8rem;
           letter-spacing: 0.1rem;
           padding: 0 15px;
           &:hover {

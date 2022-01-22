@@ -49,10 +49,28 @@ export default ({
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background-image: url('./assets/pexels-bg.png');
+  background-attachment: fixed;
+}
+
+html {
+  font-size: 10px !important;
 }
 
 div, p {
-  font-size: 16px;
+  font-size: 1.8rem;
+}
+
+h1 {
+  font-size: 4.8rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+h3 {
+  font-size: 3rem;
+  font-weight: 700 !important;
+  margin-bottom: 3rem !important;
 }
 
 span {
@@ -64,7 +82,7 @@ html {
 }
 
 form, input {
-      color: map-get($blue-grey, 'lighten-5');
+  color: map-get($blue-grey, 'lighten-5');
 }
 
 body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, header, main, footer, input {

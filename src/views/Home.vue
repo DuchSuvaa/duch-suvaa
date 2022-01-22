@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="container home">
-    <h4>If you are a trueschool MC...</h4>
+    <h3>If you are a trueschool MC...</h3>
     <p>This site contains beats sampled from old, dusty vinyl records – a source that gives a sound that specific character, which you can only love or hate. If you are a fan of sharp and sterile trap sounds and hi-hats sounding like winding up a watch, then this might not be a good place for you... I got a creative approach towards beatmaking - you won't find here just loops layered with drums neither beats made using stock samples. I'm crate digging for sounds to give them a new life.</p>
   </div>
 </template>
@@ -49,11 +49,7 @@ export default {
         h1 {
           width: 100%;
           text-align: center;
-          margin: 0;
-          text-transform: uppercase;
-          font-size: 3.2rem;
           padding: 0 2rem;
-          font-weight: 800;
           text-shadow: $heading-text-shadow;
           color: map-get($grey, 'darken-4');
           font-family: monsters;
@@ -64,6 +60,11 @@ export default {
         }
       }
     }
+  }
 
+  .home {
+    width: 50% !important;
+    text-align: center;
+    margin: 4rem auto !important;
   }
 </style>

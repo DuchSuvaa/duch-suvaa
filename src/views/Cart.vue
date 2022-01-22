@@ -1,7 +1,12 @@
 <template>
   <div class="container cart">
-    <CartItems :totalPrice='totalPrice' :cartItems='cartItems' v-if="!store.state.showCheckout" />
-    <Checkout :totalPrice='totalPrice' :cartItems='cartItems' v-else />
+    <div v-if="cartItems && cartItems.length">
+      <CartItems :totalPrice='totalPrice' :cartItems='cartItems' v-if="!store.state.showCheckout" />
+      <Checkout :totalPrice='totalPrice' :cartItems='cartItems' v-else />
+    </div>
+    <div v-else id="empty-cart-message">
+      <p>Your cart is empty.</p>
+    </div>
   </div>
 </template>
 
@@ -36,6 +41,14 @@ export default {
 </script>
 
 <style lang="scss">
+  .cart {
+    margin-top: 1rem !important;
+    #empty-cart-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
   .image-small {
     max-height: 3rem;
   }

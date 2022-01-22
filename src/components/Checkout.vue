@@ -34,7 +34,7 @@ import { useStore } from 'vuex'
 export default {
   props: [ 'totalPrice', 'cartItems' ],
   components: { BillingDetails },
-  setup(props) {
+  setup() {
     const store = useStore()
     let stripe = null
     let elements = null
@@ -44,7 +44,6 @@ export default {
 
     onMounted(async () => {
       stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
-
       try {
         const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
           method: "POST",
@@ -53,16 +52,12 @@ export default {
           },
           body: JSON.stringify({
             userId: store.state.user.uid,
-            data: {
-              object: {
-                amount: props.totalPrice
-              }
-            }
+            userEmail: 'suvo.vb@gmail.com'
           })
         })
         const { secret } = await response.json()
         console.log(secret)
- 
+  
         const options = {
           clientSecret: secret,
         }
@@ -82,9 +77,9 @@ export default {
         elements,
         confirmParams: {
           return_url: `${window.location}/completed`,
-        }
+        },
         // Uncomment below if you only want redirect for redirect-based payments
-        // redirect: 'if_required',
+        // redirect: 'if_required'
       });
 
       if (error) return

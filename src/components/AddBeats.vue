@@ -18,9 +18,15 @@
         <label for="price">Price</label>
         <input type="text" autocomplete required id="price" v-model="price">
       </div>
+      <div class="fileslist" v-if="audioName || imageName">
+        <div v-if="audioName">{{ audioName }}</div>
+        <div v-if="imageName">{{ imageName }}</div>
+      </div>
       <div class="add-beat-form-buttons">
-        <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload">
-        <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload">
+        <input type="file" accept="audio/mp3, audio/wav" @change="handleAudioChange" id="audio-file-upload" style="display:none;">
+        <button class="btn" @click.prevent="addAudio()" id="audio-file-upload-button">Select Beat</button>
+        <input type="file" accept="image/jpeg, image/png" @change="handleImageChange" id="image-file-upload" style="display:none;">
+        <button class="btn" id="image-file-upload-button" @click.prevent="addImage">Select Image</button>
         <button class="btn">Add</button>
       </div>
 
@@ -49,6 +55,8 @@ export default {
     const price = ref('')
     const audioFile = ref(null)
     const imageFile = ref(null)
+    const audioName = ref(null)
+    const imageName = ref(null)
     const audioFileError = ref(null)
     const imageFileError = ref(null)
     const temporaryAudioURL = ref('')
@@ -56,8 +64,12 @@ export default {
     const { audioError, imageError, audioUrl, imageUrl, audioFilePath, imageFilePath, 
     uploadAudio, uploadImage } = useStorage()
 
+    const addAudio = () => { document.getElementById('audio-file-upload').click(); }
+    const addImage = () => { document.getElementById('image-file-upload').click(); }
+
     const handleAudioChange = (e) => {
       const selectedAudio = e.target.files[0]
+      audioName.value = e.target.files[0].name
       if (selectedAudio) {
         audioFile.value = selectedAudio
         temporaryAudioURL.value = URL.createObjectURL(selectedAudio)
@@ -70,6 +82,7 @@ export default {
 
     const handleImageChange = (e) => {
       const selectedImage = e.target.files[0]
+      imageName.value = e.target.files[0].name
       if (selectedImage) {
         imageFile.value = selectedImage
         temporaryImageURL.value = URL.createObjectURL(selectedImage)
@@ -91,29 +104,55 @@ export default {
         name: name.value,
         bpm: bpm.value,
         time: time.value,
-        price: price.value,
+        price: (price.value * 100),
         previewUrl: audioUrl.value,
         imageUrl: imageUrl.value,
-        createdAt: timestamp()
+        createdAt: timestamp(),
+        status: 'available'
       }
       await add(beat)
       if (!error.value) {
-        name.value = '',
-        bpm.value = '',
-        time.value = '',
+        name.value = ''
+        bpm.value = ''
+        time.value = ''
         price.value = ''
+        audioName.value = ''
+        imageName.value = ''
       }
     }
 
-    return { name, bpm, time, price, error, add, handleAudioChange, handleImageChange, handleSubmit, 
+    return { name, bpm, time, price, error, add, addAudio, addImage, handleAudioChange, handleImageChange, 
+    audioName, imageName, handleSubmit, 
     audioFileError, imageFileError, audioError, imageError, audioUrl, imageUrl, audioFilePath, 
     imageFilePath, uploadAudio }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
   .add-beats {
     width: 50%;
+    form {
+      .fileslist {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 2rem 0;
+        > div {
+          width: 100%;
+          padding: 0.5rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+      }
+      .add-beat-form-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: row;
+        gap: 1rem;
+      }
+    }
   }
 </style>

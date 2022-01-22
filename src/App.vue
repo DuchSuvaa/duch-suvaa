@@ -63,6 +63,10 @@ html {
   background-color: map-get($grey, 'darken-4');
 }
 
+form, input {
+      color: map-get($blue-grey, 'lighten-5');
+}
+
 body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, header, main, footer, input {
   margin: 0;
   padding: 0;

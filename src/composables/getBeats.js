@@ -5,7 +5,7 @@ const getCollection = () => {
   const beats = ref(null)
   const error = ref(null)
 
-  let collectionRef = firestore.collection('beats').orderBy('createdAt')
+  let collectionRef = firestore.collection('beats').where('status', '==', 'available').orderBy('createdAt')
   
   const unsub = collectionRef.onSnapshot( (snap) => {
     let results = []

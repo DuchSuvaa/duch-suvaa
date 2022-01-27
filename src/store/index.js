@@ -5,6 +5,7 @@ import { projectAuth } from '../firebase/config.js'
 export default createStore({
   state: {
     user: null,
+    previewUrl: null,
     logged: false,
     showCheckout: false,
     showQuantity: false,

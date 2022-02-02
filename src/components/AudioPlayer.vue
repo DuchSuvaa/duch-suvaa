@@ -2,20 +2,20 @@
   <div class="audio-player">
     <audio :src="store.state.previewUrl" id="audioPlayer"></audio>
     <div class="controls">
-      <div class="play" @click="play">
+      <div class="play" @click="play" :class="{ controls_active : store.state.buttonPressed == 'play' }">
         <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 1.90857V16.0914C0 16.8981 0.905977 17.3728 1.56921 16.9136L11.8124 9.82219C12.3868 9.42454 12.3868 8.57546 11.8124 8.17781L1.56921 1.08638C0.905979 0.627216 0 1.10191 0 1.90857Z" fill="#0E0E0E"/>
         </svg>
       </div>
-      <div class="pause" @click="pause">
+      <div class="pause" @click="pause" :class="{ controls_active : store.state.buttonPressed == 'pause' }">
         <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E" stroke="#0E0E0E"/>
-        <rect x="0.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E" stroke="#0E0E0E"/>
+        <rect x="8.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E"/>
+        <rect x="0.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E"/>
         </svg>
       </div>
-      <div class="stop" @click="stop">
+      <div class="stop" @click="stop" :class="{ controls_active : store.state.buttonPressed == 'stop' }">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="12" height="12" rx="0.5" fill="#0E0E0E" stroke="#0E0E0E"/>
+        <rect x="0.5" y="0.5" width="12" height="12" rx="0.5" fill="#0E0E0E"/>
         </svg>
       </div>
     </div>
@@ -35,7 +35,9 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import { useStore } from 'vuex' 
+import { useStore } from 'vuex'
+import Hammer from 'hammerjs' 
+import { onMounted } from '@vue/runtime-core'
 
 export default {
   setup() {
@@ -44,16 +46,34 @@ export default {
 
     const play = () => {
       document.getElementById('audioPlayer').play()
+      store.state.buttonPressed = 'play'
     }
 
     const pause = () => {
       document.getElementById('audioPlayer').pause()
+      store.state.buttonPressed = 'pause'
     }
 
     const stop = () => {
       document.getElementById('audioPlayer').pause()
       document.getElementById('audioPlayer').currentTime = 0;
+      store.state.buttonPressed = ''
     }
+
+    onMounted( () => {
+      const mc = new Hammer(document.getElementById('volume-control'))
+      mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+      mc.on('panup pandown', (e) => {
+        let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
+        let clickOffsetTop = e.center.y
+        let clickDistanceFromTop = Math.round(elementOffsetTop - clickOffsetTop)
+        let elementHeight = document.getElementById('volume-control').offsetHeight
+        let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
+        document.getElementById('audioPlayer').volume = clickedHeight
+        document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%" 
+      })
+    })
 
     const setVolume = (e) => {
       let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
@@ -62,7 +82,6 @@ export default {
       let elementHeight = document.getElementById('volume-control').offsetHeight
       let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
       document.getElementById('audioPlayer').volume = clickedHeight
-      console.log(clickedHeight * 100 + "%")
       document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%"   
     }
 
@@ -92,8 +111,25 @@ export default {
       align-items: center;
       justify-content: space-between;
       width: 7rem;
+      .play {
+        svg {
+          transform: scale(.9);
+        }       
+      }
       > div {
-        cursor: pointer;
+        display: flex;
+        align-items: center;
+        &:hover {
+          cursor: pointer;
+          path, rect, svg {
+            fill: map-get($blue, 'darken-2'); 
+          }
+        }
+      }
+      .controls_active {
+        path, rect, svg {
+          fill: map-get($blue, 'darken-2'); 
+        }        
       }
     }
     #volume {
@@ -103,13 +139,13 @@ export default {
       cursor: pointer;
       position: relative;
       svg {
-        transform: scale(0.8);
+        transform: scale(0.7);
       }
       #volume-control {
         height: 11rem;
         width: 100%;
         position: absolute;
-        bottom: 3rem;
+        bottom: 2.7rem;
         left: 0;
         border: 1px solid transparent;
         border-radius: 2px;

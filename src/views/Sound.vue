@@ -38,7 +38,6 @@
 import BeatPreview from '@/components/BeatPreview.vue'
 import getBeats from '@/composables/getBeats.js'
 import useCart from '@/composables/addToCart.js'
-import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 
 export default ({
@@ -46,11 +45,11 @@ export default ({
   setup() {
     const store = useStore()
     const { beats, error } = getBeats()
-    const currentBeat = ref(null)
     const { addToCart } = useCart() 
 
     const handleClick = (beat) => {
-      currentBeat.value = beat
+      store.state.currentBeat = beat
+      store.state.buttonPressed = ''
       store.state.previewUrl = beat.previewUrl
     }
 
@@ -58,7 +57,7 @@ export default ({
       addToCart(beat)
     }
 
-    return { beats, error, currentBeat, handleClick, add }
+    return { beats, error, handleClick, add }
   }
 })
 </script>

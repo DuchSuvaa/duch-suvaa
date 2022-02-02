@@ -7,6 +7,8 @@ export default createStore({
     user: null,
     previewUrl: null,
     logged: false,
+    currentBeat: null,
+    buttonPressed: '',
     showCheckout: false,
     showQuantity: false,
     billingDetails: {

@@ -9,7 +9,7 @@
   </div>
   <div class="container home">
     <h3>If you are a trueschool MC...</h3>
-    <p>This site contains beats sampled from old, dusty vinyl records – a source that gives a sound that specific character, which you can only love or hate. If you are a fan of sharp and sterile trap sounds and hi-hats sounding like winding up a watch, then this might not be a good place for you... I got a creative approach towards beatmaking - you won't find here just loops layered with drums neither beats made using stock samples. I'm crate digging for sounds to give them a new life.</p>
+    <p>This site contains beats sampled from old, dusty vinyl records - a source that gives a sound that specific character, which you can only love or hate. If you are a fan of sharp and sterile trap sounds and hi-hats sounding like winding up a watch, then this might not be a good place for you... I got a creative approach towards beatmaking - you won't find here just loops layered with drums neither beats made using stock samples. I'm crate digging for sounds to give them a new life.</p>
   </div>
 </template>
 
@@ -19,8 +19,8 @@ export default {
   name: 'Home',
   components: {
   },
-  setup() {
-
+  setup() {    
+    
   }
 }
 </script>

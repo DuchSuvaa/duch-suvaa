@@ -1,12 +1,12 @@
 <template>
   <div class="beat-preview">
-    <div v-if="beat" class="row">
+    <div v-if="store.state.currentBeat" class="row">
       <div class="no-padding-left beat-image">
-        <img :src="beat.imageUrl" class="responsive-img">
+        <img :src="store.state.currentBeat.imageUrl" class="responsive-img">
       </div>
       <div class="beat-name">
-        <h5>{{ beat.name }}
-          <a :href="beat.previewUrl" target="_blank">
+        <h5>{{ store.state.currentBeat.name }}
+          <a :href="store.state.currentBeat.previewUrl" target="_blank">
             <i class="material-icons">file_download</i>
           </a>
         </h5>
@@ -26,12 +26,14 @@
 
 <script>
 import AudioPlayer from '@/components/AudioPlayer.vue'
+import { useStore } from 'vuex'
 
 export default {
-  props: [ 'beat' ],
   components: { AudioPlayer },
   setup() {
+    const store = useStore()
 
+    return { store }
   }
 }
 </script>

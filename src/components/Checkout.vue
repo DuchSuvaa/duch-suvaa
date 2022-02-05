@@ -46,6 +46,7 @@ export default {
       stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
       try {
         const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
+        // const response = await fetch("http://localhost:80/stripe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

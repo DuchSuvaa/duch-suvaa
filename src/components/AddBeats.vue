@@ -1,6 +1,5 @@
 <template>
   <div class="add-beats">
-    <h5>Add beats</h5>
     <form @submit.prevent="handleSubmit">
       <div class="input-field">
         <label for="name">Name</label>
@@ -131,7 +130,6 @@ export default {
 
 <style lang="scss">
   .add-beats {
-    width: 50%;
     form {
       .fileslist {
         display: flex;

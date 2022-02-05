@@ -1,32 +1,11 @@
 <template>
   <div class="account-details">
-    <h5>Account Details</h5>
     <div @click="passwordFormVisible = !passwordFormVisible" class="enter-password">
       Change Password
     </div>
     <transition name="open">
       <div v-if="passwordFormVisible" class="transition-element">
-        <form @submit.prevent="updatePassword" class="updatePassword">
-          <div class="input-field">
-            <label for="old-password">Old Password</label>
-            <input type="password" v-model="oldPassword" id="old-password">
-          </div>
-          <div class="input-field">
-            <label for="new-password">New Password</label>
-            <input type="password" v-model="newPassword" id="new-password">
-          </div>
-          <div class="input-field">
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" v-model="confirmPassword" id="confirm-password">
-          </div>
-          <button class="btn" :disabled="newPassword.length <= 0 || confirmPassword.length <= 0">Change Password</button>
-          <div class="message" v-if="updateSuccessful">
-            Password updated successfully.
-          </div>
-          <div class="password-error" v-if="error">
-            {{ error }}
-          </div>
-        </form>
+        <ChangePassword />
       </div>
     </transition>
     <div @click="addressFormVisible = !addressFormVisible" class="enter-password">
@@ -37,55 +16,34 @@
         <BillingDetails />
       </div>
     </transition>
+    <div v-if="store.state.user.uid == 'JalBZHRa6BTda63s8zaO4kK81Uv1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="enter-password">
+      Add Beats
+    </div>
+    <transition name="open">
+      <div v-if="addBeatsFormVisible" class="transition-element">
+        <AddBeats />
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import BillingDetails from '@/components/BillingDetails.vue'
-import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import firebase from 'firebase/app'
+import BillingDetails from '@/components/BillingDetails.vue'
+import ChangePassword from '@/components/ChangePassword.vue'
+import AddBeats from '@/components/AddBeats.vue'
+import { ref } from '@vue/reactivity'
+
 
 export default {
-  components: { BillingDetails },
+  components: { BillingDetails, ChangePassword, AddBeats },
   setup() {
+    const store = useStore()
     const passwordFormVisible = ref(false)
     const addressFormVisible = ref(false)
-    const oldPassword = ref('')
-    const newPassword = ref('')
-    const confirmPassword = ref('')
-    const error = ref('')
-    const updateSuccessful = ref(false)
-    const store = useStore()
+    const addBeatsFormVisible = ref(false)
 
-    const updatePassword = async () => {
-      updateSuccessful.value = false
-      error.value = ''
-      const credential = await firebase.auth.EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
-      store.state.user.reauthenticateWithCredential(credential).then( () => {
-        console.log("user reauthenticated")
-        if (newPassword.value.length >= 8) {
-          if (newPassword.value === confirmPassword.value) {
-            store.state.user.updatePassword(newPassword.value).then( () => {
-              updateSuccessful.value = true
-              setTimeout( () => {
-                updateSuccessful.value = false
-              }, 10000)
-            })
-          } else {
-            error.value = 'Passwords don\'t match.'
-          }
-        } else {
-          error.value = 'Password has to be at least 8 characters long.'
-        }
-      }).catch( () => {
-        error.value = "Please provide your current password."
-        return
-      })
-    }
-
-    return { passwordFormVisible, addressFormVisible, oldPassword, newPassword, confirmPassword, 
-    updatePassword, error, updateSuccessful }
+    return { store, passwordFormVisible, addressFormVisible, addBeatsFormVisible }
   }
 }
 </script>
@@ -95,6 +53,11 @@ export default {
 
   .account-details {
     width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 4rem;
     .enter-password {
       cursor: pointer;
       margin-bottom: 1rem;

@@ -1,22 +1,21 @@
 <template>
   <div class="container account">
     <AccountDetails />
-    <AddBeats v-if="user.uid == 'JalBZHRa6BTda63s8zaO4kK81Uv1'" />
     <h2 @click="handleClick" class="btn">Logout</h2>
   </div>
 </template>
 
 <script>
-import getUser from '@/composables/getUser.js'
-import AddBeats from '@/components/AddBeats.vue'
+import { useStore } from 'vuex'
 import AccountDetails from '@/components/AccountDetails.vue'
 import useLogout from '@/composables/useLogout.js'
 import { useRouter } from 'vue-router'
 
 export default {
-  components: { AddBeats, AccountDetails },
+  components: { AccountDetails },
   setup() {
-    const { user } = getUser()
+    const store = useStore()
+    const user = store.state.user
     const { logout, logoutError } = useLogout()
     const router = useRouter()
 
@@ -41,5 +40,18 @@ export default {
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
+    form {
+      label {
+        font-size: 1.3rem;
+      }
+      input {
+        margin-top: 2rem !important;
+        height: 4.5rem !important;
+      }
+      input[type="reset"] {
+        margin-top: 0 !important; 
+        height: 36px !important;
+      }
+    }
   }
 </style>

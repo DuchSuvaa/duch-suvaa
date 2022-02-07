@@ -85,6 +85,25 @@ form, input {
   color: map-get($blue-grey, 'lighten-5');
 }
 
+form {
+  display: flex;
+  background-color: map-get($grey, 'darken-4');
+  label {
+    font-size: 1.3rem;
+  }
+  input {
+    margin-top: 2rem !important;
+    height: 4.5rem !important;
+  }
+  input[type="reset"] {
+    margin-top: 0 !important; 
+    height: 36px !important;
+  }
+  button {
+    margin-top: 2rem;
+  }
+}
+
 body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, header, main, footer, input {
   margin: 0;
   padding: 0;
@@ -99,6 +118,11 @@ body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, head
 .message {
   margin-top: 1rem;
   color: map-get($green, 'lighten-2')
+}
+
+.error {
+  margin-top: 1rem;
+  color: map-get($red, 'darken-2')
 }
 
 </style>

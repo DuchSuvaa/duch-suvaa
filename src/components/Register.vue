@@ -1,12 +1,18 @@
 <template>
-  <h2>Załóż konto</h2>
-  <form @submit.prevent="handleSubmit">
-    <input type="text" required placeholder="display name" v-model="displayName">
-    <input type="email" required placeholder="email" v-model="email">
-    <input type="password" required autocomplete placeholder="hasword" v-model="password">
-    <div class="error">{{ error }}</div>
-    <button>Załóż</button>
-  </form>
+  <div class="register-form">
+    <form @submit.prevent="handleSubmit">
+      <div class="input-field">
+        <label for="register-email">e-mail</label>
+        <input id="register-email" type="email" required v-model="email">
+      </div>
+      <div class="input-field">
+        <label for="register-password">password</label>
+        <input id="register-password" type="password" required autocomplete v-model="password">
+      </div>
+      <div class="error">{{ error }}</div>
+      <button class="btn-small">Register</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -17,21 +23,29 @@ import { useRouter } from 'vue-router'
 export default {
   setup() {
     const { error, signup } = useSignup()
-    const displayName = ref('')
     const email = ref('')
     const password = ref('')
     const router = useRouter()
 
     const handleSubmit = async () => {
-      await(signup(email.value, password.value, displayName.value))
+      await(signup(email.value, password.value))
       router.push( '/' )
     }
 
-    return { handleSubmit, email, password, error, displayName }
+    return { handleSubmit, email, password, error }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .register-form {
+    width: 28rem;
+    display: flex;
+    justify-content: center;
+    form {
+      button {
+        float: right;
+      }
+    }
+  }
 </style>

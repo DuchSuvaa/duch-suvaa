@@ -1,5 +1,13 @@
 <template>
   <div class="account-details">
+    <div @click="myBeatsVisible = !myBeatsVisible" class="enter-password">
+      My Beats
+    </div>
+    <transition name="open">
+      <div v-if="myBeatsVisible" class="transition-element">
+        <MyBeats />
+      </div>
+    </transition>
     <div @click="passwordFormVisible = !passwordFormVisible" class="enter-password">
       Change Password
     </div>
@@ -29,21 +37,23 @@
 
 <script>
 import { useStore } from 'vuex'
-import BillingDetails from '@/components/BillingDetails.vue'
+import MyBeats from '@/components/MyBeats.vue'
 import ChangePassword from '@/components/ChangePassword.vue'
+import BillingDetails from '@/components/BillingDetails.vue'
 import AddBeats from '@/components/AddBeats.vue'
 import { ref } from '@vue/reactivity'
 
 
 export default {
-  components: { BillingDetails, ChangePassword, AddBeats },
+  components: { MyBeats, BillingDetails, ChangePassword, AddBeats },
   setup() {
     const store = useStore()
+    const myBeatsVisible = ref(false)
     const passwordFormVisible = ref(false)
     const addressFormVisible = ref(false)
     const addBeatsFormVisible = ref(false)
 
-    return { store, passwordFormVisible, addressFormVisible, addBeatsFormVisible }
+    return { store, myBeatsVisible, passwordFormVisible, addressFormVisible, addBeatsFormVisible }
   }
 }
 </script>
@@ -61,12 +71,6 @@ export default {
     .enter-password {
       cursor: pointer;
       margin-bottom: 1rem;
-    }
-    .updatePassword {
-      .password-error {
-        margin-top: 1rem;
-        color: map-get($red, 'darken-2')
-      }
     }
   }
 

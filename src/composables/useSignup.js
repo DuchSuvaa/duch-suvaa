@@ -3,7 +3,7 @@ import { projectAuth, firestore } from "@/firebase/config"
 
 const error = ref(null)
 
-const signup = async (email, password, displayName ) => {
+const signup = async (email, password ) => {
   error.value = null
   try {
     const res = await projectAuth.createUserWithEmailAndPassword(email, password)
@@ -12,10 +12,8 @@ const signup = async (email, password, displayName ) => {
     }
     res.user.sendEmailVerification()
     
-    await res.user.updateProfile({ displayName })
     await firestore.collection("users").doc(res.user.uid).set({
       id: res.user.uid,
-      name: displayName,
       email: email,
       cart: []
     })

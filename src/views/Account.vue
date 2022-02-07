@@ -40,18 +40,5 @@ export default {
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    form {
-      label {
-        font-size: 1.3rem;
-      }
-      input {
-        margin-top: 2rem !important;
-        height: 4.5rem !important;
-      }
-      input[type="reset"] {
-        margin-top: 0 !important; 
-        height: 36px !important;
-      }
-    }
   }
 </style>

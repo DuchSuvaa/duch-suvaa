@@ -1,11 +1,18 @@
 <template>
-  <h2>Zaloguj się</h2>
-  <form @submit.prevent="handleSubmit">
-    <input type="text" autocomplete required placeholder="email" v-model="email">
-    <input type="password" autocomplete required placeholder="hasword" v-model="password">
-    <div class="error">{{ error }}</div>
-    <button>Zaloguj</button>
-  </form>
+  <div class="login-form">
+    <form @submit.prevent="handleSubmit">
+      <div class="input-field">
+        <label for="login-email">e-mail</label>
+        <input id="login-email" type="text" autocomplete required v-model="email">
+      </div>
+      <div class="input-field">
+        <label for="login-password">password</label>
+        <input id="login-password" type="password" autocomplete required v-model="password">
+      </div>
+      <div class="error">{{ error }}</div>
+      <button class="btn-small">Login</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -29,11 +36,20 @@ export default {
       }
     }
 
-    return { email, password, handleSubmit }
+    return { error, email, password, handleSubmit }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .login-form {
+    width: 28rem;
+    display: flex;
+    justify-content: center;
+    form {
+      button {
+        float: right;
+      }
+    }
+  }
 </style>

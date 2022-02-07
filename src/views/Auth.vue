@@ -27,10 +27,37 @@ export default {
 </script>
 
 <style lang="scss">
-  p {
-    span {
-      display: inline-block;
-      cursor: pointer;
+  @import '../scss/_variables.scss';
+
+  .auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 6.5rem);
+    p {
+      display: flex;
+      justify-content: center;
+      margin-top: 3rem;
+      font-size: 1.4rem;
+      color: map-get($grey, 'base');
+      span {
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 1rem;
+        color: map-get($grey, 'lighten-2');
+      }
+    }
+    > div {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      form {
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-shadow: 0px 0px 20px rgba(255,255,255,.25);
+        padding: 3rem;
+        padding-top: 2rem;
+      }
     }
   }
 </style>

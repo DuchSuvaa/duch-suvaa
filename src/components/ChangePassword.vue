@@ -16,7 +16,7 @@
   <div class="message" v-if="updateSuccessful">
     Password updated successfully.
   </div>
-  <div class="password-error" v-if="error">
+  <div class="error" v-if="error">
     {{ error }}
   </div>
 </form>

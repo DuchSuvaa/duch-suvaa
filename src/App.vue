@@ -89,11 +89,11 @@ form {
   display: flex;
   background-color: map-get($grey, 'darken-4');
   label {
-    font-size: 1.3rem;
+    font-size: 1.2rem !important;
   }
   input {
-    margin-top: 2rem !important;
-    height: 4.5rem !important;
+    margin-top: 3rem !important;
+    height: 4rem !important;
   }
   input[type="reset"] {
     margin-top: 0 !important; 

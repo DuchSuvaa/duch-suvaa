@@ -14,6 +14,10 @@
         <input type="text" autocomplete required id="time" v-model="time">
       </div>
       <div class="input-field">
+        <label for="time">Download Link</label>
+        <input type="text" autocomplete required id="download_link" v-model="downloadLink">
+      </div>
+      <div class="input-field">
         <label for="price">Price</label>
         <input type="text" autocomplete required id="price" v-model="price">
       </div>
@@ -52,6 +56,7 @@ export default {
     const bpm = ref('')
     const time = ref('')
     const price = ref('')
+    const downloadLink = ref('')
     const audioFile = ref(null)
     const imageFile = ref(null)
     const audioName = ref(null)
@@ -107,13 +112,15 @@ export default {
         previewUrl: audioUrl.value,
         imageUrl: imageUrl.value,
         createdAt: timestamp(),
-        status: 'available'
+        status: 'available',
+        downloadLink: downloadLink.value
       }
       await add(beat)
       if (!error.value) {
         name.value = ''
         bpm.value = ''
         time.value = ''
+        downloadLink.value = ''
         price.value = ''
         audioName.value = ''
         imageName.value = ''
@@ -121,7 +128,7 @@ export default {
     }
 
     return { name, bpm, time, price, error, add, addAudio, addImage, handleAudioChange, handleImageChange, 
-    audioName, imageName, handleSubmit, 
+    audioName, imageName, handleSubmit, downloadLink,
     audioFileError, imageFileError, audioError, imageError, audioUrl, imageUrl, audioFilePath, 
     imageFilePath, uploadAudio }
   }

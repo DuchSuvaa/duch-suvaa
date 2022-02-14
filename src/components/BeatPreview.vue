@@ -10,7 +10,7 @@
             <i class="material-icons">file_download</i>
           </a>
         </h5>
-        <AudioPlayer />
+        <AudioPlayer :showVolumeControl="true" />
       </div>
     </div>
     <div v-else class="row">

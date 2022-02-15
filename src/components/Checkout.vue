@@ -120,6 +120,7 @@ export default {
     #checkout-form {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto;
       grid-gap: 2rem;
       margin-top: 1rem;
       > div:nth-of-type(odd) {

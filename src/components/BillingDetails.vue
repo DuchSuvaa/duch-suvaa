@@ -21,7 +21,7 @@
       <input type="text" id="state" :value="state" @input="updateState">
     </div>
     <div class="checkout-zip input-field">
-      <label for="zip" :class="{ active: store.state.billingDetails.zip }">ZIP Code</label>
+      <label for="zip" :class="{ active: store.state.billingDetails.zip }">ZIP code</label>
       <input type="text" id="zip" :value="zip" @input="updateZip">
     </div>
     <div class="checkout-buttons">
@@ -108,6 +108,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+  label {
+    position: relative;
+    top: 2.9rem !important;
+  }
 </style>

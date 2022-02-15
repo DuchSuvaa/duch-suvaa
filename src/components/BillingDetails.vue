@@ -1,27 +1,27 @@
 <template>
   <form @submit.prevent="" id="checkout-form">
     <div class="checkout-name input-field">
-      <label for="name" :class="{ active: store.state.billingDetails.name }">name</label>
+      <label for="name" :class="{ active: store.state.billingDetails.name }">Name</label>
       <input type="text" id="name" :value="name" @input="updateName">
     </div>
     <div class="checkout-email input-field">
-      <label for="email" :class="{ active: store.state.billingDetails.email }">e-mail</label>
+      <label for="email" :class="{ active: store.state.billingDetails.email }">E-mail</label>
       <input type="text" id="email" :value="email" @input="updateEmail">
     </div>
     <div class="checkout-address input-field">
-      <label for="address" :class="{ active: store.state.billingDetails.address }">address</label>
+      <label for="address" :class="{ active: store.state.billingDetails.address }">Address</label>
       <input type="text" id="address" :value="address" @input="updateAddress">
     </div>
     <div class="checkout-city input-field">
-      <label for="city" :class="{ active: store.state.billingDetails.city }">city</label>
+      <label for="city" :class="{ active: store.state.billingDetails.city }">City</label>
       <input type="text" id="city" :value="city" @input="updateCity">
     </div>
     <div class="checkout-state input-field">
-      <label for="state" :class="{ active: store.state.billingDetails.state }">state</label>
+      <label for="state" :class="{ active: store.state.billingDetails.state }">State</label>
       <input type="text" id="state" :value="state" @input="updateState">
     </div>
     <div class="checkout-zip input-field">
-      <label for="zip" :class="{ active: store.state.billingDetails.zip }">zip code</label>
+      <label for="zip" :class="{ active: store.state.billingDetails.zip }">ZIP Code</label>
       <input type="text" id="zip" :value="zip" @input="updateZip">
     </div>
     <div class="checkout-buttons">
@@ -108,6 +108,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

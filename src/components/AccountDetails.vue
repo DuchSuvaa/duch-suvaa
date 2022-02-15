@@ -1,6 +1,6 @@
 <template>
   <div class="account-details">
-    <div @click="myBeatsVisible = !myBeatsVisible" class="enter-password">
+    <div @click="myBeatsVisible = !myBeatsVisible" class="my-beats-container">
       My Beats
     </div>
     <transition name="open">
@@ -8,7 +8,7 @@
         <MyBeats />
       </div>
     </transition>
-    <div @click="passwordFormVisible = !passwordFormVisible" class="enter-password">
+    <div @click="passwordFormVisible = !passwordFormVisible" class="enter-password-container">
       Change Password
     </div>
     <transition name="open">
@@ -16,7 +16,7 @@
         <ChangePassword />
       </div>
     </transition>
-    <div @click="addressFormVisible = !addressFormVisible" class="enter-password">
+    <div @click="addressFormVisible = !addressFormVisible" class="update-billing-details-container">
       Update Billing Details
     </div>
     <transition name="open">
@@ -24,7 +24,7 @@
         <BillingDetails />
       </div>
     </transition>
-    <div v-if="store.state.user.uid == 'JalBZHRa6BTda63s8zaO4kK81Uv1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="enter-password">
+    <div v-if="store.state.user.uid == 'JalBZHRa6BTda63s8zaO4kK81Uv1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="add-beats-container">
       Add Beats
     </div>
     <transition name="open">
@@ -68,9 +68,11 @@ export default {
     justify-content: center;
     flex-direction: column;
     padding-top: 4rem;
-    .enter-password {
+    .enter-password-container, .my-beats-container, .update-billing-details-container, .add-beats-container {
       cursor: pointer;
       margin-bottom: 1rem;
+      text-align: center;
+      font-weight: 600;
     }
   }
 

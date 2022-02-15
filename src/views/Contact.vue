@@ -19,7 +19,6 @@
 <style lang="scss">
   @import '@/scss/_variables.scss';
 
-
   .contact-header {
     background-image: url('../assets/contact-header-bg.png');
     background-size: cover;
@@ -70,6 +69,9 @@
         font-size: 3.2rem;
         font-weight: 800;
         color: map-get($blue-grey, 'lighten-5');
+        @media (max-width: 440px) {
+          font-size: 2.4rem;
+        }
       }
     }
   }

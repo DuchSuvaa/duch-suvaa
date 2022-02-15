@@ -11,10 +11,13 @@
     <div class="checkout-payment-methods">
       <div id="payment-element"></div>
     </div>
-    <div class="checkout-buttons">
+    <div class="checkout-buttons" v-if="loading === false">
       <button class="waves-effect waves-light btn btn-send" :class="{ dis: loading }" @click="handleSubmit">
         {{ loading ? "Loading..." : "Pay $" + (totalPrice * 0.01).toFixed(2) }}
       </button>
+    </div>
+    <div class="loader" v-else>
+      <Loader />
     </div>
     <div class="message" v-if="message">
       {{ message }}
@@ -30,10 +33,11 @@ import BillingDetails from '@/components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
+import Loader from '@/components/Loader.vue'
 
 export default {
   props: [ 'totalPrice', 'cartItems' ],
-  components: { BillingDetails },
+  components: { BillingDetails, Loader },
   setup() {
     const store = useStore()
     let stripe = null
@@ -81,16 +85,10 @@ export default {
         },
         // Uncomment below if you only want redirect for redirect-based payments
         // redirect: 'if_required'
-      });
-
+      })
       if (error) return
       loading.value = false
-
-      // if (loading.value) return
-      // loading.value = true
-
     }
-
 
     return { store, loading, message, error, handleSubmit }
   }
@@ -99,6 +97,14 @@ export default {
 
 <style lang="scss">
   @import '@/scss/_variables.scss';
+
+  .loader { 
+    width: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 4rem auto;
+  }
 
   .checkout {
     padding-top: 2rem;

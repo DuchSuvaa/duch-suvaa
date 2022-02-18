@@ -109,8 +109,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  label {
-    position: relative;
-    top: 2.9rem !important;
+  .checkout {
+    label {
+      position: relative;
+      top: 2.9rem !important;
+    }
+    .input-field:nth-child(3), .input-field:nth-child(4), .input-field:nth-child(5), .input-field:nth-child(6) {
+      margin-top: -50px;
+    }
   }
 </style>

@@ -103,7 +103,7 @@ export default {
 
   .audio-player {
     padding: 0.6rem 1.2rem;
-    background-color: #626262;
+    background-color: #383838;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -115,7 +115,18 @@ export default {
       .play {
         svg {
           transform: scale(.9);
+          filter: $player-button-shadow;
         }       
+      }
+      .pause {
+        svg {
+          filter: $player-button-shadow;
+        }
+      }
+      .stop {
+        svg {
+          filter: $player-button-shadow;
+        }
       }
       > div {
         display: flex;
@@ -141,6 +152,7 @@ export default {
       position: relative;
       svg {
         transform: scale(0.7);
+        filter: $player-button-shadow;
       }
       #volume-control {
         height: 11rem;

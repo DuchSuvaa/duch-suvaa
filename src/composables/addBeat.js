@@ -6,10 +6,11 @@ const addBeat = () => {
 
   const add = async (beat) => {
     error.value = null
+    console.log('tutaj')
     try {
       await firestore.collection('beats').add(beat)
     } catch(err) {
-      error.value = 'could not send the message'
+      error.value = 'could not add the beat'
       console.log(err.message)
     }
 

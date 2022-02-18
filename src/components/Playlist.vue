@@ -10,27 +10,28 @@
         <div class="beat-name">{{ beat.name }}</div>
         <div class="beat-bpm">{{ beat.bpm }}</div>
         <div class="beat-time">{{ beat.time }}</div>
-        <div class="beat-add-to-cart" @click="add(beat)">
-          <div class="add-to-cart-button">
+        <div class="beat-add-to-cart" @click="handleButton(beat)">
+          <button class="add-to-cart-button">
             <div>{{ "$" + beat.price / 100}}</div>
             <i class="material-icons">add_shopping_cart</i>
-          </div>
+          </button>
         </div>
       </div>
     </div>
+    <AddToCart v-if="store.state.showAddToCartPopup === true" />
 </template>
 
 <script>
+import AddToCart from '@/components/AddToCart.vue'
 import getBeats from '@/composables/getBeats.js'
-import useCart from '@/composables/addToCart.js'
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
 
 export default {
+  components: { AddToCart },
   setup() {
     const store = useStore()
     const { beats, error } = getBeats()
-    const { addToCart } = useCart()
     const selectedBeat = ref('')
 
     const handleClick = (beat) => {
@@ -40,21 +41,19 @@ export default {
       store.state.previewUrl = beat.previewUrl
     }
 
-    const add = (beat) => {
-      addToCart(beat)
+    const handleButton = (beat) => {
+      selectedBeat.value = beat.id
+      store.state.currentBeat = beat
+      store.state.showAddToCartPopup = true
     }
 
-    return { beats, error, selectedBeat, handleClick, add }
+    return { store, beats, error, selectedBeat, handleClick, handleButton }
   }
 }
 </script>
 
 <style lang="scss">
   @import '@/scss/_variables.scss';
-
-  .activeBeat {
-    background-color: rgb(42, 42, 42);
-  }
 
   .beats-playlist {
     margin-left: 2rem;
@@ -93,9 +92,13 @@ export default {
           flex-direction: row;
           align-items: center;
           padding: 0.2rem 0.6rem;
-          border: 1px solid map-get($red, 'darken-4');
+          border: 1px solid transparent;
           border-radius: 3px;
-          background-color: map-get($red, 'darken-4');
+          background-color: map-get($red, 'darken-3');
+          cursor: pointer;
+          &:hover {
+            background-color: map-get($red, 'darken-4');
+          }
           > div {
             font-size: 1.4rem;
             color: white;
@@ -119,14 +122,25 @@ export default {
         justify-content: flex-end !important;
       }
     }
+    .activeBeat {
+      background-color: rgb(41, 41, 41) !important;
+      > div {
+        color: map-get($grey, 'lighten-2');
+        font-weight: 700;
+      }
+      .add-to-cart-button {
+        font-weight: 400;
+      }
+    }
     .beat {
       cursor: pointer;
       &:hover {
-        background-color: rgb(42, 42, 42);
+        background-color: rgb(37, 37, 37);
         > div {
           color: map-get($grey, 'lighten-2');
         }
       }
     }
   }
+
 </style>

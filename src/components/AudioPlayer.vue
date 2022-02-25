@@ -37,7 +37,7 @@
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import Hammer from 'hammerjs' 
-import { onMounted } from '@vue/runtime-core'
+import { onBeforeUnmount, onMounted } from '@vue/runtime-core'
 
 export default {
   props: { showVolumeControl: { default: false } },
@@ -74,6 +74,10 @@ export default {
         document.getElementById('audioPlayer').volume = clickedHeight
         document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%" 
       })
+    })
+
+    onBeforeUnmount( () => {
+       store.state.buttonPressed = ''     
     })
 
     const setVolume = (e) => {

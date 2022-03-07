@@ -160,7 +160,7 @@ export default {
     .my_beat_active {
       background-color: #333;
       .my-beat-download-link {
-        background-color: #0061FF;      
+        background-color: #0061FF;     
       }
     }
   }

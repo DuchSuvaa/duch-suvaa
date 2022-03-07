@@ -113,6 +113,7 @@ export default {
         imageUrl: imageUrl.value,
         createdAt: timestamp(),
         status: 'available',
+        licence: 'none',
         downloadLink: downloadLink.value
       }
       await add(beat)

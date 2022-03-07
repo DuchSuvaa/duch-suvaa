@@ -4,9 +4,6 @@
       <i class="material-icons">arrow_back</i>
       &nbsp;Return to Cart
     </div>
-    <div v-for="item in cartItems" :key="item.id">
-      {{ item.name }}
-    </div>
     <BillingDetails />
     <div class="checkout-payment-methods">
       <div id="payment-element"></div>

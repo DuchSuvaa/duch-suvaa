@@ -73,6 +73,7 @@ export default {
       margin-bottom: 1rem;
       text-align: center;
       font-weight: 600;
+      font-size: $enlarged-font-size;
     }
   }
 

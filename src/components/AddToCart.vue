@@ -43,16 +43,17 @@
       </div>
       <div class="error" v-else>{{ error }}</div>
       <div class="add-to-cart-licence" v-if="!error">
-        <div class="add-to-cart-licence-full" 
-        :class="{ activeButton : selectedLicence === 'full' }" 
-        @click="selectedLicence = 'full'">
-          Full
-        </div>
         <div class="add-to-cart-licence-shared" 
         :class="{ activeButton : selectedLicence === 'shared' }" 
         @click="selectedLicence = 'shared'">
           Shared
         </div>
+        <div class="add-to-cart-licence-full" v-if="store.state.currentBeat.licence !== 'shared'"
+        :class="{ activeButton : selectedLicence === 'full' }" 
+        @click="selectedLicence = 'full'">
+          Full
+        </div>
+        <div v-else class="add-to-cart-licence-full unavailable">Full</div>
       </div>
       <div class="add-to-cart-confirm-button">
         <button :disabled="selectedLicence === ''" class="add" @click="add(store.state.currentBeat)">
@@ -67,6 +68,7 @@
   import { useStore } from 'vuex'
   import useCart from '@/composables/addToCart.js'
   import { ref } from '@vue/reactivity'
+  import { onMounted } from '@vue/runtime-core'
 
   export default {
     setup() {
@@ -75,14 +77,20 @@
       const selectedLicence = ref('')
       const error = ref(null)
 
+      onMounted(() => {
+        if (store.state.currentBeat.licence === 'shared') {
+          selectedLicence.value = 'shared'
+        } 
+      })
+
       const closePopup = () => {
         store.state.showAddToCartPopup = false
-        console.log(store.state.showAddToCartPopup)
       }
 
       const add = async (beat) => {
-        beat.licence = selectedLicence.value
-        addToCart(beat).then((result) => {
+        const product = { ...beat, licence: selectedLicence.value }
+
+        addToCart(product).then((result) => {
           if (result.error.value) {
             error.value = result.error.value
           } else {
@@ -176,7 +184,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        flex-direction: row;
+        flex-direction: row-reverse;
         padding: 1rem;
         .add-to-cart-licence-full, .add-to-cart-licence-shared {
           display: flex;
@@ -192,6 +200,9 @@
           &:hover {
             background-color: map-get($grey, 'darken-2');
           }
+        }
+        .unavailable {
+          cursor: not-allowed;
         }
         .activeButton {
           background-color: map-get($green, 'darken-2') !important;

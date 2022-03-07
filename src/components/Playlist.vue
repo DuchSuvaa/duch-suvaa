@@ -4,12 +4,21 @@
         <div class="beat-name">Name</div>
         <div class="beat-bpm">BPM</div>
         <div class="beat-time">Time</div>
+        <div class="beat-licence">Licence</div>
         <div class="beat-add-to-cart">Get</div>
       </div>
       <div v-for="beat in beats" :key="beat.name" @click="handleClick(beat)" class="beat" :class="{ activeBeat: selectedBeat === beat.id }">
         <div class="beat-name">{{ beat.name }}</div>
         <div class="beat-bpm">{{ beat.bpm }}</div>
         <div class="beat-time">{{ beat.time }}</div>
+        <div class="beat-licence">
+          <div v-if="beat.licence === 'shared'">
+            shared
+          </div>
+          <div v-if="beat.licence === 'none'">
+            any
+          </div>
+        </div>
         <div class="beat-add-to-cart" @click="handleButton(beat)">
           <button class="add-to-cart-button">
             <div>{{ "$" + beat.price / 100}}</div>
@@ -26,6 +35,7 @@ import AddToCart from '@/components/AddToCart.vue'
 import getBeats from '@/composables/getBeats.js'
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
+import { onUnmounted } from '@vue/runtime-core'
 
 export default {
   components: { AddToCart },
@@ -46,6 +56,10 @@ export default {
       store.state.currentBeat = beat
       store.state.showAddToCartPopup = true
     }
+
+    onUnmounted( () => {
+      store.state.currentBeat = ''
+    })
 
     return { store, beats, error, selectedBeat, handleClick, handleButton }
   }
@@ -82,7 +96,10 @@ export default {
         grid-column: 5/7;
       }
       .beat-time {
-        grid-column: 8/10;
+        grid-column: 7/9;
+      }
+      .beat-licence {
+        grid-column: 9/11;
       }
       .beat-add-to-cart {
         grid-column: 11/13;
@@ -113,6 +130,7 @@ export default {
     }
     .table-header {
       user-select: none;
+      padding-top: 0;
       > div {
         justify-content: flex-start !important;
         text-transform: uppercase;

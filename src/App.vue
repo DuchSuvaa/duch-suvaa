@@ -58,7 +58,7 @@ html {
 }
 
 div, p {
-  font-size: 1.8rem;
+  font-size: $basic-font-size;
 }
 
 h1 {
@@ -94,6 +94,7 @@ form {
   input {
     margin-top: 3rem !important;
     height: 4rem !important;
+    font-size: $basic-font-size !important;
   }
   input[type="reset"] {
     margin-top: 0 !important; 

@@ -18,7 +18,7 @@
         <img src="../assets/silence.png" class="responsive-img">
       </div>
       <div class="beat-details">
-        <p>Please select a beat from the playlist.</p>
+
       </div>    
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
   .beat-preview {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     .beat-name {
       h5 {

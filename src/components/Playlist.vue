@@ -161,4 +161,22 @@ export default {
     }
   }
 
+  @media (max-width: 700px) { .beats-playlist { margin-left: 0; } }
+  @media (max-width: 450px) { 
+    .beats-playlist {
+      .beat-name {
+        grid-column: 1/6 !important;
+      }
+      .beat-bpm {
+        grid-column: 6/8 !important;
+      }
+      .beat-time {
+        grid-column: 8/10 !important;
+      }
+      .beat-licence {
+        display: none !important;
+      }
+    }
+  }
+
 </style>

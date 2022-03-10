@@ -69,13 +69,13 @@ export default ({
     grid-template-columns: repeat(12, minmax(0, 1fr));
     .beat-preview {
       grid-column: 1/4;
-      @media (max-width: 800px) { grid-column: 1/5; }
-      @media (max-width: 700px) { grid-column: 1/5; }
+      @media (max-width: 700px) { grid-column: 1/13; }
+
     }
     .beats-playlist {
       grid-column: 4/13;
-      @media (max-width: 800px) { grid-column: 5/13; }
-      @media (max-width: 700px) { grid-column: 5/13; }
+      @media (max-width: 700px) { grid-column: 1/13; }
+
     }
   }
 

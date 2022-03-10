@@ -61,6 +61,9 @@ export default {
         console.log(secret)
   
         const options = {
+          appearance: {
+            theme: 'night'
+          },
           clientSecret: secret,
         }
         elements = stripe.elements(options);
@@ -104,6 +107,9 @@ export default {
   }
 
   .checkout {
+    width: 50% !important;
+    @media (max-width: 1000px) { width: 75% !important; }
+    @media (max-width: 700px) { width: 100% !important; }
     padding-top: 2rem;
     .return {
       margin-bottom: 1rem;

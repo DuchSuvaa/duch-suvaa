@@ -17,9 +17,9 @@
       <div class="no-padding-left beat-image">
         <img src="../assets/silence.png" class="responsive-img">
       </div>
-      <div class="beat-details">
-
-      </div>    
+      <div class="beat-name">
+        <h5>Select a beat.</h5>  
+      </div>   
     </div>
   </div>
 </template>
@@ -64,6 +64,33 @@ export default {
           line-height: 1;
           margin-left: 0.4rem;
           transform: translateY(3px);
+        }
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    .beat-preview {
+      .beat-image {
+        width: 25%;
+        min-width: 83px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .beat-name {
+          width: 75%;
+          height: 100%;
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          h5 {
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+          }
         }
       }
     }

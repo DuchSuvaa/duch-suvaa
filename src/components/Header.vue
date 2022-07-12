@@ -27,19 +27,19 @@
     <router-link to="/" class="brand-logo">
       <img src="../assets/logo.png" alt="">
     </router-link>
-    <li><router-link to="/">Home</router-link></li>
-    <li><router-link to="/sound">Sound</router-link></li>
-    <li><router-link to="/contact">Contact</router-link></li>
-        <li class="cart-link">
-          <router-link to="/cart">
-          Cart
-          <div v-if="store.state.user">
-            <CartQuantity />
-          </div>
-          </router-link>
-        </li>
-    <li v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
-    <li v-else><router-link to="/account">Account</router-link></li>
+    <li class="sidenav-close"><router-link to="/">Home</router-link></li>
+    <li class="sidenav-close"><router-link to="/sound">Sound</router-link></li>
+    <li class="sidenav-close"><router-link to="/contact">Contact</router-link></li>
+    <li class="cart-link sidenav-close">
+      <router-link to="/cart">
+      Cart
+      <div v-if="store.state.user">
+        <CartQuantity />
+      </div>
+      </router-link>
+    </li>
+    <li  class="sidenav-close" v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
+    <li  class="sidenav-close" v-else><router-link to="/account">Account</router-link></li>
   </ul>
 </template>
 

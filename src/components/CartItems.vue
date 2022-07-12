@@ -21,7 +21,7 @@
         <span>{{  "$" + (totalPrice * 0.01).toFixed(2) }}</span>
       </div>
       <div class="go-to-checkout">
-        <a class="waves-effect waves-light btn" @click="handleClick">Checkout</a> 
+        <a class="btn" @click="handleClick">Checkout</a> 
       </div>
     </div>
   </div> 
@@ -146,8 +146,24 @@ export default {
         margin-top: 2rem;
         .btn {
           display: block;
-          background-color: map-get($red, 'darken-4');
+          background-color: map-get($red, 'darken-3');
+          &:hover {
+            background-color: map-get($red, 'darken-4');
+          }
         }
+      }
+    }
+  }
+
+  @media (max-width: 550px) { 
+    .cart-items {
+      flex-direction: column;
+      align-items: flex-end;
+      .cart-item-list {
+        width: 100%;
+      }
+      .cart-summary {
+        width: 50%;
       }
     }
   }

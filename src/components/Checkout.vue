@@ -54,7 +54,7 @@ export default {
           },
           body: JSON.stringify({
             userId: store.state.user.uid,
-            userEmail: 'suvo.vb@gmail.com'
+            userEmail: store.state.user.email
           })
         })
         const { secret } = await response.json()

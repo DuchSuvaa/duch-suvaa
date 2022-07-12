@@ -55,6 +55,14 @@ export default ({
 
 html {
   font-size: 10px !important;
+  background-color: map-get($grey, 'darken-4');
+}
+
+body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, header, main, footer, input {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: block;
 }
 
 div, p {
@@ -71,14 +79,12 @@ h3 {
   font-size: 3rem;
   font-weight: 700 !important;
   margin-bottom: 3rem !important;
+  font-family: monsters;
+  text-shadow: 0px 0px 10px #FFFFFF;
 }
 
 span {
   font-size: inherit;
-}
-
-html {
-  background-color: map-get($grey, 'darken-4');
 }
 
 form, input {
@@ -103,13 +109,6 @@ form {
   button {
     margin-top: 2rem;
   }
-}
-
-body, html, div, p, span, a, table, tr, td, th, form, ul, li, img, picture, header, main, footer, input {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  display: block;
 }
 
 .account, .auth, .cart, .contact, .cookies, .home, .privacy, .sound, .success {

@@ -12,6 +12,7 @@ export default createStore({
     showCheckout: false,
     showQuantity: false,
     showAddToCartPopup: false,
+    showPrompt: false,
     billingDetails: {
       name: '',
       email: '',

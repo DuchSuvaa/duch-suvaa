@@ -28,6 +28,7 @@
       </div>
     </div>
     <AddToCart v-if="store.state.showAddToCartPopup === true" />
+    <LoginPrompt v-if="store.state.showPrompt" />
 </template>
 
 <script>
@@ -36,9 +37,10 @@ import getBeats from '@/composables/getBeats.js'
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
 import { onUnmounted } from '@vue/runtime-core'
+import LoginPrompt from '@/components/LoginPrompt.vue'
 
 export default {
-  components: { AddToCart },
+  components: { AddToCart, LoginPrompt },
   setup() {
     const store = useStore()
     const { beats, error } = getBeats()
@@ -52,9 +54,13 @@ export default {
     }
 
     const handleButton = (beat) => {
-      selectedBeat.value = beat.id
-      store.state.currentBeat = beat
-      store.state.showAddToCartPopup = true
+      if (store.state.user) {
+        selectedBeat.value = beat.id
+        store.state.currentBeat = beat
+        store.state.showAddToCartPopup = true
+      } else {
+        store.state.showPrompt = true
+      }
     }
 
     onUnmounted( () => {

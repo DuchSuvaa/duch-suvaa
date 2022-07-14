@@ -57,6 +57,8 @@ export default {
         box-shadow: 0px 0px 20px rgba(255,255,255,.25);
         padding: 3rem;
         padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
       }
     }
   }

@@ -45,6 +45,7 @@ export default {
   .login-form {
     width: 28rem;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     form {
       button {

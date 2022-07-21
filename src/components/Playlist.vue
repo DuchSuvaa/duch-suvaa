@@ -21,7 +21,7 @@
         </div>
         <div class="beat-add-to-cart" @click="handleButton(beat)">
           <button class="add-to-cart-button">
-            <div>{{ "$" + beat.price / 100}}</div>
+            <div>{{ "$" + beat.price / 100 }}</div>
             <i class="material-icons">add_shopping_cart</i>
           </button>
         </div>
@@ -29,9 +29,12 @@
     </div>
     <AddToCart v-if="store.state.showAddToCartPopup === true" />
     <LoginPrompt v-if="store.state.showPrompt" />
+    <div v-if="error" class="error">
+      {{ error.message }}
+    </div>
 </template>
 
-<script>
+<script setup>
 import AddToCart from '@/components/AddToCart.vue'
 import getBeats from '@/composables/getBeats.js'
 import { useStore } from 'vuex'
@@ -39,37 +42,30 @@ import { ref } from '@vue/reactivity'
 import { onUnmounted } from '@vue/runtime-core'
 import LoginPrompt from '@/components/LoginPrompt.vue'
 
-export default {
-  components: { AddToCart, LoginPrompt },
-  setup() {
-    const store = useStore()
-    const { beats, error } = getBeats()
-    const selectedBeat = ref('')
+const store = useStore()
+const { beats, error } = getBeats()
+const selectedBeat = ref('')
 
-    const handleClick = (beat) => {
-      selectedBeat.value = beat.id
-      store.state.currentBeat = beat
-      store.state.buttonPressed = ''
-      store.state.previewUrl = beat.previewUrl
-    }
+const handleClick = (beat) => {
+  selectedBeat.value = beat.id
+  store.state.currentBeat = beat
+  store.state.buttonPressed = ''
+  store.state.previewUrl = beat.previewUrl
+}
 
-    const handleButton = (beat) => {
-      if (store.state.user) {
-        selectedBeat.value = beat.id
-        store.state.currentBeat = beat
-        store.state.showAddToCartPopup = true
-      } else {
-        store.state.showPrompt = true
-      }
-    }
-
-    onUnmounted( () => {
-      store.state.currentBeat = ''
-    })
-
-    return { store, beats, error, selectedBeat, handleClick, handleButton }
+const handleButton = (beat) => {
+  if (store.state.user) {
+    selectedBeat.value = beat.id
+    store.state.currentBeat = beat
+    store.state.showAddToCartPopup = true
+  } else {
+    store.state.showPrompt = true
   }
 }
+
+onUnmounted( () => {
+  store.state.currentBeat = ''
+})
 </script>
 
 <style lang="scss">

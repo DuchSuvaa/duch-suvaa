@@ -11,19 +11,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Login from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
 import { ref } from '@vue/reactivity'
 
-export default {
-  components: { Login, Register },
-  setup() {
-    const showLogin = ref(true)
+const showLogin = ref(true)
 
-    return { showLogin }
-  }
-}
 </script>
 
 <style lang="scss">

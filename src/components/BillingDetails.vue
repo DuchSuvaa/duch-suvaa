@@ -37,73 +37,67 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex'
 import { firestore } from '@/firebase/config.js'
 import { computed, onMounted, ref } from '@vue/runtime-core'
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 
-export default {
-  setup() {
-    const store = useStore()
-    const message = ref('')
-    const error = ref('')
-    const name = computed( () => { return store.state.billingDetails.name })
-    const email = computed( () => { return store.state.billingDetails.email })
-    const address = computed( () => { return store.state.billingDetails.address })
-    const city = computed( () => { return store.state.billingDetails.city })
-    const state = computed( () => { return store.state.billingDetails.state })
-    const zip = computed( () => { return store.state.billingDetails.zip })
+const store = useStore()
+const message = ref('')
+const error = ref('')
+const name = computed( () => { return store.state.billingDetails.name })
+const email = computed( () => { return store.state.billingDetails.email })
+const address = computed( () => { return store.state.billingDetails.address })
+const city = computed( () => { return store.state.billingDetails.city })
+const state = computed( () => { return store.state.billingDetails.state })
+const zip = computed( () => { return store.state.billingDetails.zip })
 
-    const updateName = (event) => { store.commit('updateName', event.target.value) }
-    const updateEmail = (event) => { store.commit('updateEmail', event.target.value) }
-    const updateAddress = (event) => { store.commit('updateAddress', event.target.value) }
-    const updateCity = (event) => { store.commit('updateCity', event.target.value) }
-    const updateState = (event) => { store.commit('updateState', event.target.value) }
-    const updateZip = (event) => { store.commit('updateZip', event.target.value) }
+const updateName = (event) => { store.commit('updateName', event.target.value) }
+const updateEmail = (event) => { store.commit('updateEmail', event.target.value) }
+const updateAddress = (event) => { store.commit('updateAddress', event.target.value) }
+const updateCity = (event) => { store.commit('updateCity', event.target.value) }
+const updateState = (event) => { store.commit('updateState', event.target.value) }
+const updateZip = (event) => { store.commit('updateZip', event.target.value) }
 
-    onMounted( async () => {
-      const docRef = doc(firestore, 'users', store.state.user.uid)
-      const docSnap = await getDoc(docRef)
-      if (docSnap.data().address) {
-        store.state.billingDetails.name = docSnap.data().address.name
-        store.state.billingDetails.email = docSnap.data().address.email
-        store.state.billingDetails.address = docSnap.data().address.address
-        store.state.billingDetails.city = docSnap.data().address.city
-        store.state.billingDetails.state = docSnap.data().address.state
-        store.state.billingDetails.zip = docSnap.data().address.zip
-      }
+onMounted( async () => {
+  const docRef = doc(firestore, 'users', store.state.user.uid)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.data().address) {
+    store.state.billingDetails.name = docSnap.data().address.name
+    store.state.billingDetails.email = docSnap.data().address.email
+    store.state.billingDetails.address = docSnap.data().address.address
+    store.state.billingDetails.city = docSnap.data().address.city
+    store.state.billingDetails.state = docSnap.data().address.state
+    store.state.billingDetails.zip = docSnap.data().address.zip
+  }
+})
+
+const saveAddress = async () => {
+  const addressFields = {
+    name: store.state.billingDetails.name,
+    email: store.state.billingDetails.email,
+    address: store.state.billingDetails.address,
+    city: store.state.billingDetails.city,
+    state: store.state.billingDetails.state,
+    zip: store.state.billingDetails.zip
+  }
+
+  try {
+    const docRef = doc(firestore, 'users', store.state.user.uid)
+    await updateDoc(docRef, {
+      address: addressFields
     })
-
-    const saveAddress = async () => {
-      const addressFields = {
-        name: store.state.billingDetails.name,
-        email: store.state.billingDetails.email,
-        address: store.state.billingDetails.address,
-        city: store.state.billingDetails.city,
-        state: store.state.billingDetails.state,
-        zip: store.state.billingDetails.zip
-      }
-
-      try {
-        const docRef = doc(firestore, 'users', store.state.user.uid)
-        await updateDoc(docRef, {
-          address: addressFields
-        })
-        message.value = 'Address saved.'
-        setTimeout( () => {
-            message.value = ''
-        }, 10000)
-      } catch(err) {
-        console.log(err.message)
-        error.value = err  
-      }
-    }
-
-    return { store, name, email, address, city, state, zip, message, error, 
-    updateName, updateEmail, updateAddress, updateCity, updateState, updateZip, saveAddress }
+    message.value = 'Address saved.'
+    setTimeout( () => {
+        message.value = ''
+    }, 10000)
+  } catch(err) {
+    console.log(err.message)
+    error.value = err  
   }
 }
+
 </script>
 
 <style lang="scss" scoped>

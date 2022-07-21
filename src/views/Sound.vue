@@ -13,16 +13,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BeatPreview from '@/components/BeatPreview.vue'
 import Playlist from '@/components/Playlist.vue'
 
-export default ({
-  components: { BeatPreview, Playlist },
-  setup() {
-    
-  }
-})
 </script>
 
 <style lang="scss">

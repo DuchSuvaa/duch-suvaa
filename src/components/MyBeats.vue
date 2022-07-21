@@ -36,52 +36,49 @@
           <span>Download</span> 
         </div>
       </button>
+      <div v-if="error" class="error">
+        {{ error.message }}
+      </div>
     </div>
 
   </div>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex'
 import getMyBeats from '@/composables/getMyBeats.js'
 import { onBeforeUnmount } from '@vue/runtime-core'
 import { ref } from '@vue/reactivity'
 
-export default {
-  setup() {
-    const store = useStore()
-    const { myBeats, error } = getMyBeats()
-    const audioPlayerSelect = ref(null)
-    const activeBeat = ref(null)
-    const button = ref(null)
+const store = useStore()
+const { myBeats, error } = getMyBeats()
+const audioPlayerSelect = ref(null)
+const activeBeat = ref(null)
+const button = ref(null)
 
-    const previewBeat = (id) => {
-      if (activeBeat.value && activeBeat.value === id) {
-        if (button.value === 'play') {
-          document.getElementById('audioPlayer').pause()
-          button.value = 'pause'
-        } else {
-          document.getElementById('audioPlayer').play().then( () => button.value = 'play')
-        }
-      }
+const previewBeat = (id) => {
+  if (activeBeat.value && activeBeat.value === id) {
+    if (button.value === 'play') {
+      document.getElementById('audioPlayer').pause()
+      button.value = 'pause'
+    } else {
+      document.getElementById('audioPlayer').play().then( () => button.value = 'play')
     }
+  }
+}
 
-    onBeforeUnmount( () => {
-      store.state.buttonPressed = ''     
-    })
-    
-    const handleClick = (beat) => {
-      if (activeBeat.value != beat.id) {
-        activeBeat.value = beat.id
-        button.value = null
-        store.state.currentBeat = beat
-        store.state.buttonPressed = ''
-        store.state.previewUrl = beat.previewUrl
-        audioPlayerSelect.value = beat.name
-      }
-    }
+onBeforeUnmount( () => {
+  store.state.buttonPressed = ''     
+})
 
-    return { store, myBeats, activeBeat, error, handleClick, audioPlayerSelect, previewBeat, button }
+const handleClick = (beat) => {
+  if (activeBeat.value != beat.id) {
+    activeBeat.value = beat.id
+    button.value = null
+    store.state.currentBeat = beat
+    store.state.buttonPressed = ''
+    store.state.previewUrl = beat.previewUrl
+    audioPlayerSelect.value = beat.name
   }
 }
 </script>

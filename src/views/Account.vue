@@ -5,33 +5,24 @@
   </div>
 </template>
 
-<script>
-import { useStore } from 'vuex'
+<script setup>
 import AccountDetails from '@/components/AccountDetails.vue'
 import useLogout from '@/composables/useLogout.js'
 import { useRouter } from 'vue-router'
 
-export default {
-  components: { AccountDetails },
-  setup() {
-    const store = useStore()
-    const user = store.state.user
-    const { logout, logoutError } = useLogout()
-    const router = useRouter()
+const { logout, logoutError } = useLogout()
+const router = useRouter()
 
-    const handleClick = async () => {
-      router.push( '/' )
-      await logout()
-      if (!logoutError) {
-        console.log("user logged out")
-      } else {
-        console.log(logoutError.value)
-      }
-    }
-
-    return { user, handleClick }
+const handleClick = async () => {
+  router.push( '/' )
+  await logout()
+  if (!logoutError) {
+    console.log("user logged out")
+  } else {
+    console.log(logoutError.value)
   }
 }
+
 </script>
 
 <style lang="scss">

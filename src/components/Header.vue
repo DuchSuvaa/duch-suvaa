@@ -43,18 +43,11 @@
   </ul>
 </template>
 
-<script>
+<script setup>
 import CartQuantity from '@/components/CartQuantity.vue'
 import { useStore } from 'vuex'
 
-export default {
-  components: { CartQuantity },
-  setup() {
-    const store = useStore()
-
-    return { store }
-  }
-}
+const store = useStore()
 </script>
 
 <style lang="scss">

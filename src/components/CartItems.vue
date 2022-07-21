@@ -28,45 +28,43 @@
 
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex'
 import { firestore } from '@/firebase/config.js'
 import { doc, updateDoc } from "firebase/firestore"
 import { onBeforeMount } from '@vue/runtime-core'
 import checkStatus from '@/composables/checkStatus.js'
+import { defineProps } from 'vue'
 
-export default {
-  props: [ 'cartItems', 'totalPrice' ],
-  setup(props) {
-    const store = useStore()
+const store = useStore()
 
-    onBeforeMount( async () => {
-      checkStatus(props.cartItems).then(resp => {
-        resp.forEach( r => { if (r.data().licence === 'full') { removeFromCart(r.id) } })
-      })
+const props = defineProps({
+  cartItems: Object,
+  totalPrice: Number
+})
+
+onBeforeMount( async () => {
+  checkStatus(props.cartItems).then(resp => {
+    resp.forEach( r => { if (r.data().licence === 'full') { removeFromCart(r.id) } })
+  })
+})
+
+const handleClick = () => {
+  checkStatus(props.cartItems).then(resp => {
+    resp.forEach( r => { if (r.data().licence === 'full') { removeFromCart(r.id) } })
+  })
+  store.state.showCheckout = true;
+}
+
+const removeFromCart = async (id) => {
+  try {
+    const docRef = doc(firestore, 'users', store.state.user.uid)
+    await updateDoc(docRef, {
+      cart: props.cartItems.filter( cartItem => cartItem.id != id )
     })
-
-    const handleClick = () => {
-      checkStatus(props.cartItems).then(resp => {
-        resp.forEach( r => { if (r.data().licence === 'full') { removeFromCart(r.id) } })
-      })
-      store.state.showCheckout = true;
-    }
-
-    const removeFromCart = async (id) => {
-      try {
-        const docRef = doc(firestore, 'users', store.state.user.uid)
-        await updateDoc(docRef, {
-          cart: props.cartItems.filter( cartItem => cartItem.id != id )
-        })
-      } catch(error) {
-        console.log(error)
-      }
-    }
-
-    return { handleClick, removeFromCart }
+  } catch(error) {
+    console.log(error)
   }
-
 }
 </script>
 

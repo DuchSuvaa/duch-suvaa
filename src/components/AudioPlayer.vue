@@ -33,73 +33,70 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import Hammer from 'hammerjs' 
 import { onBeforeUnmount, onMounted } from '@vue/runtime-core'
+import { defineProps } from 'vue'
 
-export default {
-  props: { showVolumeControl: { default: false } },
-  setup() {
-    const store = useStore()
-    const volumeControl = ref(false)
+const store = useStore()
+const volumeControl = ref(false)
+defineProps({
+  showVolumeControl: { type: Boolean, default: false }
+})
 
-    const play = () => {
-      document.getElementById('audioPlayer').play()
-      store.state.buttonPressed = 'play'
-    }
-
-    const pause = () => {
-      document.getElementById('audioPlayer').pause()
-      store.state.buttonPressed = 'pause'
-    }
-
-    const stop = () => {
-      document.getElementById('audioPlayer').pause()
-      document.getElementById('audioPlayer').currentTime = 0;
-      store.state.buttonPressed = ''
-    }
-
-    onMounted( () => {
-      const mc = new Hammer(document.getElementById('volume-control'))
-      mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-
-      mc.on('panup pandown', (e) => {
-        let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
-        let clickOffsetTop = e.center.y
-        let clickDistanceFromTop = Math.round(elementOffsetTop - clickOffsetTop)
-        let elementHeight = document.getElementById('volume-control').offsetHeight
-        let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
-        document.getElementById('audioPlayer').volume = clickedHeight
-        document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%" 
-      })
-    })
-
-    onBeforeUnmount( () => {
-       store.state.buttonPressed = ''     
-    })
-
-    const setVolume = (e) => {
-      let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
-      let clickOffsetTop = e.clientY
-      let clickDistanceFromTop = Math.round(elementOffsetTop - clickOffsetTop)
-      let elementHeight = document.getElementById('volume-control').offsetHeight
-      let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
-      document.getElementById('audioPlayer').volume = clickedHeight
-      document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%"   
-    }
-
-    document.addEventListener("click", function(event) {
-      if (event.target.closest("#volume")) return
-      if (volumeControl.value === true) {
-        volumeControl.value = false
-      }
-    })
-    
-    return { store, play, pause, stop, volumeControl, setVolume }
-  }
+const play = () => {
+  document.getElementById('audioPlayer').play()
+  store.state.buttonPressed = 'play'
 }
+
+const pause = () => {
+  document.getElementById('audioPlayer').pause()
+  store.state.buttonPressed = 'pause'
+}
+
+const stop = () => {
+  document.getElementById('audioPlayer').pause()
+  document.getElementById('audioPlayer').currentTime = 0;
+  store.state.buttonPressed = ''
+}
+
+onMounted( () => {
+  const mc = new Hammer(document.getElementById('volume-control'))
+  mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+  mc.on('panup pandown', (e) => {
+    let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
+    let clickOffsetTop = e.center.y
+    let clickDistanceFromTop = Math.round(elementOffsetTop - clickOffsetTop)
+    let elementHeight = document.getElementById('volume-control').offsetHeight
+    let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
+    document.getElementById('audioPlayer').volume = clickedHeight
+    document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%" 
+  })
+})
+
+onBeforeUnmount( () => {
+    store.state.buttonPressed = ''     
+})
+
+const setVolume = (e) => {
+  let elementOffsetTop = document.getElementById('volume-control').getBoundingClientRect().top
+  let clickOffsetTop = e.clientY
+  let clickDistanceFromTop = Math.round(elementOffsetTop - clickOffsetTop)
+  let elementHeight = document.getElementById('volume-control').offsetHeight
+  let clickedHeight = ((elementHeight + clickDistanceFromTop) / elementHeight).toFixed(2)
+  document.getElementById('audioPlayer').volume = clickedHeight
+  document.getElementById('volume-fader').style.height = clickedHeight * 100 + "%"   
+}
+
+document.addEventListener("click", function(event) {
+  if (event.target.closest("#volume")) return
+  if (volumeControl.value === true) {
+    volumeControl.value = false
+  }
+})
 </script>
 
 <style lang="scss">

@@ -16,25 +16,18 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from '@vue/reactivity';
 
-export default {
-  setup() {
-    const showCookies = ref(true)
+const showCookies = ref(true)
 
-    if (localStorage.getItem("cookieSeen")) {
-      showCookies.value = false
-    }
+if (localStorage.getItem("cookieSeen")) {
+  showCookies.value = false
+}
 
-    const hideCookies = () => {
-      showCookies.value = false
-      localStorage.setItem("cookieSeen", true)      
-    }
-
-    return { showCookies, hideCookies }
-
-  }
+const hideCookies = () => {
+  showCookies.value = false
+  localStorage.setItem("cookieSeen", true)      
 }
 </script>
 

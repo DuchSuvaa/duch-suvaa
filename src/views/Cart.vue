@@ -7,37 +7,32 @@
     <div v-else id="empty-cart-message">
       <p>Your cart is empty.</p>
     </div>
+    <div v-if="error">{{ error.message }}</div>
   </div>
 </template>
 
-<script>
+<script setup>
 import getCartItems from '@/composables/getCartItems.js'
 import CartItems from '@/components/CartItems.vue'
 import Checkout from '@/components/Checkout.vue'
 import { useStore } from 'vuex'
 import { computed, ref } from '@vue/reactivity'
     
-export default {
-  components: { CartItems, Checkout },
-  setup() {
-    const store = useStore()
-    const { cartItems, error } = getCartItems()
+const store = useStore()
+const { cartItems, error } = getCartItems()
 
-    const totalPrice = computed( () => {
-      const prices = ref(0)
-      if (cartItems.value) {
-        cartItems.value.forEach((item) => {
-          prices.value += parseFloat(item.price)
-        })
-      }
-      return prices.value
+const totalPrice = computed( () => {
+  const prices = ref(0)
+  if (cartItems.value) {
+    cartItems.value.forEach((item) => {
+      prices.value += parseFloat(item.price)
     })
-
-    store.state.showCheckout = false
-
-    return { store, cartItems, error, totalPrice }
   }
-}
+  return prices.value
+})
+
+store.state.showCheckout = false
+
 </script>
 
 <style lang="scss">

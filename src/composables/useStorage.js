@@ -36,7 +36,7 @@ const useStorage = () => {
     }
   }
 
-  return { audioError, imageError, audioUrl, imageUrl, audioFilePath, imageFilePath, uploadAudio, uploadImage }
+  return { audioError, imageError, audioUrl, imageUrl, uploadAudio, uploadImage }
 }
 
 export default useStorage

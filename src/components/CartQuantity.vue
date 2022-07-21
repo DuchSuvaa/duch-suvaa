@@ -2,16 +2,11 @@
   <span v-if="cartQuantity">{{ cartQuantity }}</span>
 </template>
 
-<script>
+<script setup>
 import getCartItems from '@/composables/getCartItems.js'
 
-export default {
-  setup() {
-    const { cartQuantity } = getCartItems()
+const { cartQuantity } = getCartItems()
 
-    return { cartQuantity }
- }
-}
 </script>
 
 <style>

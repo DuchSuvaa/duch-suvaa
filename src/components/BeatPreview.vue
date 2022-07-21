@@ -24,18 +24,12 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import AudioPlayer from '@/components/AudioPlayer.vue'
 import { useStore } from 'vuex'
 
-export default {
-  components: { AudioPlayer },
-  setup() {
-    const store = useStore()
+const store = useStore()
 
-    return { store }
-  }
-}
 </script>
 
 <style lang="scss">

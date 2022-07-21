@@ -43,97 +43,88 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import addBeat from '@/composables/addBeat.js'
 import { ref } from '@vue/reactivity'
 import useStorage from '@/composables/useStorage.js'
 import { timestamp } from '../firebase/config'
 
-export default {
-  setup() {
-    const { error, add } = addBeat()
-    const name = ref('')
-    const bpm = ref('')
-    const time = ref('')
-    const price = ref('')
-    const downloadLink = ref('')
-    const audioFile = ref(null)
-    const imageFile = ref(null)
-    const audioName = ref(null)
-    const imageName = ref(null)
-    const audioFileError = ref(null)
-    const imageFileError = ref(null)
-    const temporaryAudioURL = ref('')
-    const temporaryImageURL = ref('')
-    const { audioError, imageError, audioUrl, imageUrl, audioFilePath, imageFilePath, 
-    uploadAudio, uploadImage } = useStorage()
+const { error, add } = addBeat()
+const name = ref('')
+const bpm = ref('')
+const time = ref('')
+const price = ref('')
+const downloadLink = ref('')
+const audioFile = ref(null)
+const imageFile = ref(null)
+const audioName = ref(null)
+const imageName = ref(null)
+const audioFileError = ref(null)
+const imageFileError = ref(null)
+const temporaryAudioURL = ref('')
+const temporaryImageURL = ref('')
+const { audioError, imageError, audioUrl, imageUrl, uploadAudio, uploadImage } = useStorage()
 
-    const addAudio = () => { document.getElementById('audio-file-upload').click(); }
-    const addImage = () => { document.getElementById('image-file-upload').click(); }
+const addAudio = () => { document.getElementById('audio-file-upload').click(); }
+const addImage = () => { document.getElementById('image-file-upload').click(); }
 
-    const handleAudioChange = (e) => {
-      const selectedAudio = e.target.files[0]
-      audioName.value = e.target.files[0].name
-      if (selectedAudio) {
-        audioFile.value = selectedAudio
-        temporaryAudioURL.value = URL.createObjectURL(selectedAudio)
-        audioFileError.value = null
-      } else {
-        audioFile.value = null
-        audioFileError.value = 'File cancelled.'
-      }
-    }
-
-    const handleImageChange = (e) => {
-      const selectedImage = e.target.files[0]
-      imageName.value = e.target.files[0].name
-      if (selectedImage) {
-        imageFile.value = selectedImage
-        temporaryImageURL.value = URL.createObjectURL(selectedImage)
-        imageFileError.value = null
-      } else {
-        imageFile.value = null
-        imageFileError.value = 'File cancelled.'
-      }
-    }
-
-    const handleSubmit = async () => {
-      if (audioFile.value) {
-        await uploadAudio(audioFile.value)
-      }
-      if (imageFile.value) {
-        await uploadImage(imageFile.value)
-      }
-      const beat = {
-        name: name.value,
-        bpm: bpm.value,
-        time: time.value,
-        price: (price.value * 100),
-        previewUrl: audioUrl.value,
-        imageUrl: imageUrl.value,
-        createdAt: timestamp,
-        status: 'available',
-        licence: 'none',
-        downloadLink: downloadLink.value
-      }
-      await add(beat)
-      if (!error.value) {
-        name.value = ''
-        bpm.value = ''
-        time.value = ''
-        downloadLink.value = ''
-        price.value = ''
-        audioName.value = ''
-        imageName.value = ''
-      }
-    }
-
-    return { name, bpm, time, price, error, add, addAudio, addImage, handleAudioChange, handleImageChange, 
-    audioName, imageName, handleSubmit, downloadLink,
-    audioFileError, imageFileError, audioError, imageError, audioUrl, imageUrl, audioFilePath, 
-    imageFilePath, uploadAudio }
+const handleAudioChange = (e) => {
+  const selectedAudio = e.target.files[0]
+  audioName.value = e.target.files[0].name
+  if (selectedAudio) {
+    audioFile.value = selectedAudio
+    temporaryAudioURL.value = URL.createObjectURL(selectedAudio)
+    audioFileError.value = null
+  } else {
+    audioFile.value = null
+    audioFileError.value = 'File cancelled.'
   }
 }
+
+const handleImageChange = (e) => {
+  const selectedImage = e.target.files[0]
+  imageName.value = e.target.files[0].name
+  if (selectedImage) {
+    imageFile.value = selectedImage
+    temporaryImageURL.value = URL.createObjectURL(selectedImage)
+    imageFileError.value = null
+  } else {
+    imageFile.value = null
+    imageFileError.value = 'File cancelled.'
+  }
+}
+
+const handleSubmit = async () => {
+  if (audioFile.value) {
+    await uploadAudio(audioFile.value)
+  }
+  if (imageFile.value) {
+    await uploadImage(imageFile.value)
+  }
+  const beat = {
+    name: name.value,
+    bpm: bpm.value,
+    time: time.value,
+    price: (price.value * 100),
+    previewUrl: audioUrl.value,
+    imageUrl: imageUrl.value,
+    createdAt: timestamp,
+    status: 'available',
+    licence: 'none',
+    downloadLink: downloadLink.value
+  }
+  await add(beat)
+  if (!error.value) {
+    name.value = ''
+    bpm.value = ''
+    time.value = ''
+    downloadLink.value = ''
+    price.value = ''
+    audioName.value = ''
+    imageName.value = ''
+  }
+}
+
 </script>
 
 <style lang="scss">

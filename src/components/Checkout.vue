@@ -25,73 +25,71 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import BillingDetails from '@/components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
 import Loader from '@/components/Loader.vue'
+import { defineProps } from 'vue'
 
-export default {
-  props: [ 'totalPrice', 'cartItems' ],
-  components: { BillingDetails, Loader },
-  setup() {
-    const store = useStore()
-    let stripe = null
-    let elements = null
-    let loading = ref(true)
-    const message = ref('')
-    const error = ref('')
+defineProps({
+  cartItems: Object,
+  totalPrice: Number
+})
 
-    onMounted(async () => {
-      stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
-      try {
-        const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
-        // const response = await fetch("http://localhost:80/stripe", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            userId: store.state.user.uid,
-            userEmail: store.state.user.email
-          })
-        })
-        const { secret } = await response.json()
-        console.log(secret)
-  
-        const options = {
-          appearance: {
-            theme: 'night'
-          },
-          clientSecret: secret,
-        }
-        elements = stripe.elements(options);
-        const paymentElement = elements.create("payment")
-        paymentElement.mount("#payment-element")
-        loading.value = false
-      } catch (error) {
-        console.log(error)
-      }
+const store = useStore()
+let stripe = null
+let elements = null
+let loading = ref(true)
+const message = ref('')
+const error = ref('')
 
-    })
-
-    async function handleSubmit() {
-      loading.value = true
-      const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `${window.location}/completed`,
-        },
-        // Uncomment below if you only want redirect for redirect-based payments
-        // redirect: 'if_required'
+onMounted(async () => {
+  stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+  try {
+    const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
+    // const response = await fetch("http://localhost:80/stripe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: store.state.user.uid,
+        userEmail: store.state.user.email
       })
-      if (error) return
-      loading.value = false
-    }
+    })
+    const { secret } = await response.json()
+    console.log(secret)
 
-    return { store, loading, message, error, handleSubmit }
+    const options = {
+      appearance: {
+        theme: 'night'
+      },
+      clientSecret: secret,
+    }
+    elements = stripe.elements(options);
+    const paymentElement = elements.create("payment")
+    paymentElement.mount("#payment-element")
+    loading.value = false
+  } catch (error) {
+    console.log(error)
   }
+
+})
+
+async function handleSubmit() {
+  loading.value = true
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: `${window.location}/completed`,
+    },
+    // Uncomment below if you only want redirect for redirect-based payments
+    // redirect: 'if_required'
+  })
+  if (error) return
+  loading.value = false
 }
 </script>
 

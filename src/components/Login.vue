@@ -15,28 +15,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from '@vue/reactivity'
 import useLogin from '@/composables/useLogin.js'
 import { useRouter } from 'vue-router'
 
-export default {
-  setup() {
-    const router = useRouter()
-    const email = ref('')
-    const password = ref('')
-    const { login, error } = useLogin()
+const router = useRouter()
+const email = ref('')
+const password = ref('')
+const { login, error } = useLogin()
 
-    const handleSubmit = async () => {
-      await login(email.value, password.value)
-      if (!error.value) {
-        router.push('/account')
-      } else {
-        console.log(error.value)
-      }
-    }
-
-    return { error, email, password, handleSubmit }
+const handleSubmit = async () => {
+  await login(email.value, password.value)
+  if (!error.value) {
+    router.push('/account')
+  } else {
+    console.log(error.value)
   }
 }
 </script>

@@ -22,58 +22,53 @@
 </form>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
 import { EmailAuthProvider } from 'firebase/auth'
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth'
 
-export default {
-  setup() {
-    const store = useStore()
-    const oldPassword = ref('')
-    const newPassword = ref('')
-    const confirmPassword = ref('')
-    const error = ref('')
-    const updateSuccessful = ref(false)
+const store = useStore()
+const oldPassword = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+const error = ref('')
+const updateSuccessful = ref(false)
 
-    const updatePassword = async () => {
-      updateSuccessful.value = false
-      error.value = ''
+const updatePassword = async () => {
+  updateSuccessful.value = false
+  error.value = ''
 
-      const credential = EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
+  const credential = EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
 
-      const auth = getAuth();
-      const user = auth.currentUser 
+  const auth = getAuth();
+  const user = auth.currentUser 
       
-      reauthenticateWithCredential(user, credential).then( () => {
-        console.log("user reauthenticated")
+  reauthenticateWithCredential(user, credential).then( () => {
+    console.log("user reauthenticated")
 
-        if (newPassword.value.length >= 8) {
-          console.log(newPassword.value)
-          console.log(confirmPassword.value)
-          if (newPassword.value === confirmPassword.value) {
-            store.state.user.updatePassword(newPassword.value).then( () => {
-              updateSuccessful.value = true
-              setTimeout( () => {
-                updateSuccessful.value = false
-              }, 10000)
-            })
-          } else {
-            error.value = 'Passwords don\'t match.'
-          }
-        } else {
-          error.value = 'Password has to be at least 8 characters long.'
-        }
-      }).catch( () => {
-        error.value = "Please provide your current password."
-        return
-      })
+    if (newPassword.value.length >= 8) {
+      console.log(newPassword.value)
+      console.log(confirmPassword.value)
+      if (newPassword.value === confirmPassword.value) {
+        store.state.user.updatePassword(newPassword.value).then( () => {
+          updateSuccessful.value = true
+          setTimeout( () => {
+            updateSuccessful.value = false
+          }, 10000)
+        })
+      } else {
+        error.value = 'Passwords don\'t match.'
+      }
+    } else {
+      error.value = 'Password has to be at least 8 characters long.'
     }
-
-    return { updatePassword, oldPassword, newPassword, confirmPassword, updateSuccessful, error }
-  }
+  }).catch( () => {
+    error.value = "Please provide your current password."
+    return
+  })
 }
+
 </script>
 
 <style>

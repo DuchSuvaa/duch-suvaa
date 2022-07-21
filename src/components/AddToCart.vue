@@ -64,44 +64,40 @@
   </div>
 </template>
 
-<script>
-  import { useStore } from 'vuex'
-  import useCart from '@/composables/addToCart.js'
-  import { ref } from '@vue/reactivity'
-  import { onMounted } from '@vue/runtime-core'
+<script setup>
+import { useStore } from 'vuex'
+import useCart from '@/composables/addToCart.js'
+import { ref } from '@vue/reactivity'
+import { onMounted } from '@vue/runtime-core'
 
-  export default {
-    setup() {
-      const store = useStore()
-      const { addToCart } = useCart()
-      const selectedLicence = ref('')
-      const error = ref(null)
 
-      onMounted(() => {
-        if (store.state.currentBeat.licence === 'shared') {
-          selectedLicence.value = 'shared'
-        } 
-      })
+const store = useStore()
+const { addToCart } = useCart()
+const selectedLicence = ref('')
+const error = ref(null)
 
-      const closePopup = () => {
-        store.state.showAddToCartPopup = false
-      }
+onMounted(() => {
+  if (store.state.currentBeat.licence === 'shared') {
+    selectedLicence.value = 'shared'
+  } 
+})
 
-      const add = async (beat) => {
-        const product = { ...beat, licence: selectedLicence.value }
+const closePopup = () => {
+  store.state.showAddToCartPopup = false
+}
 
-        addToCart(product).then((result) => {
-          if (result.error.value) {
-            error.value = result.error.value
-          } else {
-            store.state.showAddToCartPopup = false
-          }
-        })
-      }
+const add = async (beat) => {
+  const product = { ...beat, licence: selectedLicence.value }
 
-      return { store, selectedLicence, closePopup, add, error }
+  addToCart(product).then((result) => {
+    if (result.error.value) {
+      error.value = result.error.value
+    } else {
+      store.state.showAddToCartPopup = false
     }
-  }
+  })
+}
+
 </script>
 
 <style lang="scss">

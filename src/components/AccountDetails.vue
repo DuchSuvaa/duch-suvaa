@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex'
 import MyBeats from '@/components/MyBeats.vue'
 import ChangePassword from '@/components/ChangePassword.vue'
@@ -43,19 +43,12 @@ import BillingDetails from '@/components/BillingDetails.vue'
 import AddBeats from '@/components/AddBeats.vue'
 import { ref } from '@vue/reactivity'
 
+const store = useStore()
+const myBeatsVisible = ref(false)
+const passwordFormVisible = ref(false)
+const addressFormVisible = ref(false)
+const addBeatsFormVisible = ref(false)
 
-export default {
-  components: { MyBeats, BillingDetails, ChangePassword, AddBeats },
-  setup() {
-    const store = useStore()
-    const myBeatsVisible = ref(false)
-    const passwordFormVisible = ref(false)
-    const addressFormVisible = ref(false)
-    const addBeatsFormVisible = ref(false)
-
-    return { store, myBeatsVisible, passwordFormVisible, addressFormVisible, addBeatsFormVisible }
-  }
-}
 </script>
 
 <style lang="scss">

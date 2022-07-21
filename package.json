@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "vite"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.19.1",
@@ -19,6 +20,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
     "@vue-image-modernizer/vue-cli-plugin-image-modernizer": "^1.1.2",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -31,6 +33,7 @@
     "eslint-plugin-vue": "^7.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "vite": "^3.0.2",
     "webpack-image-resize-loader": "^4.0.0",
     "webpack-image-srcset-loader": "^5.0.0"
   },

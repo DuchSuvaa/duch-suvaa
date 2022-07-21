@@ -1,6 +1,6 @@
 // import firebase from 'firebase/app'
-import getUser from '@/composables/getUser.js'
-import { firestore } from '@/firebase/config.js'
+import getUser from '../composables/getUser.js'
+import { firestore } from '../firebase/config.js'
 import { ref } from 'vue'
 import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
 

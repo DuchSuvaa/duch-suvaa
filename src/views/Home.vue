@@ -1,7 +1,7 @@
 <template>
   <div class="home-hero">
     <div class="home-hero-image container">
-      <img src="@/assets/home-hero.png" modernize />
+      <img src="../assets/home-hero.png" modernize />
       <div class="hero-heading">
         <h1><span>B</span>eats from the <nobr><span>B</span>-Side</nobr></h1>
       </div>
@@ -38,7 +38,7 @@
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .home-hero {
     .home-hero-image {

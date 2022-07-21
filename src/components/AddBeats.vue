@@ -44,9 +44,9 @@
 </template>
 
 <script setup>
-import addBeat from '@/composables/addBeat.js'
+import addBeat from '../composables/addBeat.js'
 import { ref } from '@vue/reactivity'
-import useStorage from '@/composables/useStorage.js'
+import useStorage from '../composables/useStorage.js'
 import { timestamp } from '../firebase/config'
 
 const { error, add } = addBeat()

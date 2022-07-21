@@ -13,7 +13,7 @@ const store = useStore()
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
 	.prompt_bg {
 		position: absolute;

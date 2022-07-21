@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import getCartItems from '@/composables/getCartItems.js'
-import CartItems from '@/components/CartItems.vue'
-import Checkout from '@/components/Checkout.vue'
+import getCartItems from '../composables/getCartItems.js'
+import CartItems from '../components/CartItems.vue'
+import Checkout from '../components/Checkout.vue'
 import { useStore } from 'vuex'
 import { computed, ref } from '@vue/reactivity'
     

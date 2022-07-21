@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 import M from 'materialize-css'
 import { useStore } from 'vuex'
 import { onMounted } from '@vue/runtime-core'
-import { projectAuth } from '@/firebase/config.js'
+import { projectAuth } from './firebase/config.js'
 
 export default ({
   components: { Header, Footer },

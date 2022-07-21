@@ -100,7 +100,7 @@ document.addEventListener("click", function(event) {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .audio-player {
     padding: 0.6rem 1.2rem;

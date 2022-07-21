@@ -44,14 +44,14 @@
 </template>
 
 <script setup>
-import CartQuantity from '@/components/CartQuantity.vue'
+import CartQuantity from '../components/CartQuantity.vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .router-link-active { color: map-get($red, 'darken-4') !important; }
   

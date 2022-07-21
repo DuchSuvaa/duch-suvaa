@@ -1,5 +1,5 @@
 import { ref, watchEffect } from 'vue'
-import { firestore } from '@/firebase/config'
+import { firestore } from '../firebase/config'
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore'
 
 const getCollection = () => {

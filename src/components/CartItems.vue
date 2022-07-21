@@ -30,10 +30,10 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { firestore } from '@/firebase/config.js'
+import { firestore } from '../firebase/config.js'
 import { doc, updateDoc } from "firebase/firestore"
 import { onBeforeMount } from '@vue/runtime-core'
-import checkStatus from '@/composables/checkStatus.js'
+import checkStatus from '../composables/checkStatus.js'
 import { defineProps } from 'vue'
 
 const store = useStore()
@@ -69,7 +69,7 @@ const removeFromCart = async (id) => {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .cart-items {
     padding-top: 4rem;

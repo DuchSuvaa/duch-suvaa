@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import AudioPlayer from '@/components/AudioPlayer.vue'
+import AudioPlayer from '../components/AudioPlayer.vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
@@ -33,7 +33,7 @@ const store = useStore()
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .no-padding-left {
     padding-left: 0 !important;

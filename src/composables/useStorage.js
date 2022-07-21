@@ -1,4 +1,4 @@
-import { storage } from '@/firebase/config.js'
+import { storage } from '../firebase/config.js'
 import { ref } from '@vue/runtime-dom'
 import { ref as reference, uploadBytes, getDownloadURL } from 'firebase/storage';
 

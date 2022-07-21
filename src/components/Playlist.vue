@@ -35,12 +35,12 @@
 </template>
 
 <script setup>
-import AddToCart from '@/components/AddToCart.vue'
-import getBeats from '@/composables/getBeats.js'
+import AddToCart from '../components/AddToCart.vue'
+import getBeats from '../composables/getBeats.js'
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
 import { onUnmounted } from '@vue/runtime-core'
-import LoginPrompt from '@/components/LoginPrompt.vue'
+import LoginPrompt from '../components/LoginPrompt.vue'
 
 const store = useStore()
 const { beats, error } = getBeats()
@@ -69,7 +69,7 @@ onUnmounted( () => {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .beats-playlist {
     margin-left: 2rem;

@@ -1,7 +1,7 @@
 <template>
   <div class="sound-header">
     <div class="sound-header-image container">
-      <img src="@/assets/sound-header.png" modernize />
+      <img src="../assets/sound-header.png" modernize />
       <div class="sound-heading">
         <h1>Sound</h1>
       </div>
@@ -14,13 +14,13 @@
 </template>
 
 <script setup>
-import BeatPreview from '@/components/BeatPreview.vue'
-import Playlist from '@/components/Playlist.vue'
+import BeatPreview from '../components/BeatPreview.vue'
+import Playlist from '../components/Playlist.vue'
 
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .sound-header {
     background-image: url('../assets/sound-header-bg.png');

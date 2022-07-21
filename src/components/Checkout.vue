@@ -26,11 +26,11 @@
 </template>
 
 <script setup>
-import BillingDetails from '@/components/BillingDetails.vue'
+import BillingDetails from '../components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
 import { useStore } from 'vuex'
-import Loader from '@/components/Loader.vue'
+import Loader from '../components/Loader.vue'
 import { defineProps } from 'vue'
 
 defineProps({
@@ -94,7 +94,7 @@ async function handleSubmit() {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .loader { 
     width: 100%; 

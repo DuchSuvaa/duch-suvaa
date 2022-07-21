@@ -39,7 +39,7 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import { firestore } from '@/firebase/config.js'
+import { firestore } from '../firebase/config.js'
 import { computed, onMounted, ref } from '@vue/runtime-core'
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 

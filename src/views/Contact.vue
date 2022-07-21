@@ -1,7 +1,7 @@
 <template>
   <div class="contact-header">
     <div class="contact-header-image container">
-      <img src="@/assets/contact-header.png" modernize />
+      <img src="../assets/contact-header.png" modernize />
       <div class="contact-heading">
         <h1>CONTACT</h1>
       </div>
@@ -17,7 +17,7 @@
 </template>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .contact-header {
     background-image: url('../assets/contact-header-bg.png');

@@ -66,7 +66,7 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import useCart from '@/composables/addToCart.js'
+import useCart from '../composables/addToCart.js'
 import { ref } from '@vue/reactivity'
 import { onMounted } from '@vue/runtime-core'
 
@@ -101,7 +101,7 @@ const add = async (beat) => {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .add-to-cart-backdrop {
     position: fixed;

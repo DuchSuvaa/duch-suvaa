@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import AccountDetails from '@/components/AccountDetails.vue'
-import useLogout from '@/composables/useLogout.js'
+import AccountDetails from '../components/AccountDetails.vue'
+import useLogout from '../composables/useLogout.js'
 import { useRouter } from 'vue-router'
 
 const { logout, logoutError } = useLogout()

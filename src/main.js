@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import 'materialize-css/dist/css/materialize.min.css'
 import 'material-design-icons/iconfont/material-icons.css'
-import { projectAuth } from '@/firebase/config.js'
+import { projectAuth } from './firebase/config.js'
 
 // let app = createApp(App).use(store).use(router)
 

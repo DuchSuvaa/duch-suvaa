@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref } from '@vue/reactivity'
-import useLogin from '@/composables/useLogin.js'
+import useLogin from '../composables/useLogin.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

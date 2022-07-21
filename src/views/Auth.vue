@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import Login from '@/components/Login.vue'
-import Register from '@/components/Register.vue'
+import Login from '../components/Login.vue'
+import Register from '../components/Register.vue'
 import { ref } from '@vue/reactivity'
 
 const showLogin = ref(true)

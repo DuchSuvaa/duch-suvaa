@@ -1,6 +1,6 @@
 import { ref, watchEffect } from 'vue'
-import { firestore } from '@/firebase/config.js'
-import getUser from '@/composables/getUser.js'
+import { firestore } from '../firebase/config.js'
+import getUser from '../composables/getUser.js'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 const { user } = getUser()

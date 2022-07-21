@@ -46,7 +46,7 @@
 
 <script setup>
 import { useStore } from 'vuex'
-import getMyBeats from '@/composables/getMyBeats.js'
+import getMyBeats from '../composables/getMyBeats.js'
 import { onBeforeUnmount } from '@vue/runtime-core'
 import { ref } from '@vue/reactivity'
 
@@ -84,7 +84,7 @@ const handleClick = (beat) => {
 </script>
 
 <style lang="scss">
-  @import '@/scss/_variables.scss';
+  @import '../scss/_variables.scss';
 
   .my-beats {
     .my-beat {

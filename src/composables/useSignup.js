@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import { projectAuth, firestore } from "@/firebase/config"
+import { projectAuth, firestore } from "../firebase/config.js"
 import  { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 

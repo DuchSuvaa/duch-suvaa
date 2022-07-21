@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { serverTimestamp } from 'firebase/firestore'
-import { getAuth } from "firebase/auth"
+import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from "firebase/storage"
 
@@ -16,12 +16,6 @@ const firebaseConfig = {
 // init firebase
 
 const firebaseApp = initializeApp(firebaseConfig)
-
-// init firestore 
-
-// const firestore = firebase.firestore()
-// const projectAuth = firebase.auth()
-// const storage = firebase.storage()
 
 const firestore = getFirestore(firebaseApp)
 const projectAuth = getAuth(firebaseApp)

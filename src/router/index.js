@@ -8,7 +8,7 @@ import Completed from '../views/Completed.vue'
 import Account from '../views/Account.vue'
 import PrivacyPolicy from '../views/PrivacyPolicy.vue'
 import Cookies from '../views/Cookies.vue'
-import { projectAuth } from '@/firebase/config.js'
+import { projectAuth } from '../firebase/config.js'
 
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser
@@ -83,7 +83,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  // history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 

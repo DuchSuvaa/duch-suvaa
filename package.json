@@ -10,7 +10,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^1.19.1",
     "core-js": "^3.6.5",
-    "firebase": "^8.6.8",
+    "firebase": "^9.9.0",
     "hammerjs": "^2.0.8",
     "material-design-icons": "^3.0.1",
     "materialize-css": "^1.0.0-rc.2",

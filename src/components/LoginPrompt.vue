@@ -35,10 +35,10 @@ export default {
 		.login_prompt {
 			background-color: map-get($grey, 'darken-4');
 			padding: 2rem;
-				border: 1px solid transparent;
-        border-radius: 3px;
-        box-shadow: 0px 0px 20px rgba(255,255,255,.25);
-        padding: 3rem;
+			border: 1px solid transparent;
+			border-radius: 3px;
+			box-shadow: 0px 0px 20px rgba(255,255,255,.25);
+			padding: 3rem;
 		}
 	}
 </style>

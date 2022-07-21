@@ -111,7 +111,7 @@ export default {
         price: (price.value * 100),
         previewUrl: audioUrl.value,
         imageUrl: imageUrl.value,
-        createdAt: timestamp(),
+        createdAt: timestamp,
         status: 'available',
         licence: 'none',
         downloadLink: downloadLink.value

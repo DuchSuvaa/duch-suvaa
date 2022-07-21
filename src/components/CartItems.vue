@@ -31,6 +31,7 @@
 <script>
 import { useStore } from 'vuex'
 import { firestore } from '@/firebase/config.js'
+import { doc, updateDoc } from "firebase/firestore"
 import { onBeforeMount } from '@vue/runtime-core'
 import checkStatus from '@/composables/checkStatus.js'
 
@@ -52,9 +53,10 @@ export default {
       store.state.showCheckout = true;
     }
 
-    const removeFromCart = (id) => {
+    const removeFromCart = async (id) => {
       try {
-        firestore.collection("users").doc(store.state.user.uid).update({
+        const docRef = doc(firestore, 'users', store.state.user.uid)
+        await updateDoc(docRef, {
           cart: props.cartItems.filter( cartItem => cartItem.id != id )
         })
       } catch(error) {

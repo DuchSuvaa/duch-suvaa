@@ -1,6 +1,7 @@
 import { ref, watchEffect } from 'vue'
 import { firestore } from '@/firebase/config.js'
 import getUser from '@/composables/getUser.js'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 const { user } = getUser()
 
@@ -8,9 +9,9 @@ const getCartItems = () => {
   const cartItems = ref(null)
   const cartQuantity = ref(null)
   const error = ref(null)
-  const docRef = firestore.collection('users').doc(user.value.uid)
+  const docRef = doc(firestore, 'users', user.value.uid)
 
-  const unsub = docRef.onSnapshot( (snap) => {
+  const unsub = onSnapshot(docRef, (snap) => {
     cartItems.value = snap.data().cart
     cartQuantity.value = snap.data().cart.length
   }, (err) => {

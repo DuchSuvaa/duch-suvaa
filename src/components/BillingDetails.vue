@@ -41,6 +41,7 @@
 import { useStore } from 'vuex'
 import { firestore } from '@/firebase/config.js'
 import { computed, onMounted, ref } from '@vue/runtime-core'
+import { doc, getDoc, updateDoc } from "firebase/firestore"
 
 export default {
   setup() {
@@ -62,22 +63,19 @@ export default {
     const updateZip = (event) => { store.commit('updateZip', event.target.value) }
 
     onMounted( async () => {
-      const docRef = firestore.collection('users').doc(store.state.user.uid)
-      // console.log(store.state.user.uid)
-
-      docRef.onSnapshot( (snap) => {
-        if (snap.data().address) {
-          store.state.billingDetails.name = snap.data().address.name
-          store.state.billingDetails.email = snap.data().address.email
-          store.state.billingDetails.address = snap.data().address.address
-          store.state.billingDetails.city = snap.data().address.city
-          store.state.billingDetails.state = snap.data().address.state
-          store.state.billingDetails.zip = snap.data().address.zip
-        }
-      })
+      const docRef = doc(firestore, 'users', store.state.user.uid)
+      const docSnap = await getDoc(docRef)
+      if (docSnap.data().address) {
+        store.state.billingDetails.name = docSnap.data().address.name
+        store.state.billingDetails.email = docSnap.data().address.email
+        store.state.billingDetails.address = docSnap.data().address.address
+        store.state.billingDetails.city = docSnap.data().address.city
+        store.state.billingDetails.state = docSnap.data().address.state
+        store.state.billingDetails.zip = docSnap.data().address.zip
+      }
     })
 
-    const saveAddress = () => {
+    const saveAddress = async () => {
       const addressFields = {
         name: store.state.billingDetails.name,
         email: store.state.billingDetails.email,
@@ -86,20 +84,20 @@ export default {
         state: store.state.billingDetails.state,
         zip: store.state.billingDetails.zip
       }
-      firestore.collection('users').doc(store.state.user.uid).update({
-        address: addressFields
-      }).then( () => {
+
+      try {
+        const docRef = doc(firestore, 'users', store.state.user.uid)
+        await updateDoc(docRef, {
+          address: addressFields
+        })
         message.value = 'Address saved.'
         setTimeout( () => {
-          message.value = ''
+            message.value = ''
         }, 10000)
-      }).catch( (err) => {
+      } catch(err) {
         console.log(err.message)
-        error.value = err
-        setTimeout( () => {
-          error.value = ''
-        }, 10000)        
-      })
+        error.value = err  
+      }
     }
 
     return { store, name, email, address, city, state, zip, message, error, 
@@ -109,7 +107,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .checkout {
+
+  #checkout-form {
     label {
       position: relative;
       top: 2.9rem !important;

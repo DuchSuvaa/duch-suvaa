@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
 import { useStore } from 'vuex'
 import { ref } from '@vue/reactivity'
+import { EmailAuthProvider } from 'firebase/auth'
+import { getAuth, reauthenticateWithCredential } from 'firebase/auth'
 
 export default {
   setup() {
@@ -39,9 +40,15 @@ export default {
     const updatePassword = async () => {
       updateSuccessful.value = false
       error.value = ''
-      const credential = await firebase.auth.EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
-      store.state.user.reauthenticateWithCredential(credential).then( () => {
+
+      const credential = EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
+
+      const auth = getAuth();
+      const user = auth.currentUser 
+      
+      reauthenticateWithCredential(user, credential).then( () => {
         console.log("user reauthenticated")
+
         if (newPassword.value.length >= 8) {
           console.log(newPassword.value)
           console.log(confirmPassword.value)

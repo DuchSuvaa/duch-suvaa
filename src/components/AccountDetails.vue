@@ -24,7 +24,7 @@
         <BillingDetails />
       </div>
     </transition>
-    <div v-if="store.state.user.uid == 'JalBZHRa6BTda63s8zaO4kK81Uv1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="add-beats-container">
+    <div v-if="store.state.user.uid == 'uOvhDI4IUafjLEZtGTvZH4EJTav1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="add-beats-container">
       Add Beats
     </div>
     <transition name="open">

@@ -1,5 +1,7 @@
 import { storage } from '@/firebase/config.js'
 import { ref } from '@vue/runtime-dom'
+import { ref as reference, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 const useStorage = () => {
   const audioError = ref(null)
@@ -11,10 +13,10 @@ const useStorage = () => {
 
   const uploadAudio = async (audioFile) => {
     audioFilePath.value = `preview/${audioFile.name}`
-    const storageRef = storage.ref(audioFilePath.value)
+    const storageRef = reference(storage, audioFilePath.value)
     try {
-      const res = await storageRef.put(audioFile)
-      audioUrl.value = await res.ref.getDownloadURL()
+      const res = await uploadBytes(storageRef, audioFile)
+      audioUrl.value = await getDownloadURL(res.ref)
     } catch(err) {
       console.log(err.message)
       audioError.value = err.message
@@ -23,10 +25,11 @@ const useStorage = () => {
 
   const uploadImage = async (imageFile) => {
     imageFilePath.value = `image/${imageFile.name}`
-    const storageRef = storage.ref(imageFilePath.value)
+    const storageRef = reference(storage, imageFilePath.value)
     try {
-      const res = await storageRef.put(imageFile)
-      imageUrl.value = await res.ref.getDownloadURL()
+      const res = await uploadBytes(storageRef, imageFile)
+      imageUrl.value = await getDownloadURL(res.ref)
+
     } catch(err) {
       console.log(err.message)
       imageError.value = err.message

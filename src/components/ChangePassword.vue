@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import { ref } from '@vue/reactivity'
 import { EmailAuthProvider } from 'firebase/auth'
 import { getAuth, reauthenticateWithCredential } from 'firebase/auth'
@@ -39,7 +39,7 @@ const updatePassword = async () => {
   updateSuccessful.value = false
   error.value = ''
 
-  const credential = EmailAuthProvider.credential( store.state.user.email, oldPassword.value )
+  const credential = EmailAuthProvider.credential( store.user.email, oldPassword.value )
 
   const auth = getAuth();
   const user = auth.currentUser 
@@ -51,7 +51,7 @@ const updatePassword = async () => {
       console.log(newPassword.value)
       console.log(confirmPassword.value)
       if (newPassword.value === confirmPassword.value) {
-        store.state.user.updatePassword(newPassword.value).then( () => {
+        store.user.updatePassword(newPassword.value).then( () => {
           updateSuccessful.value = true
           setTimeout( () => {
             updateSuccessful.value = false

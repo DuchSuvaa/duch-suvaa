@@ -2,20 +2,20 @@
   <div class="add-to-cart-backdrop" @click="closePopup">
     <div class="add-to-cart-popup" @click.stop>
       <div class="add-to-cart-beat-image">
-        <img :src="store.state.currentBeat.imageUrl" />
+        <img :src="store.currentBeat.imageUrl" />
       </div>
       <div class="add-to-cart-beat-details">
         <div class="add-to-cart-beat-details-name">
-          {{ store.state.currentBeat.name }}
+          {{ store.currentBeat.name }}
         </div>
         <div class="add-to-cart-beat-details-bpm">
-          <span>Tempo:</span> <p>{{ store.state.currentBeat.bpm + " BPM" }}</p>
+          <span>Tempo:</span> <p>{{ store.currentBeat.bpm + " BPM" }}</p>
         </div>
         <div class="add-to-cart-beat-details-price" v-if="selectedLicence === 'shared'">
-          <span>Price:</span> <p>{{ "$" + (store.state.currentBeat.price * 0.01).toFixed(2) /2 }}</p>
+          <span>Price:</span> <p>{{ "$" + (store.currentBeat.price * 0.01).toFixed(2) /2 }}</p>
         </div>
         <div class="add-to-cart-beat-details-price" v-else>
-          <span>Price:</span> <p>{{ "$" + (store.state.currentBeat.price * 0.01).toFixed(2) }}</p>
+          <span>Price:</span> <p>{{ "$" + (store.currentBeat.price * 0.01).toFixed(2) }}</p>
         </div>
       </div>
       <div class="licence-info" v-if="!error">
@@ -48,7 +48,7 @@
         @click="selectedLicence = 'shared'">
           Shared
         </div>
-        <div class="add-to-cart-licence-full" v-if="store.state.currentBeat.licence !== 'shared'"
+        <div class="add-to-cart-licence-full" v-if="store.currentBeat.licence !== 'shared'"
         :class="{ activeButton : selectedLicence === 'full' }" 
         @click="selectedLicence = 'full'">
           Full
@@ -56,7 +56,7 @@
         <div v-else class="add-to-cart-licence-full unavailable">Full</div>
       </div>
       <div class="add-to-cart-confirm-button">
-        <button :disabled="selectedLicence === ''" class="add" @click="add(store.state.currentBeat)">
+        <button :disabled="selectedLicence === ''" class="add" @click="add(store.currentBeat)">
           <i class="material-icons">add_shopping_cart</i> Add
         </button>
       </div>
@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import useCart from '../composables/addToCart.js'
 import { ref } from '@vue/reactivity'
 import { onMounted } from '@vue/runtime-core'
@@ -77,13 +77,13 @@ const selectedLicence = ref('')
 const error = ref(null)
 
 onMounted(() => {
-  if (store.state.currentBeat.licence === 'shared') {
+  if (store.currentBeat.licence === 'shared') {
     selectedLicence.value = 'shared'
   } 
 })
 
 const closePopup = () => {
-  store.state.showAddToCartPopup = false
+  store.showAddToCartPopup = false
 }
 
 const add = async (beat) => {
@@ -93,7 +93,7 @@ const add = async (beat) => {
     if (result.error.value) {
       error.value = result.error.value
     } else {
-      store.state.showAddToCartPopup = false
+      store.showAddToCartPopup = false
     }
   })
 }

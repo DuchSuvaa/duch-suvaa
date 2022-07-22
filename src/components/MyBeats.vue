@@ -1,6 +1,6 @@
 <template>
   <div class="my-beats">
-    <audio :src="store.state.previewUrl" id="audioPlayer"></audio>
+    <audio :src="store.previewUrl" id="audioPlayer"></audio>
     <div class="my-beat" v-for="beat in myBeats" :key="beat.id" @click="handleClick(beat)" :class="{ my_beat_active : activeBeat === beat.id }">
       <div class="my-beat-col-1">
         <div class="my-beat-image" @click="previewBeat(beat.id)">
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import getMyBeats from '../composables/getMyBeats.js'
 import { onBeforeUnmount } from '@vue/runtime-core'
 import { ref } from '@vue/reactivity'
@@ -68,16 +68,16 @@ const previewBeat = (id) => {
 }
 
 onBeforeUnmount( () => {
-  store.state.buttonPressed = ''     
+  store.buttonPressed = ''     
 })
 
 const handleClick = (beat) => {
   if (activeBeat.value != beat.id) {
     activeBeat.value = beat.id
     button.value = null
-    store.state.currentBeat = beat
-    store.state.buttonPressed = ''
-    store.state.previewUrl = beat.previewUrl
+    store.currentBeat = beat
+    store.buttonPressed = ''
+    store.previewUrl = beat.previewUrl
     audioPlayerSelect.value = beat.name
   }
 }

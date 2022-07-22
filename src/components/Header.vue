@@ -1,5 +1,5 @@
 <template>
-  <nav class="grey darken-4 navi" :v-if="store.state.showQuantity">
+  <nav class="grey darken-4 navi" :v-if="store.showQuantity">
     <div class="nav-wrapper container">
       <router-link to="/" class="brand-logo">
         <img src="../assets/logo.png" alt="">
@@ -12,12 +12,12 @@
         <li class="cart-link">
           <router-link to="/cart">
           Cart
-          <div v-if="store.state.user">
+          <div v-if="store.user">
             <CartQuantity />
           </div>
           </router-link>
         </li>
-        <li v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
+        <li v-if="!store.user"><router-link to="/auth">Login</router-link></li>
         <li v-else><router-link to="/account">Account</router-link></li>
       </ul>
     </div>
@@ -33,19 +33,19 @@
     <li class="cart-link sidenav-close">
       <router-link to="/cart">
       Cart
-      <div v-if="store.state.user">
+      <div v-if="store.user">
         <CartQuantity />
       </div>
       </router-link>
     </li>
-    <li  class="sidenav-close" v-if="!store.state.user"><router-link to="/auth">Login</router-link></li>
+    <li  class="sidenav-close" v-if="!store.user"><router-link to="/auth">Login</router-link></li>
     <li  class="sidenav-close" v-else><router-link to="/account">Account</router-link></li>
   </ul>
 </template>
 
 <script setup>
 import CartQuantity from '../components/CartQuantity.vue'
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 
 const store = useStore()
 </script>

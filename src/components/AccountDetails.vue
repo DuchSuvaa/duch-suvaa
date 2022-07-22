@@ -24,7 +24,7 @@
         <BillingDetails />
       </div>
     </transition>
-    <div v-if="store.state.user.uid == 'uOvhDI4IUafjLEZtGTvZH4EJTav1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="add-beats-container">
+    <div v-if="store.user.uid == 'uOvhDI4IUafjLEZtGTvZH4EJTav1'" @click="addBeatsFormVisible = !addBeatsFormVisible" class="add-beats-container">
       Add Beats
     </div>
     <transition name="open">
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import MyBeats from '../components/MyBeats.vue'
 import ChangePassword from '../components/ChangePassword.vue'
 import BillingDetails from '../components/BillingDetails.vue'

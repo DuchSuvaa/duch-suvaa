@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import { firestore } from '../firebase/config.js'
 import { doc, updateDoc } from "firebase/firestore"
 import { onBeforeMount } from '@vue/runtime-core'
@@ -53,12 +53,12 @@ const handleClick = () => {
   checkStatus(props.cartItems).then(resp => {
     resp.forEach( r => { if (r.data().licence === 'full') { removeFromCart(r.id) } })
   })
-  store.state.showCheckout = true;
+  store.showCheckout = true;
 }
 
 const removeFromCart = async (id) => {
   try {
-    const docRef = doc(firestore, 'users', store.state.user.uid)
+    const docRef = doc(firestore, 'users', store.user.uid)
     await updateDoc(docRef, {
       cart: props.cartItems.filter( cartItem => cartItem.id != id )
     })

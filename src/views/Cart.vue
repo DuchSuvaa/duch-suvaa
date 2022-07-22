@@ -1,7 +1,7 @@
 <template>
   <div class="container cart">
     <div v-if="cartItems && cartItems.length">
-      <CartItems :totalPrice='totalPrice' :cartItems='cartItems' v-if="!store.state.showCheckout" />
+      <CartItems :totalPrice='totalPrice' :cartItems='cartItems' v-if="!store.showCheckout" />
       <Checkout :totalPrice='totalPrice' :cartItems='cartItems' v-else />
     </div>
     <div v-else id="empty-cart-message">
@@ -15,7 +15,7 @@
 import getCartItems from '../composables/getCartItems.js'
 import CartItems from '../components/CartItems.vue'
 import Checkout from '../components/Checkout.vue'
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import { computed, ref } from '@vue/reactivity'
     
 const store = useStore()
@@ -31,7 +31,7 @@ const totalPrice = computed( () => {
   return prices.value
 })
 
-store.state.showCheckout = false
+store.showCheckout = false
 
 </script>
 

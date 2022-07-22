@@ -1,13 +1,13 @@
 <template>
-	<div class="prompt_bg" @click="store.state.showPrompt = false">
+	<div class="prompt_bg" @click="store.showPrompt = false">
 		<div class="login_prompt" @click.stop>
-			Please <router-link to="/auth" @click="store.state.showPrompt = false">log in</router-link> in order to add a beat to the cart.
+			Please <router-link to="/auth" @click="store.showPrompt = false">log in</router-link> in order to add a beat to the cart.
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 
 const store = useStore()
 </script>

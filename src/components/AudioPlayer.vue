@@ -1,19 +1,19 @@
 <template>
   <div class="audio-player">
-    <audio :src="store.state.previewUrl" id="audioPlayer"></audio>
+    <audio :src="store.previewUrl" id="audioPlayer"></audio>
     <div class="controls">
-      <div class="play" @click="play" :class="{ controls_active : store.state.buttonPressed === 'play' }">
+      <div class="play" @click="play" :class="{ controls_active : store.buttonPressed === 'play' }">
         <svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 1.90857V16.0914C0 16.8981 0.905977 17.3728 1.56921 16.9136L11.8124 9.82219C12.3868 9.42454 12.3868 8.57546 11.8124 8.17781L1.56921 1.08638C0.905979 0.627216 0 1.10191 0 1.90857Z" fill="#0E0E0E"/>
         </svg>
       </div>
-      <div class="pause" @click="pause" :class="{ controls_active : store.state.buttonPressed === 'pause' }">
+      <div class="pause" @click="pause" :class="{ controls_active : store.buttonPressed === 'pause' }">
         <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="8.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E"/>
         <rect x="0.5" y="0.5" width="4" height="14" rx="0.5" fill="#0E0E0E"/>
         </svg>
       </div>
-      <div class="stop" @click="stop" :class="{ controls_active : store.state.buttonPressed === 'stop' }">
+      <div class="stop" @click="stop" :class="{ controls_active : store.buttonPressed === 'stop' }">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="0.5" y="0.5" width="12" height="12" rx="0.5" fill="#0E0E0E"/>
         </svg>
@@ -35,7 +35,7 @@
 
 <script setup>
 import { ref } from '@vue/reactivity'
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import Hammer from 'hammerjs' 
 import { onBeforeUnmount, onMounted } from '@vue/runtime-core'
 import { defineProps } from 'vue'
@@ -48,18 +48,18 @@ defineProps({
 
 const play = () => {
   document.getElementById('audioPlayer').play()
-  store.state.buttonPressed = 'play'
+  store.buttonPressed = 'play'
 }
 
 const pause = () => {
   document.getElementById('audioPlayer').pause()
-  store.state.buttonPressed = 'pause'
+  store.buttonPressed = 'pause'
 }
 
 const stop = () => {
   document.getElementById('audioPlayer').pause()
   document.getElementById('audioPlayer').currentTime = 0;
-  store.state.buttonPressed = ''
+  store.buttonPressed = ''
 }
 
 onMounted( () => {
@@ -78,7 +78,7 @@ onMounted( () => {
 })
 
 onBeforeUnmount( () => {
-    store.state.buttonPressed = ''     
+    store.buttonPressed = ''     
 })
 
 const setVolume = (e) => {

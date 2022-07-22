@@ -1,27 +1,27 @@
 <template>
   <form @submit.prevent="" id="checkout-form">
     <div class="checkout-name input-field">
-      <label for="name" :class="{ active: store.state.billingDetails.name }">Name</label>
+      <label for="name" :class="{ active: store.billingDetails.name }">Name</label>
       <input type="text" id="name" :value="name" @input="updateName">
     </div>
     <div class="checkout-email input-field">
-      <label for="email" :class="{ active: store.state.billingDetails.email }">E-mail</label>
+      <label for="email" :class="{ active: store.billingDetails.email }">E-mail</label>
       <input type="text" id="email" :value="email" @input="updateEmail">
     </div>
     <div class="checkout-address input-field">
-      <label for="address" :class="{ active: store.state.billingDetails.address }">Address</label>
+      <label for="address" :class="{ active: store.billingDetails.address }">Address</label>
       <input type="text" id="address" :value="address" @input="updateAddress">
     </div>
     <div class="checkout-city input-field">
-      <label for="city" :class="{ active: store.state.billingDetails.city }">City</label>
+      <label for="city" :class="{ active: store.billingDetails.city }">City</label>
       <input type="text" id="city" :value="city" @input="updateCity">
     </div>
     <div class="checkout-state input-field">
-      <label for="state" :class="{ active: store.state.billingDetails.state }">State</label>
+      <label for="state" :class="{ active: store.billingDetails.state }">State</label>
       <input type="text" id="state" :value="state" @input="updateState">
     </div>
     <div class="checkout-zip input-field">
-      <label for="zip" :class="{ active: store.state.billingDetails.zip }">ZIP code</label>
+      <label for="zip" :class="{ active: store.billingDetails.zip }">ZIP code</label>
       <input type="text" id="zip" :value="zip" @input="updateZip">
     </div>
     <div class="checkout-buttons">
@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import { firestore } from '../firebase/config.js'
 import { computed, onMounted, ref } from '@vue/runtime-core'
 import { doc, getDoc, updateDoc } from "firebase/firestore"
@@ -46,45 +46,45 @@ import { doc, getDoc, updateDoc } from "firebase/firestore"
 const store = useStore()
 const message = ref('')
 const error = ref('')
-const name = computed( () => { return store.state.billingDetails.name })
-const email = computed( () => { return store.state.billingDetails.email })
-const address = computed( () => { return store.state.billingDetails.address })
-const city = computed( () => { return store.state.billingDetails.city })
-const state = computed( () => { return store.state.billingDetails.state })
-const zip = computed( () => { return store.state.billingDetails.zip })
+const name = computed( () => { return store.billingDetails.name })
+const email = computed( () => { return store.billingDetails.email })
+const address = computed( () => { return store.billingDetails.address })
+const city = computed( () => { return store.billingDetails.city })
+const state = computed( () => { return store.billingDetails.state })
+const zip = computed( () => { return store.billingDetails.zip })
 
-const updateName = (event) => { store.commit('updateName', event.target.value) }
-const updateEmail = (event) => { store.commit('updateEmail', event.target.value) }
-const updateAddress = (event) => { store.commit('updateAddress', event.target.value) }
-const updateCity = (event) => { store.commit('updateCity', event.target.value) }
-const updateState = (event) => { store.commit('updateState', event.target.value) }
-const updateZip = (event) => { store.commit('updateZip', event.target.value) }
+const updateName = (event) => { store.updateName(event.target.value) }
+const updateEmail = (event) => { store.updateEmail(event.target.value) }
+const updateAddress = (event) => { store.updateAddress(event.target.value) }
+const updateCity = (event) => { store.updateCity(event.target.value) }
+const updateState = (event) => { store.updateState(event.target.value) }
+const updateZip = (event) => { store.updateZip(event.target.value) }
 
 onMounted( async () => {
-  const docRef = doc(firestore, 'users', store.state.user.uid)
+  const docRef = doc(firestore, 'users', store.user.uid)
   const docSnap = await getDoc(docRef)
   if (docSnap.data().address) {
-    store.state.billingDetails.name = docSnap.data().address.name
-    store.state.billingDetails.email = docSnap.data().address.email
-    store.state.billingDetails.address = docSnap.data().address.address
-    store.state.billingDetails.city = docSnap.data().address.city
-    store.state.billingDetails.state = docSnap.data().address.state
-    store.state.billingDetails.zip = docSnap.data().address.zip
+    store.billingDetails.name = docSnap.data().address.name
+    store.billingDetails.email = docSnap.data().address.email
+    store.billingDetails.address = docSnap.data().address.address
+    store.billingDetails.city = docSnap.data().address.city
+    store.billingDetails.state = docSnap.data().address.state
+    store.billingDetails.zip = docSnap.data().address.zip
   }
 })
 
 const saveAddress = async () => {
   const addressFields = {
-    name: store.state.billingDetails.name,
-    email: store.state.billingDetails.email,
-    address: store.state.billingDetails.address,
-    city: store.state.billingDetails.city,
-    state: store.state.billingDetails.state,
-    zip: store.state.billingDetails.zip
+    name: store.billingDetails.name,
+    email: store.billingDetails.email,
+    address: store.billingDetails.address,
+    city: store.billingDetails.city,
+    state: store.billingDetails.state,
+    zip: store.billingDetails.zip
   }
 
   try {
-    const docRef = doc(firestore, 'users', store.state.user.uid)
+    const docRef = doc(firestore, 'users', store.user.uid)
     await updateDoc(docRef, {
       address: addressFields
     })

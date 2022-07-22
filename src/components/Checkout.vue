@@ -1,6 +1,6 @@
 <template>
   <div class="container checkout">
-    <div class="return" @click="store.state.showCheckout = false">
+    <div class="return" @click="store.showCheckout = false">
       <i class="material-icons">arrow_back</i>
       &nbsp;Return to Cart
     </div>
@@ -29,7 +29,7 @@
 import BillingDetails from '../components/BillingDetails.vue'
 import { onMounted, ref } from '@vue/runtime-core'
 import { loadStripe } from '@stripe/stripe-js'
-import { useStore } from 'vuex'
+import { useStore } from '../stores/store.js'
 import Loader from '../components/Loader.vue'
 import { defineProps } from 'vue'
 
@@ -55,8 +55,8 @@ onMounted(async () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        userId: store.state.user.uid,
-        userEmail: store.state.user.email
+        userId: store.user.uid,
+        userEmail: store.user.email
       })
     })
     const { secret } = await response.json()

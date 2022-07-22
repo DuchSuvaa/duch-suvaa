@@ -8,7 +8,7 @@
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import M from 'materialize-css'
-import { useStore } from 'vuex'
+import { useStore } from './stores/store.js'
 import { onMounted } from '@vue/runtime-core'
 import { projectAuth } from './firebase/config.js'
 
@@ -17,9 +17,9 @@ export default ({
   setup() {
     onMounted( async () => {
       const store = useStore()
-      await store.commit('getUser')
+      await store.getUser()
       projectAuth.onAuthStateChanged(_user => {
-        store.state.user = _user
+        store.user = _user
       })
       M.AutoInit()
     })

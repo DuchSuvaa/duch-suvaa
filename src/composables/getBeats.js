@@ -9,7 +9,6 @@ const getCollection = () => {
   const collectionRef = collection(firestore, 'beats')
   const q = query(collectionRef, where('licence', 'in', ['none', 'shared']), orderBy('createdAt'))
 
-  
   const unsub = onSnapshot(q, (snap) => {
     let results = []
     snap.docs.forEach( doc => {
@@ -20,6 +19,7 @@ const getCollection = () => {
       doc.data().createdAt && results.push({ ...doc.data(), id: doc.id })
     })
     beats.value = results
+    console.log(beats.value);
     error.value = null
   }, (err) => {
     console.log(err.message)

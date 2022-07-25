@@ -46,7 +46,7 @@ const message = ref('')
 const error = ref('')
 
 onMounted(async () => {
-  stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+  stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
   try {
     const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
     // const response = await fetch("http://localhost:80/stripe", {

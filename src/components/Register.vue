@@ -17,16 +17,17 @@
 
 <script setup>
 import { ref } from '@vue/reactivity'
-import useSignup from '../composables/useSignup.js'
+import { useStore } from '../stores/store.js'
 import { useRouter } from 'vue-router'
 
-const { error, signup } = useSignup()
+const store = useStore()
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 
 const handleSubmit = async () => {
-  await(signup(email.value, password.value))
+  const res = await store.signup(email.value, password.value)
+  console.log(res)
   router.push( '/' )
 }
 </script>

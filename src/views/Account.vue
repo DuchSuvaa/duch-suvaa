@@ -2,27 +2,30 @@
   <div class="container account">
     <AccountDetails />
     <h2 @click="handleClick" class="btn">Logout</h2>
+    <div class="error">
+      {{ error }}
+    </div>
   </div>
 </template>
 
 <script setup>
-import AccountDetails from '../components/AccountDetails.vue'
-import useLogout from '../composables/useLogout.js'
+import { useStore } from '../stores/store.js'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import AccountDetails from '../components/AccountDetails.vue'
 
-const { logout, logoutError } = useLogout()
+const store = useStore()
 const router = useRouter()
+const error = ref('')
 
 const handleClick = async () => {
-  router.push( '/' )
-  await logout()
-  if (!logoutError) {
-    console.log("user logged out")
+  const res = await store.logout()
+  if (res) {
+    router.push('/')
   } else {
-    console.log(logoutError.value)
+    error.value = 'Logout Error'
   }
 }
-
 </script>
 
 <style lang="scss">

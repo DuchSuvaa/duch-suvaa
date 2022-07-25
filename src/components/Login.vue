@@ -16,21 +16,22 @@
 </template>
 
 <script setup>
+import { useStore } from '../stores/store.js'
 import { ref } from '@vue/reactivity'
-import useLogin from '../composables/useLogin.js'
 import { useRouter } from 'vue-router'
 
+const store = useStore()
 const router = useRouter()
 const email = ref('')
 const password = ref('')
-const { login, error } = useLogin()
+const error = ref('')
 
 const handleSubmit = async () => {
-  await login(email.value, password.value)
-  if (!error.value) {
+  try {
+    await store.login(email.value, password.value)
     router.push('/account')
-  } else {
-    console.log(error.value)
+  } catch (err) {
+    error.value = err.message
   }
 }
 </script>

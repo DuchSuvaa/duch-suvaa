@@ -1,9 +1,5 @@
 <template>
-  <form @submit.prevent="updatePassword" class="updatePassword">
-  <div class="input-field">
-    <label for="old-password">Old Password</label>
-    <input type="password" v-model="oldPassword" id="old-password">
-  </div>
+  <form @submit.prevent="changePassword" class="updatePassword">
   <div class="input-field">
     <label for="new-password">New Password</label>
     <input type="password" v-model="newPassword" id="new-password">
@@ -16,7 +12,7 @@
   <div class="message" v-if="updateSuccessful">
     Password updated successfully.
   </div>
-  <div class="error" v-if="error">
+  <div class="error">
     {{ error }}
   </div>
 </form>
@@ -25,48 +21,22 @@
 <script setup>
 import { useStore } from '../stores/store.js'
 import { ref } from '@vue/reactivity'
-import { EmailAuthProvider } from 'firebase/auth'
-import { getAuth, reauthenticateWithCredential } from 'firebase/auth'
+import { updatePassword } from 'firebase/auth'
 
 const store = useStore()
-const oldPassword = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
 const error = ref('')
 const updateSuccessful = ref(false)
 
-const updatePassword = async () => {
+const changePassword = async () => {
   updateSuccessful.value = false
   error.value = ''
-
-  const credential = EmailAuthProvider.credential( store.user.email, oldPassword.value )
-
-  const auth = getAuth();
-  const user = auth.currentUser 
-      
-  reauthenticateWithCredential(user, credential).then( () => {
-    console.log("user reauthenticated")
-
-    if (newPassword.value.length >= 8) {
-      console.log(newPassword.value)
-      console.log(confirmPassword.value)
-      if (newPassword.value === confirmPassword.value) {
-        store.user.updatePassword(newPassword.value).then( () => {
-          updateSuccessful.value = true
-          setTimeout( () => {
-            updateSuccessful.value = false
-          }, 10000)
-        })
-      } else {
-        error.value = 'Passwords don\'t match.'
-      }
-    } else {
-      error.value = 'Password has to be at least 8 characters long.'
-    }
-  }).catch( () => {
-    error.value = "Please provide your current password."
-    return
+  updatePassword(store.user, newPassword.value)
+  .then(() => {
+    updateSuccessful.value = true
   })
+  .catch(err => error.value = err.message)
 }
 
 </script>

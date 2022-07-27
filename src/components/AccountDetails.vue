@@ -97,4 +97,46 @@ const addBeatsFormVisible = ref(false)
     opacity: 0;
     max-height: 0;
   }
+
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2rem !important;
+    div {
+      input {
+        margin-top: 1rem !important;
+        color: white;
+        &::placeholder {
+          color: transparent;
+        }
+      }
+      label {
+        position: relative;
+        top: -4.5rem;
+        font-size: 1.2rem;
+        transition: top 0.3s, font-size 0.3s;
+        cursor: text;
+      }
+      input:focus + label, input:not(:placeholder-shown) + label {
+        top: -6.5em;
+        font-size: 1rem;
+      }
+    }
+    .form-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      > div {
+        margin-top: 1rem;
+      }
+      button:not(:last-child), input:not(:last-child), div:not(:last-child) {
+        margin-right: 1rem;
+      }
+      .btn-send {
+        background-color: map-get($red, 'darken-4');
+      }
+    }
+  } 
 </style>

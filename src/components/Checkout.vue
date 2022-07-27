@@ -146,16 +146,4 @@ async function handleSubmit() {
     }
   }
 
-  .checkout-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    button:not(:last-child), input:not(:last-child), div:not(:last-child) {
-      margin-right: 1rem;
-    }
-    .btn-send {
-      background-color: map-get($red, 'darken-4');
-    }
-  }
-
 </style>

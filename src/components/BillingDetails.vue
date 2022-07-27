@@ -1,30 +1,36 @@
 <template>
   <form @submit.prevent="" id="checkout-form">
-    <div class="checkout-name input-field">
-      <label for="name" :class="{ active: store.billingDetails.name }">Name</label>
-      <input type="text" id="name" :value="store.billingDetails.name" @input="event => store.billingDetails.name = event.target.value">
+    <div class="checkout-name">
+      <input type="text" id="name" :value="store.billingDetails.name" 
+      @input="event => store.billingDetails.name = event.target.value" placeholder="">
+      <label for="name" :class="{ active: store.billingDetails.name }">Name</label>    
     </div>
-    <div class="checkout-email input-field">
-      <label for="email" :class="{ active: store.billingDetails.email }">E-mail</label>
-      <input type="text" id="email" :value="store.billingDetails.email" @input="event => store.billingDetails.email = event.target.value">
+    <div class="checkout-email">
+      <input type="text" id="email" :value="store.billingDetails.email" 
+      @input="event => store.billingDetails.email = event.target.value" placeholder="">
+      <label for="email" :class="{ active: store.billingDetails.email }">E-mail</label>    
     </div>
-    <div class="checkout-address input-field">
-      <label for="address" :class="{ active: store.billingDetails.address }">Address</label>
-      <input type="text" id="address" :value="store.billingDetails.address" @input="event => store.billingDetails.address = event.target.value">
+    <div class="checkout-address">
+      <input type="text" id="address" :value="store.billingDetails.address" 
+      @input="event => store.billingDetails.address = event.target.value" placeholder="">
+      <label for="address" :class="{ active: store.billingDetails.address }">Address</label>    
     </div>
-    <div class="checkout-city input-field">
-      <label for="city" :class="{ active: store.billingDetails.city }">City</label>
-      <input type="text" id="city" :value="store.billingDetails.city" @input="event => store.billingDetails.city = event.target.value">
+    <div class="checkout-city">
+      <input type="text" id="city" :value="store.billingDetails.city" 
+      @input="event => store.billingDetails.city = event.target.value" placeholder="">
+      <label for="city" :class="{ active: store.billingDetails.city }">City</label>    
     </div>
-    <div class="checkout-state input-field">
-      <label for="state" :class="{ active: store.billingDetails.state }">State</label>
-      <input type="text" id="state" :value="store.billingDetails.state" @input="event => store.billingDetails.state = event.target.value">
+    <div class="checkout-state">
+      <input type="text" id="state" :value="store.billingDetails.state" 
+      @input="event => store.billingDetails.state = event.target.value" placeholder="">
+      <label for="state" :class="{ active: store.billingDetails.state }">State</label>    
     </div>
-    <div class="checkout-zip input-field">
-      <label for="zip" :class="{ active: store.billingDetails.zip }">ZIP code</label>
-      <input type="text" id="zip" :value="store.billingDetails.zip" @input="event => store.billingDetails.zip = event.target.value">
+    <div class="checkout-zip">
+      <input type="text" id="zip" :value="store.billingDetails.zip" 
+      @input="event => store.billingDetails.zip = event.target.value" placeholder="">
+      <label for="zip" :class="{ active: store.billingDetails.zip }">ZIP code</label>    
     </div>
-    <div class="checkout-buttons">
+    <div class="form-buttons">
       <div class="waves-effect waves-light btn" @click="saveAddress">Save</div>
       <input class="waves-effect waves-light btn" type="reset" value="reset">
     </div>
@@ -73,15 +79,6 @@ const saveAddress = async () => {
 
 </script>
 
-<style lang="scss" scoped>
+<style>
 
-  #checkout-form {
-    label {
-      position: relative;
-      top: 2.9rem !important;
-    }
-    .input-field:nth-child(3), .input-field:nth-child(4), .input-field:nth-child(5), .input-field:nth-child(6) {
-      margin-top: -50px;
-    }
-  }
 </style>

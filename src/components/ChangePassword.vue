@@ -1,21 +1,25 @@
 <template>
   <form @submit.prevent="changePassword" class="updatePassword">
-  <div class="input-field">
-    <label for="new-password">New Password</label>
-    <input type="password" v-model="newPassword" id="new-password">
-  </div>
-  <div class="input-field">
-    <label for="confirm-password">Confirm Password</label>
-    <input type="password" v-model="confirmPassword" id="confirm-password">
-  </div>
-  <button class="btn" :disabled="newPassword.length <= 0 || confirmPassword.length <= 0">Change Password</button>
-  <div class="message" v-if="updateSuccessful">
-    Password updated successfully.
-  </div>
-  <div class="error">
-    {{ error }}
-  </div>
-</form>
+    <div>
+      <input type="password" v-model="newPassword" id="new-password" placeholder="">
+      <label for="new-password">New Password</label>
+    </div>
+    <div>
+      <input type="password" v-model="confirmPassword" id="confirm-password" placeholder="confirm `password`">
+      <label for="confirm-password">Confirm Password</label>
+    </div>
+    <div class="form-buttons">
+      <button class="btn" :disabled="newPassword.length <= 0 || confirmPassword.length <= 0">
+        Change Password
+      </button>
+    </div>
+    <div class="message" v-if="updateSuccessful">
+      Password updated successfully.
+    </div>
+    <div class="error">
+      {{ error }}
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -41,6 +45,6 @@ const changePassword = async () => {
 
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

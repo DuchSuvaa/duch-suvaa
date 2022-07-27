@@ -87,29 +87,29 @@ span {
   font-size: inherit;
 }
 
-form, input {
-  color: map-get($blue-grey, 'lighten-5');
-}
+// form, input {
+//   color: map-get($blue-grey, 'lighten-5');
+// }
 
-form {
-  display: flex;
-  background-color: map-get($grey, 'darken-4');
-  label {
-    font-size: 1.2rem !important;
-  }
-  input {
-    margin-top: 3rem !important;
-    height: 4rem !important;
-    font-size: $basic-font-size !important;
-  }
-  input[type="reset"] {
-    margin-top: 0 !important; 
-    height: 36px !important;
-  }
-  button {
-    margin-top: 2rem;
-  }
-}
+// form {
+//   display: flex;
+//   background-color: map-get($grey, 'darken-4');
+//   label {
+//     font-size: 1.2rem !important;
+//   }
+//   input {
+//     margin-top: 3rem !important;
+//     height: 4rem !important;
+//     font-size: $basic-font-size !important;
+//   }
+//   input[type="reset"] {
+//     margin-top: 0 !important; 
+//     height: 36px !important;
+//   }
+//   button {
+//     margin-top: 2rem;
+//   }
+// }
 
 .account, .auth, .cart, .contact, .cookies, .home, .privacy, .sound, .success {
   padding-bottom: 4rem;

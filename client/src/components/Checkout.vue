@@ -49,7 +49,7 @@ onMounted(async () => {
   stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
   try {
     const response = await fetch("https://duch-suvaa-backend.herokuapp.com/stripe", {
-    // const response = await fetch("http://localhost:80/stripe", {
+    // const response = await fetch("http://localhost:8000/stripe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

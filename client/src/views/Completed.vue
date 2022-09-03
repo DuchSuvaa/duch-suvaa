@@ -15,7 +15,7 @@ let payment_intent_status = ref(null)
 onMounted(async() => {
   const params = new URLSearchParams(window.location.search)
   const secret = params.get("payment_intent_client_secret")
-  stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+  stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
   stripe.retrievePaymentIntent(secret).then( (res) => {
     payment_intent_status.value = res.paymentIntent.status
   })
